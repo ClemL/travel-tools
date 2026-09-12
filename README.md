@@ -1,48 +1,88 @@
 # Asia Trip Tools — Taipei · Hong Kong · Seoul
 
-A 13-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
+A 16-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
 Next.js 16 App Router, TypeScript, zero UI dependencies, installable as a PWA, works offline,
 and deploys to Vercel with no configuration and no required API keys.
 
 ## Tabs
 
-Grouped into four sections in the navigation.
+Grouped into five sections. **Pick a city first** — the header selection drives every city-scoped
+tab, so choosing Seoul once shows you Seoul's food, phrases, airport transfers and shops without
+re-selecting in each one. Cross-city tabs compare all three, ordered so your selected city leads.
 
-**Live** — needs a network connection, degrades to cached data offline
+**Live** — needs a connection, degrades to cached data offline
 
-| Tab | What it does | Source |
+| Tab | What it does | Scope |
 | --- | --- | --- |
-| 💱 Currency | TWD / HKD / KRW ↔ USD, denomination cheat sheet, mental-math rules, ATM guidance | Live API |
-| 🌦️ Weather | Current conditions, 7-day forecast, apparent temperature, UV, US-scale AQI | Live API |
-| 🌀 Alerts | Live Hong Kong typhoon and rainstorm signals, derived wind/rain watch for all three cities, signal ladder, contingency plan | Live API + reference |
+| 💱 Currency | TWD / HKD / KRW ↔ USD, denominations, mental-math rules, ATM guidance | All three |
+| 🌦️ Weather | Current conditions, 7-day forecast, apparent temperature, UV, AQI | All three |
+| 🌀 Alerts | Live Hong Kong typhoon signals, derived wind/rain watch, signal ladder, contingency plan | All three |
 
 **Plan**
 
-| Tab | What it does |
-| --- | --- |
-| 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to wear and pack |
-| 🗺️ Neighborhoods | Which areas pair on one day, per-city planning rule, closure traps, rain fallbacks |
-| 🧰 Toolkit | Plugs, entry requirements, emergency numbers, apps, holidays in the window, packing list, safety |
+| Tab | What it does | Scope |
+| --- | --- | --- |
+| 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to pack | All three |
+| 🗺️ Neighborhoods | Day plans pairing areas that work together, closure traps, rain fallbacks | Per city |
+| ✈️ Airport | Every transfer option with door-to-door times and costs in local currency and USD | Per city |
+| 🧰 Toolkit | Plugs, entry rules, emergency numbers, apps, holidays, packing list, safety | All three |
 
 **On the ground**
 
-| Tab | What it does |
-| --- | --- |
-| 🧭 Basics | Tipping, transit cards, whether a US phone or card works at the fare gate, etiquette, airport transfers |
-| 🍜 Food | What to order with local characters to point at, and how ordering actually works in each city |
-| 🗣️ Phrases | Working-minimum phrasebook in Mandarin, Cantonese and Korean with romanization |
-| 👕 Sizing | Interactive shoe converter (US ↔ mm ↔ EU ↔ UK), clothing charts, tax refunds, what to buy where |
+| Tab | What it does | Scope |
+| --- | --- | --- |
+| 🧭 Basics | Tipping, transit cards, whether a US phone or card works at the gate, etiquette | Per city |
+| 🍜 Food | What to order with characters to point at, and how ordering actually works | Per city |
+| 🗣️ Phrases | Working-minimum phrasebook with romanization | Per city |
+
+**Shop**
+
+| Tab | What it does | Scope |
+| --- | --- | --- |
+| ✒️ Stationery | Stationery districts and shops — Seoul's design ateliers, Taipei's independents, Hong Kong's supply streets | Per city |
+| 🏺 Artisan | Craft districts and working makers — ceramics, leather, bamboo, lacquer, and Hong Kong's endangered trades | Per city |
+| 👕 Sizing | Interactive shoe converter, clothing charts, tax refunds, what to buy where | All three |
 
 **Do**
 
-| Tab | What it does |
-| --- | --- |
-| 🧗 Climbing | Indoor bouldering scenes, grading systems, etiquette, pricing, outdoor options and why September rules them out |
-| 🎮 Gaming | PC bangs, arcades, board game cafés, esports, hobby retail |
-| ⛳ Golf | Korean screen golf, driving ranges, and where a real round is and is not realistic |
+| Tab | What it does | Scope |
+| --- | --- | --- |
+| 🧗 Climbing | Bouldering scenes, grading systems, etiquette, pricing, outdoor seasonality | Per city |
+| 🎮 Gaming | PC bangs, arcades, board game cafés, esports, hobby retail | Per city |
+| ⛳ Golf | Korean screen golf, driving ranges, where a real round is realistic | Per city |
 
-A live clock strip shows Boston, Taipei, Hong Kong and Seoul time with offsets. The active tab is
-mirrored into the URL hash, so every view is linkable and browser back/forward works.
+The active tab is mirrored into the URL hash, so every view is linkable and browser back/forward
+works. The city choice persists in `localStorage`.
+
+## Airport transfers
+
+Costs are stored in local currency and converted with the **live** exchange rate from the Currency
+tab, falling back to a static approximate rate when offline — so the USD column is right rather than
+frozen at whatever the rate was when this was written. Each city shows every realistic mode (express
+rail, all-stop rail, airport bus, night bus, taxi) with door-to-door time ranges, frequency, service
+hours, what it is best for, and what to watch out for, plus a decision rule and a note on the second
+airport where one is relevant.
+
+## Responsive layout
+
+The app is built for a phone first and specifically tested on foldable geometry.
+
+| Width | Layout |
+| --- | --- |
+| ≤ 400px | Folded cover screen. City picker collapses to flags only. |
+| ≤ 700px | Phone. Sticky city + section bar, single column, clocks collapse to one inline line showing home and the selected city, wide tables become stacked cards. |
+| ≤ 999px | Tablets and unfolded foldables. Compact bar instead of the grouped nav, which costs ~150px of vertical space. |
+| 701–1200px, near-square | Unfolded foldable. Two comfortable columns rather than three cramped ones. |
+| `horizontal-viewport-segments: 2` | True dual-screen devices, with a wider column gap. |
+| ≥ 1000px | Desktop. Full grouped navigation across five sections. |
+
+On a phone the flow is: **city → section → content**, with both controls sticky at the top of the
+screen so changing either never requires scrolling back up. Header chrome above the content is 188px
+on a phone, down from 247px before this layout.
+
+Verified at 372×828 (OnePlus Open cover), 390×844 (phone), 938×872 (OnePlus Open unfolded),
+820×1180 (portrait tablet) and 1280×900 (desktop): no horizontal overflow on any of the 16 tabs at
+any of those sizes, and no console errors.
 
 ## Offline support
 
@@ -91,8 +131,9 @@ and lets the CDN absorb repeat traffic.
 - The alerts route never presents a failed feed as "no warnings in force" — it says the feed is
   unreachable and points at the official site.
 - Every tab renders an explicit error state with retry rather than an empty screen.
-- Verified: all 13 tabs render with no console errors and no horizontal overflow at 390px width;
-  offline mode confirmed with the service worker controlling the page and the network disabled.
+- Verified: all 16 tabs render with no console errors and no horizontal overflow at five viewport
+  sizes; offline mode confirmed with the service worker controlling the page and the network
+  disabled; city propagation, persistence and the shoe converter covered by scripted checks.
 
 ## Accuracy and verification
 
@@ -103,10 +144,10 @@ UI should be reconfirmed against an official source. That covers, in particular:
 - Octopus and EasyCard mobile-wallet provisioning for overseas devices
 - Substitute public holidays around Chuseok and Mid-Autumn Festival 2026
 - Museum and palace closing days — these have changed repeatedly and differ between adjacent sites
-- Every named venue in the Climbing, Gaming and Golf tabs; businesses open, close and move, and
-  this is the weakest data in the app. Those tabs lead with search terms and map-app guidance for
-  that reason.
-- Airport transfer fares and tax-refund thresholds
+- Every named venue in the Climbing, Gaming, Golf, Stationery and Artisan tabs; businesses open,
+  close and move, and this is the weakest data in the app. Those tabs lead with search terms and
+  map-app guidance for that reason.
+- Every airport fare, journey time and service hour, and all tax-refund thresholds
 
 ## Running locally
 

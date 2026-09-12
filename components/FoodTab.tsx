@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import CitySwitch from "./CitySwitch";
-import { cityById, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
+import { cityById } from "@/lib/cities";
 import { foodFor } from "@/lib/food";
 
 export default function FoodTab() {
-  const [city, setCity] = useState<CityId>("taipei");
+  const { city } = useCity();
   const [mustTryOnly, setMustTryOnly] = useState(false);
   const f = foodFor(city);
   const c = cityById(city);
@@ -18,8 +18,6 @@ export default function FoodTab() {
         What to eat and — more usefully — how ordering actually works. The mechanics differ sharply
         between the three cities, and that is where visitors get stuck, not the food itself.
       </p>
-
-      <CitySwitch value={city} onChange={setCity} />
 
       <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
         <strong>

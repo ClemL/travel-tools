@@ -1,6 +1,7 @@
 "use client";
 
-import { CITIES, cityById } from "@/lib/cities";
+import { cityById } from "@/lib/cities";
+import { useCity } from "./CityProvider";
 import { HKO_CODES, HK_LADDER, TYPHOON_BASICS, CONTINGENCY, type Severity } from "@/lib/alerts";
 import { useApi, timeAgo } from "@/lib/useApi";
 
@@ -47,6 +48,7 @@ const LEVEL_COPY = {
 } as const;
 
 export default function AlertsTab() {
+  const { ordered } = useCity();
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<AlertsResponse>("/api/alerts");
 
   return (
@@ -84,7 +86,7 @@ export default function AlertsTab() {
 
       <h2 className="section-title">Current status</h2>
       <div className="grid">
-        {CITIES.map((city) => {
+        {ordered.map((city) => {
           const entry = data?.cities.find((c) => c.city === city.id);
           const basics = TYPHOON_BASICS.find((b) => b.city === city.id)!;
           const warnings = entry?.officialWarnings ?? [];

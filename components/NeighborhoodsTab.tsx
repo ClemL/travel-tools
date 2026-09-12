@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import CitySwitch from "./CitySwitch";
-import { cityById, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
+import { cityById } from "@/lib/cities";
 import { plannerFor } from "@/lib/neighborhoods";
 
 export default function NeighborhoodsTab() {
-  const [city, setCity] = useState<CityId>("taipei");
+  const { city } = useCity();
   const p = plannerFor(city);
   const c = cityById(city);
 
@@ -20,8 +19,6 @@ export default function NeighborhoodsTab() {
         traps that cost visitors a day. This is the knowledge that goes stale fastest if you have not been
         recently.
       </p>
-
-      <CitySwitch value={city} onChange={setCity} />
 
       <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
         <strong>

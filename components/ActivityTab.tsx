@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { cityById, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
+import { cityById } from "@/lib/cities";
 import { rankedCities, type ActivityProfile } from "@/lib/activities";
 
 const RATING_PILL = {
@@ -23,9 +23,10 @@ export default function ActivityTab({
   lede: string;
   verdict: { title: string; body: string };
 }) {
-  // Lead with the city that has the best scene rather than a fixed order.
-  const order = rankedCities(profiles);
-  const [city, setCity] = useState<CityId>(order[0]);
+  const { city } = useCity();
+  // Ranked by scene quality, so the strongest city is always visible as a hint
+  // even when the header selection points somewhere else.
+  const best = cityById(rankedCities(profiles)[0]);
   const p = profiles.find((x) => x.city === city)!;
   const c = cityById(city);
 
@@ -38,21 +39,11 @@ export default function ActivityTab({
         {verdict.body}
       </div>
 
-      <div className="citytabs" role="group" aria-label="Choose a city">
-        {order.map((id) => {
-          const city = cityById(id);
-          const profile = profiles.find((x) => x.city === id)!;
-          return (
-            <button key={id} aria-pressed={city.id === p.city} onClick={() => setCity(id)}>
-              {city.flag} {city.name}
-              <span className="small" style={{ opacity: 0.8 }}>
-                {" "}
-                · {profile.sceneRating}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      {best.id !== city && (
+        <p className="muted small" style={{ marginTop: -8 }}>
+          Strongest scene of the three: {best.flag} {best.name}. Switch cities in the header to see it.
+        </p>
+      )}
 
       <article className="card card-accent" style={{ ["--accent" as string]: c.accent, marginBottom: 16 }}>
         <div className="fact-head">

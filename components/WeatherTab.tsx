@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CITIES } from "@/lib/cities";
+import { useCity } from "./CityProvider";
 import { useApi, timeAgo } from "@/lib/useApi";
 import { describeWeather, aqiBand } from "@/lib/weatherCodes";
 import { temp, tempFull, kmhToMph, mmToIn } from "@/lib/format";
@@ -24,6 +24,7 @@ interface WeatherResponse {
 type Unit = "F" | "C";
 
 export default function WeatherTab() {
+  const { ordered } = useCity();
   // acceptPartial: the route returns a usable per-city payload even on a 502.
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<WeatherResponse>(
     "/api/weather",
@@ -60,7 +61,7 @@ export default function WeatherTab() {
       )}
 
       <div className="grid">
-        {CITIES.map((city) => {
+        {ordered.map((city) => {
           const entry = data?.cities.find((c) => c.city === city.id);
           const cur = entry?.current;
           const daily = entry?.daily;

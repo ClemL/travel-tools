@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import CitySwitch from "./CitySwitch";
-import { CITIES, cityById, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
+import { CITIES, cityById } from "@/lib/cities";
 import { ESSENTIALS, essentialsFor, type Fact } from "@/lib/essentials";
 
 function FactList({ facts }: { facts: Fact[] }) {
@@ -23,7 +22,7 @@ function FactList({ facts }: { facts: Fact[] }) {
 }
 
 export default function EssentialsTab() {
-  const [city, setCity] = useState<CityId>("taipei");
+  const { city } = useCity();
   const e = essentialsFor(city);
   const c = cityById(city);
 
@@ -104,8 +103,6 @@ export default function EssentialsTab() {
       </div>
 
       <h2 className="section-title">Full detail</h2>
-      <CitySwitch value={city} onChange={setCity} />
-
       <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
         <strong>
           {c.flag} {c.name} — tipping in one line

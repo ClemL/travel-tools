@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import CitySwitch from "./CitySwitch";
-import { cityById, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
+import { cityById } from "@/lib/cities";
 import { phrasesFor } from "@/lib/phrases";
 
 export default function PhrasesTab() {
-  const [city, setCity] = useState<CityId>("taipei");
+  const { city } = useCity();
   const set = phrasesFor(city);
   const c = cityById(city);
 
@@ -16,8 +15,6 @@ export default function PhrasesTab() {
         A working minimum, not a course. Each list is ordered by how often you will actually need the
         phrase — ordering, paying, and finding a bathroom account for most of it.
       </p>
-
-      <CitySwitch value={city} onChange={setCity} />
 
       <div className="grid grid-sidebar">
         <article className="card card-accent" style={{ ["--accent" as string]: c.accent }}>

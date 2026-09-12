@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CITIES } from "@/lib/cities";
+import { useCity } from "./CityProvider";
 import { money, usd } from "@/lib/format";
 import { useApi, timeAgo } from "@/lib/useApi";
 
@@ -38,6 +38,7 @@ const CASH_NOTES: Record<string, string> = {
 };
 
 export default function CurrencyTab() {
+  const { ordered } = useCity();
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<RatesResponse>("/api/rates");
   const [amount, setAmount] = useState<string>("100");
   const [direction, setDirection] = useState<Direction>("localToUsd");
@@ -97,7 +98,7 @@ export default function CurrencyTab() {
       </div>
 
       <div className="grid">
-        {CITIES.map((city) => {
+        {ordered.map((city) => {
           const rate = data?.rates?.[city.currency];
           const ladder = LADDERS[city.currency] ?? [];
           return (

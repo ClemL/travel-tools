@@ -3,13 +3,18 @@
 import { useEffect, useState } from "react";
 import { CITIES, HOME } from "@/lib/cities";
 import { timeIn, dayIn, offsetHours } from "@/lib/format";
+import { useCity } from "./CityProvider";
 
 /**
  * Live local clocks. Rendered only after mount so the server-rendered markup
  * cannot disagree with the client's clock.
+ *
+ * All four render at every width; on a phone, CSS collapses this to just home
+ * plus the selected city, which is why each clock carries a marker class.
  */
 export default function ClockStrip() {
   const [now, setNow] = useState<Date | null>(null);
+  const { city } = useCity();
 
   useEffect(() => {
     setNow(new Date());
@@ -20,7 +25,7 @@ export default function ClockStrip() {
   if (!now) {
     return (
       <div className="clockstrip" aria-hidden="true">
-        {[0, 1, 2, 3].map((i) => (
+        {[0, 1].map((i) => (
           <div key={i} className="clock">
             <div className="skeleton" style={{ width: 60, height: "0.7em" }} />
             <div className="skeleton" style={{ width: 44, marginTop: 6 }} />
@@ -30,19 +35,22 @@ export default function ClockStrip() {
     );
   }
 
-  const zones = [
-    { name: HOME.name, tz: HOME.timezone, offset: "home" },
-    ...CITIES.map((c) => ({ name: c.name, tz: c.timezone, offset: offsetHours(c.timezone, HOME.timezone, now) })),
-  ];
-
   return (
     <div className="clockstrip">
-      {zones.map((z) => (
-        <div className="clock" key={z.tz}>
-          <div className="place">{z.name}</div>
-          <div className="time">{timeIn(z.tz, now)}</div>
+      <div className="clock clock-home">
+        <div className="place">{HOME.name}</div>
+        <div className="time">{timeIn(HOME.timezone, now)}</div>
+        <div className="offset">
+          <span className="day">{dayIn(HOME.timezone, now)}</span>
+        </div>
+      </div>
+      {CITIES.map((c) => (
+        <div className={`clock${c.id === city ? " clock-selected" : ""}`} key={c.id}>
+          <div className="place">{c.name}</div>
+          <div className="time">{timeIn(c.timezone, now)}</div>
           <div className="offset">
-            {z.offset === "home" ? dayIn(z.tz, now) : `${dayIn(z.tz, now)} · ${z.offset.split(" vs ")[0]}`}
+            <span className="day">{dayIn(c.timezone, now)} · </span>
+            <span className="tz">{offsetHours(c.timezone, HOME.timezone, now).split(" vs ")[0]}</span>
           </div>
         </div>
       ))}

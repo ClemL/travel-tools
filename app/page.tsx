@@ -7,14 +7,18 @@ import WeatherTab from "@/components/WeatherTab";
 import AlertsTab from "@/components/AlertsTab";
 import ClimateTab from "@/components/ClimateTab";
 import NeighborhoodsTab from "@/components/NeighborhoodsTab";
+import AirportTab from "@/components/AirportTab";
 import EssentialsTab from "@/components/EssentialsTab";
 import FoodTab from "@/components/FoodTab";
 import PhrasesTab from "@/components/PhrasesTab";
 import SizingTab from "@/components/SizingTab";
+import ShopsTab from "@/components/ShopsTab";
 import ToolkitTab from "@/components/ToolkitTab";
 import ActivityTab from "@/components/ActivityTab";
 import { OfflineBadge } from "@/components/OfflineProvider";
+import { CityPicker } from "@/components/CityProvider";
 import { CLIMBING, GAMING, GOLF } from "@/lib/activities";
+import { STATIONERY, ARTISAN } from "@/lib/shops";
 
 type TabId =
   | "currency"
@@ -22,10 +26,13 @@ type TabId =
   | "alerts"
   | "climate"
   | "neighborhoods"
+  | "airport"
   | "toolkit"
   | "essentials"
   | "food"
   | "phrases"
+  | "stationery"
+  | "artisan"
   | "sizing"
   | "climbing"
   | "gaming"
@@ -35,6 +42,8 @@ interface Tab {
   id: TabId;
   label: string;
   icon: string;
+  /** City-scoped tabs follow the header selection; the rest compare all three. */
+  scoped: boolean;
 }
 
 interface TabGroup {
@@ -46,34 +55,42 @@ const GROUPS: TabGroup[] = [
   {
     group: "Live",
     tabs: [
-      { id: "currency", label: "Currency", icon: "💱" },
-      { id: "weather", label: "Weather", icon: "🌦️" },
-      { id: "alerts", label: "Alerts", icon: "🌀" },
+      { id: "currency", label: "Currency", icon: "💱", scoped: false },
+      { id: "weather", label: "Weather", icon: "🌦️", scoped: false },
+      { id: "alerts", label: "Alerts", icon: "🌀", scoped: false },
     ],
   },
   {
     group: "Plan",
     tabs: [
-      { id: "climate", label: "Climate", icon: "📅" },
-      { id: "neighborhoods", label: "Neighborhoods", icon: "🗺️" },
-      { id: "toolkit", label: "Toolkit", icon: "🧰" },
+      { id: "climate", label: "Climate", icon: "📅", scoped: false },
+      { id: "neighborhoods", label: "Neighborhoods", icon: "🗺️", scoped: true },
+      { id: "airport", label: "Airport", icon: "✈️", scoped: true },
+      { id: "toolkit", label: "Toolkit", icon: "🧰", scoped: false },
     ],
   },
   {
     group: "On the ground",
     tabs: [
-      { id: "essentials", label: "Basics", icon: "🧭" },
-      { id: "food", label: "Food", icon: "🍜" },
-      { id: "phrases", label: "Phrases", icon: "🗣️" },
-      { id: "sizing", label: "Sizing", icon: "👕" },
+      { id: "essentials", label: "Basics", icon: "🧭", scoped: true },
+      { id: "food", label: "Food", icon: "🍜", scoped: true },
+      { id: "phrases", label: "Phrases", icon: "🗣️", scoped: true },
+    ],
+  },
+  {
+    group: "Shop",
+    tabs: [
+      { id: "stationery", label: "Stationery", icon: "✒️", scoped: true },
+      { id: "artisan", label: "Artisan", icon: "🏺", scoped: true },
+      { id: "sizing", label: "Sizing", icon: "👕", scoped: false },
     ],
   },
   {
     group: "Do",
     tabs: [
-      { id: "climbing", label: "Climbing", icon: "🧗" },
-      { id: "gaming", label: "Gaming", icon: "🎮" },
-      { id: "golf", label: "Golf", icon: "⛳" },
+      { id: "climbing", label: "Climbing", icon: "🧗", scoped: true },
+      { id: "gaming", label: "Gaming", icon: "🎮", scoped: true },
+      { id: "golf", label: "Golf", icon: "⛳", scoped: true },
     ],
   },
 ];
@@ -87,6 +104,7 @@ function isTabId(value: string): value is TabId {
 export default function Page() {
   const [tab, setTab] = useState<TabId>("currency");
   const navRef = useRef<HTMLElement | null>(null);
+  const active = ALL_TABS.find((t) => t.id === tab)!;
 
   // Mirror the active tab into the URL hash so a view is linkable, survives
   // reload, and responds to browser back/forward.
@@ -100,7 +118,7 @@ export default function Page() {
     return () => window.removeEventListener("hashchange", sync);
   }, []);
 
-  // On a narrow screen the nav scrolls, so keep the active tab visible.
+  // On a narrow screen the desktop nav scrolls, so keep the active tab visible.
   useEffect(() => {
     navRef.current
       ?.querySelector<HTMLButtonElement>(`#tab-${tab}`)
@@ -113,12 +131,14 @@ export default function Page() {
     if (window.location.hash !== `#${id}`) {
       window.history.pushState(null, "", `#${id}`);
     }
+    // Jumping between long tabs otherwise leaves you mid-page.
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   };
 
   return (
     <main className="shell">
       <header className="masthead">
-        <div>
+        <div className="masthead-title">
           <h1>Asia Trip Tools</h1>
           <p>Taipei · Hong Kong · Seoul — September 2026</p>
           <OfflineBadge />
@@ -126,6 +146,26 @@ export default function Page() {
         <ClockStrip />
       </header>
 
+      {/* Phone: pick a city, then pick a section from a compact dropdown. */}
+      <div className="mobilebar">
+        <CityPicker />
+        <label className="sectionselect">
+          <span className="sr-only">Section</span>
+          <select value={tab} onChange={(e) => select(e.target.value as TabId)}>
+            {GROUPS.map((g) => (
+              <optgroup label={g.group} key={g.group}>
+                {g.tabs.map((t) => (
+                  <option value={t.id} key={t.id}>
+                    {t.icon}  {t.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      {/* Wide screens: the full grouped nav, plus a city picker when it applies. */}
       <nav className="tabnav" role="tablist" aria-label="Trip tools" ref={navRef}>
         {GROUPS.map((g) => (
           <div className="tabgroup" key={g.group}>
@@ -148,17 +188,41 @@ export default function Page() {
         ))}
       </nav>
 
+      {active.scoped && (
+        <div className="desktop-citybar">
+          <span className="eyebrow" style={{ marginBottom: 0 }}>
+            Showing
+          </span>
+          <CityPicker />
+        </div>
+      )}
+
       <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
         {tab === "currency" && <CurrencyTab />}
         {tab === "weather" && <WeatherTab />}
         {tab === "alerts" && <AlertsTab />}
         {tab === "climate" && <ClimateTab />}
         {tab === "neighborhoods" && <NeighborhoodsTab />}
+        {tab === "airport" && <AirportTab />}
         {tab === "toolkit" && <ToolkitTab />}
         {tab === "essentials" && <EssentialsTab />}
         {tab === "food" && <FoodTab />}
         {tab === "phrases" && <PhrasesTab />}
         {tab === "sizing" && <SizingTab />}
+        {tab === "stationery" && (
+          <ShopsTab
+            scenes={STATIONERY}
+            districtHeading="Where to browse"
+            lede="Stationery is a serious retail category across all three cities and one of the most travel-efficient things to buy — paper weighs nothing and survives a suitcase. The quality and the character differ sharply by city."
+          />
+        )}
+        {tab === "artisan" && (
+          <ShopsTab
+            scenes={ARTISAN}
+            districtHeading="Craft districts"
+            lede="Working craft rather than souvenir shops: ceramics, leather, bamboo, textiles, lacquer and the trades still done by hand. Each city has a different strength, and in Hong Kong some of it is genuinely close to disappearing."
+          />
+        )}
         {tab === "climbing" && (
           <ActivityTab
             profiles={CLIMBING}
@@ -202,8 +266,8 @@ export default function Page() {
           Meteorological Administration.
         </p>
         <p>
-          Reference content reflects conditions as understood at build time. Fares, card products, entry
-          requirements, venue listings and holiday dates change — anything marked{" "}
+          Reference content reflects conditions as understood at build time. Fares, transfer times, card
+          products, entry requirements, shop listings and holiday dates change — anything marked{" "}
           <span className="pill pill-warn">verify</span> should be reconfirmed against an official source
           before you rely on it.
         </p>
