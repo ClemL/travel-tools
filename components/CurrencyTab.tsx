@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CITIES } from "@/lib/cities";
 import { money, usd } from "@/lib/format";
+import { useApi, timeAgo } from "@/lib/useApi";
 
 interface RatesResponse {
   base: "USD";
@@ -37,30 +38,9 @@ const CASH_NOTES: Record<string, string> = {
 };
 
 export default function CurrencyTab() {
-  const [data, setData] = useState<RatesResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, error, loading, fromCache, cachedAt, reload } = useApi<RatesResponse>("/api/rates");
   const [amount, setAmount] = useState<string>("100");
   const [direction, setDirection] = useState<Direction>("localToUsd");
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/rates", { cache: "no-store" });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? `Request failed (${res.status})`);
-      setData(json as RatesResponse);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
 
   const parsed = useMemo(() => {
     const n = Number(amount.replace(/,/g, ""));
@@ -77,7 +57,7 @@ export default function CurrencyTab() {
       {error && (
         <div className="error-box">
           <strong>Could not load rates.</strong> {error}{" "}
-          <button className="btn" onClick={() => void load()} style={{ marginLeft: 8 }}>
+          <button className="btn" onClick={reload} style={{ marginLeft: 8 }}>
             Retry
           </button>
         </div>
@@ -106,9 +86,14 @@ export default function CurrencyTab() {
             <option value="usdToLocal">USD → local currency</option>
           </select>
         </div>
-        <button className="btn" onClick={() => void load()} disabled={loading}>
+        <button className="btn" onClick={reload} disabled={loading}>
           {loading ? "Refreshing…" : "Refresh rates"}
         </button>
+        {fromCache && (
+          <span className="pill pill-warn" style={{ alignSelf: "center" }}>
+            Saved rates · {timeAgo(cachedAt)}
+          </span>
+        )}
       </div>
 
       <div className="grid">
@@ -187,7 +172,9 @@ export default function CurrencyTab() {
 
       <p className="status">
         {data
-          ? `Source: ${data.source}. Last updated ${new Date(data.updated).toLocaleString()}.`
+          ? `Source: ${data.source}. Last updated ${new Date(data.updated).toLocaleString()}.${
+              fromCache ? " Served from your device's offline cache." : ""
+            }`
           : "Waiting for rate data…"}
       </p>
     </section>

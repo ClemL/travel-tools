@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import OfflineProvider from "@/components/OfflineProvider";
 
 export const metadata: Metadata = {
   title: "Asia Trip Tools — Taipei · Hong Kong · Seoul",
@@ -19,7 +20,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <OfflineProvider>{children}</OfflineProvider>
+      </body>
     </html>
   );
 }

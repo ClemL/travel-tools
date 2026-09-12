@@ -129,39 +129,87 @@ a {
   color: var(--text-dim);
 }
 
-/* ---------- tabs ---------- */
+/* ---------- grouped tab nav ---------- */
 
-.tabbar {
+.tabnav {
   display: flex;
-  gap: 4px;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  align-items: flex-start;
   border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
   margin-bottom: 20px;
-  scrollbar-width: thin;
 }
 
-.tabbar button {
+.tabgroup {
+  display: grid;
+  gap: 3px;
+}
+
+.tabgroup-label {
+  font-size: 0.63rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-faint);
+  font-weight: 700;
+  padding-left: 2px;
+}
+
+.tabgroup-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.tabnav button {
   appearance: none;
   background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
+  border: 1px solid transparent;
   color: var(--text-dim);
   font: inherit;
+  font-size: 0.88rem;
   font-weight: 550;
-  padding: 10px 12px;
+  padding: 6px 11px;
   cursor: pointer;
   white-space: nowrap;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
 }
 
-.tabbar button:hover {
+.tabnav button:hover {
   color: var(--text);
   background: var(--surface-2);
 }
 
-.tabbar button[aria-selected="true"] {
+.tabnav button[aria-selected="true"] {
+  color: #fff;
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tabnav button[aria-selected="true"] { color: #0e1116; }
+}
+
+/* ---------- offline status ---------- */
+
+.offline-badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: inherit;
+}
+
+.badge-ready { background: var(--good-soft); color: var(--good); }
+.badge-offline { background: var(--warn-soft); color: var(--warn); }
+.badge-update {
+  background: var(--brand-soft);
   color: var(--brand);
-  border-bottom-color: var(--brand);
+  cursor: pointer;
+  border-color: color-mix(in srgb, var(--brand) 35%, transparent);
 }
 
 /* ---------- generic building blocks ---------- */
@@ -615,6 +663,26 @@ button:focus-visible {
   color: var(--text-dim);
 }
 
+.phrase-local {
+  font-size: 1.35rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.roman-line {
+  font-size: 0.88rem;
+  color: var(--brand);
+  font-style: italic;
+}
+
+code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 0.85em;
+}
+
 footer.foot {
   margin-top: 40px;
   padding-top: 16px;
@@ -625,6 +693,8 @@ footer.foot {
 
 @media (max-width: 520px) {
   .masthead h1 { font-size: 1.28rem; }
+  .tabnav { gap: 6px 12px; }
+  .tabnav button { font-size: 0.82rem; padding: 5px 9px; }
   .rate-big { font-size: 1.6rem; }
   .fday { grid-template-columns: 3rem 1.4rem 1fr 4.2rem; }
 }

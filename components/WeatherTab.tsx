@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { CITIES } from "@/lib/cities";
+import { useApi, timeAgo } from "@/lib/useApi";
 import { describeWeather, aqiBand } from "@/lib/weatherCodes";
 import { temp, tempFull, kmhToMph, mmToIn } from "@/lib/format";
 
@@ -23,29 +24,12 @@ interface WeatherResponse {
 type Unit = "F" | "C";
 
 export default function WeatherTab() {
-  const [data, setData] = useState<WeatherResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  // acceptPartial: the route returns a usable per-city payload even on a 502.
+  const { data, error, loading, fromCache, cachedAt, reload } = useApi<WeatherResponse>(
+    "/api/weather",
+    { acceptPartial: true }
+  );
   const [unit, setUnit] = useState<Unit>("F");
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/weather", { cache: "no-store" });
-      const json = await res.json();
-      if (!res.ok && !json?.cities) throw new Error(json?.error ?? `Request failed (${res.status})`);
-      setData(json as WeatherResponse);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
 
   return (
     <section>
@@ -59,9 +43,14 @@ export default function WeatherTab() {
         <button className="btn" onClick={() => setUnit(unit === "F" ? "C" : "F")}>
           Show °{unit === "F" ? "C" : "F"}
         </button>
-        <button className="btn" onClick={() => void load()} disabled={loading}>
+        <button className="btn" onClick={reload} disabled={loading}>
           {loading ? "Refreshing…" : "Refresh"}
         </button>
+        {fromCache && (
+          <span className="pill pill-warn" style={{ alignSelf: "center" }}>
+            Saved forecast · {timeAgo(cachedAt)}
+          </span>
+        )}
       </div>
 
       {error && (
