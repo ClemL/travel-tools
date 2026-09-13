@@ -1,6 +1,6 @@
 # Asia Trip Tools — Taipei · Hong Kong · Seoul
 
-A 17-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
+A 19-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
 Next.js 16 App Router, TypeScript, zero UI dependencies, installable as a PWA, works offline,
 and deploys to Vercel with no configuration and no required API keys.
 
@@ -24,17 +24,17 @@ re-selecting in each one. Cross-city tabs compare all three, ordered so your sel
 | --- | --- | --- |
 | ✅ Verify | Every flagged claim in the app as a pre-trip checklist, prioritised, with official links and persisted ticks | Per city |
 | 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to pack | All three |
-| 🗺️ Neighborhoods | Day plans pairing areas that work together, closure traps, rain fallbacks | Per city |
+| 🗺️ Neighborhoods | Day plans pairing areas that work together, six day trips per city, closure traps, rain fallbacks | Per city |
 | ✈️ Airport | Every transfer option with door-to-door times and costs in local currency and USD | Per city |
-| 🧰 Toolkit | Plugs, entry rules, emergency numbers, apps, holidays, packing list, safety | All three |
+| 🧰 Toolkit | Plugs, entry rules, emergency numbers, apps, holidays, packing list, safety, a jet lag plan for the 12-hour shift, and luggage/laundry logistics | All three |
 
 **On the ground**
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
 | 🧭 Basics | Tipping, transit cards, whether a US phone or card works at the gate, etiquette | Per city |
-| 🍜 Food | What to order with characters to point at, and how ordering actually works | Per city |
-| 🗣️ Phrases | Working-minimum phrasebook with romanization | Per city |
+| 🍜 Food | 17 dishes per city with characters to point at, how ordering works, what is in season in September, what to drink, and where to eat what | Per city |
+| 🗣️ Phrases | ~39 phrases per city with romanization, grouped and filterable by category including a dedicated emergency set | Per city |
 
 **Shop**
 
@@ -51,9 +51,24 @@ re-selecting in each one. Cross-city tabs compare all three, ordered so your sel
 | 🧗 Climbing | Bouldering scenes, grading systems, etiquette, pricing, outdoor seasonality | Per city |
 | 🎮 Gaming | PC bangs, arcades, board game cafés, esports, hobby retail | Per city |
 | ⛳ Golf | Korean screen golf, driving ranges, where a real round is realistic | Per city |
+| ⚾ Baseball | KBO and CPBL as a live experience, plus Happy Valley racing in Hong Kong | Per city |
+| ♨️ Bathhouses | Jjimjilbang, Beitou hot springs, and the etiquette that matters | Per city |
 
 The active tab is mirrored into the URL hash, so every view is linkable and browser back/forward
 works. The city choice persists in `localStorage`.
+
+## Content
+
+Roughly 6,000 lines of curated reference across 13 data modules. The bulk of it:
+
+- **51 dishes** across the three cities, plus what is specifically in season during the September
+  window — mooncakes and Mid-Autumn barbecue in Taipei, snake soup and the start of hairy crab in
+  Hong Kong, Chuseok food and the return of the street carts in Seoul.
+- **118 phrases**, grouped into Basics, Ordering, Getting around, Shopping, Numbers and Emergency,
+  with allergy vocabulary and the phrase for asking which typhoon signal is up.
+- **18 day trips** — Jiufen, Yingge and Keelung from Taipei; Macau, Cheung Chau and Sai Kung from
+  Hong Kong; the DMZ, Suwon and Bukhansan from Seoul.
+- **28 neighborhoods**, **15 day plans**, and the closure traps that cost a day.
 
 ## Verify before you go
 

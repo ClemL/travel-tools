@@ -4,9 +4,9 @@ import { FOOD } from "./food";
 import { PHRASES } from "./phrases";
 import { PLANNER } from "./neighborhoods";
 import { CLIMATE } from "./climate";
-import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY } from "./toolkit";
+import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY, JETLAG, LOGISTICS } from "./toolkit";
 import { SIZING_NOTES, TAX_REFUNDS, SHOPPING, MENS_SHOES, WOMENS_SHOES } from "./sizing";
-import { CLIMBING, GAMING, GOLF } from "./activities";
+import { CLIMBING, GAMING, GOLF, SPECTATOR, WELLNESS } from "./activities";
 import { STATIONERY, ARTISAN } from "./shops";
 import { AIRPORTS } from "./airport";
 import { HK_LADDER, TYPHOON_BASICS, CONTINGENCY } from "./alerts";
@@ -54,6 +54,15 @@ for (const f of FOOD) {
     push({ tab: "food", tabLabel: "Food", city: f.city, title: `${d.en} — ${d.local}`, body: `${d.what} Typically ${d.price}.`, extra: `${d.local} ${d.roman}` });
   }
   for (const o of f.ordering) push({ tab: "food", tabLabel: "Food", city: f.city, title: `Ordering — ${o.title}`, body: o.detail });
+  for (const sn of f.seasonal) {
+    push({ tab: "food", tabLabel: "Food", city: f.city, title: `In season — ${sn.name}`, body: `${sn.what} (${sn.window})`, extra: sn.local });
+  }
+  for (const d of f.drinks) {
+    push({ tab: "food", tabLabel: "Food", city: f.city, title: `Drink — ${d.name}`, body: `${d.what} ${d.price}. ${d.where}`, extra: d.local ?? "" });
+  }
+  for (const w of f.whereToEat) {
+    push({ tab: "food", tabLabel: "Food", city: f.city, title: `${w.dish} — where`, body: `${w.where}. ${w.note}` });
+  }
   push({ tab: "food", tabLabel: "Food", city: f.city, title: "Vegetarian", body: f.vegetarian });
   push({ tab: "food", tabLabel: "Food", city: f.city, title: "Meal times", body: f.mealTimes });
   push({ tab: "food", tabLabel: "Food", city: f.city, title: "What food costs", body: f.budget });
@@ -62,7 +71,7 @@ for (const f of FOOD) {
 /* ---- Phrases ---- */
 for (const p of PHRASES) {
   for (const ph of p.phrases) {
-    push({ tab: "phrases", tabLabel: "Phrases", city: p.city, title: ph.en, body: `${ph.local} — ${ph.roman}${ph.note ? ". " + ph.note : ""}`, extra: `${ph.local} ${ph.roman} ${p.language}` });
+    push({ tab: "phrases", tabLabel: "Phrases", city: p.city, title: ph.en, body: `${ph.local} — ${ph.roman}${ph.note ? ". " + ph.note : ""}`, extra: `${ph.local} ${ph.roman} ${p.language} ${ph.category}` });
   }
   push({ tab: "phrases", tabLabel: "Phrases", city: p.city, title: `${p.language} — how far English gets you`, body: p.englishLevel });
 }
@@ -75,6 +84,16 @@ for (const p of PLANNER) {
   }
   for (const d of p.days) push({ tab: "neighborhoods", tabLabel: "Neighborhoods", city: p.city, title: `Day plan — ${d.title}`, body: `${d.shape} ${d.timing}` });
   for (const cl of p.closures) push({ tab: "neighborhoods", tabLabel: "Neighborhoods", city: p.city, title: `Closed ${cl.closed} — ${cl.place}`, body: cl.detail });
+  for (const t of p.dayTrips) {
+    push({
+      tab: "neighborhoods",
+      tabLabel: "Neighborhoods",
+      city: p.city,
+      title: `Day trip — ${t.name}`,
+      body: `${t.travel}, ${t.duration}. ${t.what} ${t.worthIt}`,
+      extra: t.local ?? "",
+    });
+  }
   push({ tab: "neighborhoods", tabLabel: "Neighborhoods", city: p.city, title: "Rainy day options", body: p.rainPlan });
 }
 
@@ -112,6 +131,8 @@ for (const a of APPS) push({ tab: "toolkit", tabLabel: "Toolkit", city: a.city =
 for (const h of HOLIDAYS) push({ tab: "toolkit", tabLabel: "Toolkit", city: null, title: `${h.date} — ${h.name}`, body: `${h.where}. ${h.impact}` });
 for (const p of PACKING) push({ tab: "toolkit", tabLabel: "Toolkit", city: null, title: `Pack — ${p.item}`, body: p.why });
 for (const s of SAFETY) push({ tab: "toolkit", tabLabel: "Toolkit", city: null, title: s.title, body: s.body });
+for (const j of JETLAG) push({ tab: "toolkit", tabLabel: "Toolkit", city: null, title: `Jet lag — ${j.when}`, body: `${j.action} ${j.why}`, extra: "jetlag jet lag sleep time zone" });
+for (const l of LOGISTICS) push({ tab: "toolkit", tabLabel: "Toolkit", city: l.city === "all" ? null : l.city, title: l.title, body: l.body, extra: "luggage locker laundry logistics toilet bins" });
 
 /* ---- Alerts ---- */
 for (const s of HK_LADDER) push({ tab: "alerts", tabLabel: "Alerts", city: "hongkong", title: `Signal ${s.code} — ${s.label}`, body: `Closes: ${s.whatCloses}. ${s.yourMove}`, extra: "typhoon signal t8 t10" });
@@ -142,6 +163,8 @@ for (const [set, tab, label] of [
   [CLIMBING, "climbing", "Climbing"],
   [GAMING, "gaming", "Gaming"],
   [GOLF, "golf", "Golf"],
+  [SPECTATOR, "baseball", "Baseball"],
+  [WELLNESS, "wellness", "Bathhouses"],
 ] as const) {
   for (const p of set) {
     push({ tab, tabLabel: label, city: p.city, title: `${label} scene — ${p.sceneRating}`, body: p.summary });

@@ -15,15 +15,39 @@ export interface OrderingRule {
   detail: string;
 }
 
+/** In season during the September travel window specifically. */
+export interface SeasonalItem {
+  name: string;
+  local: string;
+  what: string;
+  window: string;
+}
+
+export interface DrinkItem {
+  name: string;
+  local?: string;
+  what: string;
+  price: string;
+  where: string;
+}
+
+export interface DishLocation {
+  dish: string;
+  where: string;
+  note: string;
+}
+
 export interface FoodProfile {
   city: CityId;
   summary: string;
   /** The one structural thing about eating here that visitors get wrong. */
   keyMechanic: string;
   dishes: Dish[];
+  seasonal: SeasonalItem[];
+  drinks: DrinkItem[];
+  whereToEat: DishLocation[];
   ordering: OrderingRule[];
   vegetarian: string;
-  drinks: string;
   mealTimes: string;
   budget: string;
 }
@@ -116,6 +140,150 @@ export const FOOD: FoodProfile[] = [
         price: "NT$50-100",
         mustTry: true,
       },
+      {
+        en: "Fried chicken cutlet",
+        local: "雞排",
+        roman: "jī pái",
+        what:
+          "A chicken breast pounded flat to roughly the size of your face, battered, fried and dusted with pepper and chilli. The definitive night-market walking food.",
+        price: "NT$70-90",
+        mustTry: true,
+      },
+      {
+        en: "Gua bao",
+        local: "刈包",
+        roman: "guà bāo",
+        what:
+          "Braised pork belly, pickled mustard greens, crushed peanut and coriander in a folded steamed bun. The Taiwanese original that the West rediscovered a decade ago.",
+        price: "NT$55-80",
+        mustTry: true,
+      },
+      {
+        en: "Pick-your-own braised snacks",
+        local: "滷味",
+        roman: "lǔ wèi",
+        what:
+          "Take the tongs and basket, choose from trays of tofu, greens, noodles, eggs and offal, hand it over and it comes back chopped and dressed. Hot or cold versions; the cold one is a summer staple.",
+        price: "NT$60-150",
+      },
+      {
+        en: "Tofu pudding",
+        local: "豆花",
+        roman: "dòu huā",
+        what:
+          "Silken tofu in sweet ginger or sugar syrup with toppings — peanuts, taro balls, red bean. Served hot or over ice. The everyday Taiwanese dessert.",
+        price: "NT$50-70",
+        mustTry: true,
+      },
+      {
+        en: "Danzai noodles",
+        local: "擔仔麵",
+        roman: "dàn zǎi miàn",
+        what:
+          "A deliberately small bowl of noodles in shrimp-and-pork broth topped with minced pork and a prawn. Meant as one item among several, not a meal.",
+        price: "NT$50-80",
+      },
+      {
+        en: "Hot pot for one",
+        local: "小火鍋",
+        roman: "xiǎo huǒ guō",
+        what:
+          "Individual induction burners with your own pot — no sharing, no minimum party size. A useful solo-dining option and a good air-conditioned lunch.",
+        price: "NT$200-400",
+      },
+      {
+        en: "Turnip cake",
+        local: "蘿蔔糕",
+        roman: "luó bo gāo",
+        what: "Griddled radish cake with a crisp crust, usually eaten at breakfast with soy paste and chilli.",
+        price: "NT$35-60",
+      },    ],
+    seasonal: [
+      {
+        name: "Mooncakes and pomelo",
+        local: "月餅 / 柚子",
+        what:
+          "Mid-Autumn Festival brings mooncakes into every bakery and pomelo into every fruit stall. Taiwanese mooncakes lean toward flaky pastry with mung bean or taro rather than the dense Cantonese lotus-seed style.",
+        window: "Two weeks either side of 25 September",
+      },
+      {
+        name: "Barbecue, everywhere",
+        local: "中秋烤肉",
+        what:
+          "Taiwan barbecues for Mid-Autumn — a tradition that started as a marketing campaign and became universal. Expect smoke on every pavement, riverbank and rooftop on the night itself.",
+        window: "25-27 September",
+      },
+      {
+        name: "Late mango, early persimmon",
+        local: "芒果 / 柿子",
+        what:
+          "The tail of mango season overlaps the start of persimmon. Mango shaved ice is still on menus in early September and disappears by October.",
+        window: "Through mid-September",
+      },
+    ],
+    drinks: [
+      {
+        name: "Bubble tea, ordered properly",
+        local: "珍珠奶茶",
+        what:
+          "Specify sweetness and ice: 半糖少冰 (half sugar, less ice) is the standard local order. Ordering full sugar marks you instantly.",
+        price: "NT$50-80",
+        where: "Chains on every corner; 50嵐, Chun Shui Tang, Tiger Sugar",
+      },
+      {
+        name: "Oolong tea",
+        local: "烏龍茶",
+        what:
+          "Taiwan's high-mountain oolong is world-class. A tea house will brew gongfu style across many short steepings — an hour well spent in the Maokong hills.",
+        price: "NT$300-800 per session",
+        where: "Maokong tea houses, Dihua Street merchants",
+      },
+      {
+        name: "Convenience store coffee",
+        local: "超商咖啡",
+        what: "City Café at 7-Eleven is genuinely drinkable and costs a fraction of a café. Buy-one-get-one promotions are constant.",
+        price: "NT$45-65",
+        where: "Every 7-Eleven and FamilyMart",
+      },
+      {
+        name: "Craft beer",
+        local: "精釀啤酒",
+        what:
+          "A small but serious scene — Taiwan Head, Redpoint, Zhangmen. Convenience-store beer is legal to drink in most public places, which makes riverside evenings easy.",
+        price: "NT$150-280",
+        where: "Da'an, Zhongshan taprooms",
+      },
+      {
+        name: "Winter melon tea",
+        local: "冬瓜茶",
+        what: "Non-caffeinated, caramel-sweet, served over ice. The traditional answer to September humidity.",
+        price: "NT$30-50",
+        where: "Traditional drink stalls, night markets",
+      },
+    ],
+    whereToEat: [
+      {
+        dish: "Beef noodle soup",
+        where: "Yongkang Street and the Da'an backstreets",
+        note: "The city's densest cluster of specialists. Taipei runs an annual beef noodle competition — winners post the certificate in the window.",
+      },
+      {
+        dish: "Night market food",
+        where: "Raohe over Shilin",
+        note:
+          "Shilin is bigger and better known; Raohe is a single covered street, older, and has better food per square metre. Ningxia is the local favourite of the three.",
+      },
+      {
+        dish: "Breakfast",
+        where: "Any 豆漿店 before 10:00",
+        note: "Soy milk shops are a whole category and they are gone by late morning. This is the meal most visitors miss entirely.",
+      },
+      {
+        dish: "Xiao long bao",
+        where: "Din Tai Fung, or any neighbourhood shop",
+        note:
+          "Din Tai Fung began in Taipei and genuinely deserves its reputation, but a local shop charges a third of the price for something close.",
+      },
     ],
     ordering: [
       {
@@ -145,8 +313,6 @@ export const FOOD: FoodProfile[] = [
     ],
     vegetarian:
       "Taiwan is the easiest place in East Asia to eat vegetarian, thanks to a strong Buddhist tradition. Look for the character 素 (sù) — it marks fully vegetarian shops and buffets, which are common and cheap. Note that 素 in the Buddhist sense also excludes garlic and onion. Say 我吃素 (wǒ chī sù) — 'I eat vegetarian'.",
-    drinks:
-      "Tea culture is serious — visit a tea house in Maokong. Craft beer has grown substantially. Convenience-store beer is legal to drink in most public places.",
     mealTimes:
       "Breakfast 06:00-10:00 and genuinely important. Lunch 11:30-14:00. Dinner from 18:00. Night markets 18:00-24:00. Many small shops close between lunch and dinner.",
     budget:
@@ -238,6 +404,153 @@ export const FOOD: FoodProfile[] = [
         what: "Coffee and milk tea mixed. Sounds wrong, works.",
         price: "HK$22-32",
       },
+      {
+        en: "Beef brisket noodles",
+        local: "牛腩麵",
+        roman: "ngàuh láam mihn",
+        what:
+          "Slow-braised brisket in a clear or curried broth with noodles. Specialist shops do nothing else and queue out the door at lunch.",
+        price: "HK$50-80",
+        mustTry: true,
+      },
+      {
+        en: "Rice noodle rolls",
+        local: "腸粉",
+        roman: "chéung fán",
+        what:
+          "Sheets of steamed rice noodle rolled around prawn, beef or nothing at all, doused in sweet soy and sesame. A breakfast staple and a dim sum fixture.",
+        price: "HK$25-45",
+        mustTry: true,
+      },
+      {
+        en: "Congee",
+        local: "粥",
+        roman: "jūk",
+        what:
+          "Rice porridge simmered to collapse, with century egg and pork, fish, or beef. Eaten at breakfast and late at night, and the thing to order when the humidity has beaten you.",
+        price: "HK$35-60",
+      },
+      {
+        en: "Typhoon shelter crab",
+        local: "避風塘炒蟹",
+        roman: "beih fūng tòhng cháau háaih",
+        what:
+          "Crab buried under a mountain of fried garlic, chilli and black bean. Named for the boat kitchens that once sheltered from storms in the harbour — which makes it the September dish.",
+        price: "HK$400-700",
+        mustTry: true,
+      },
+      {
+        en: "Dessert soup",
+        local: "糖水",
+        roman: "tòhng séui",
+        what:
+          "Sweet soups — black sesame, walnut, red bean, or mango pomelo sago (楊枝甘露). Dedicated tong sui shops open late and are where a Hong Kong evening ends.",
+        price: "HK$30-55",
+        mustTry: true,
+      },
+      {
+        en: "Hong Kong French toast",
+        local: "西多士",
+        roman: "sāi dō sí",
+        what:
+          "Deep-fried, peanut-butter-filled, topped with butter and condensed milk. Indefensible and excellent. Cha chaan teng afternoon tea set.",
+        price: "HK$25-40",
+      },
+      {
+        en: "Claypot rice",
+        local: "煲仔飯",
+        roman: "bōu jái faahn",
+        what:
+          "Cooked to order over a flame so the bottom layer crisps. Traditionally a cold-weather dish but available year-round on Temple Street. Allow 25 minutes.",
+        price: "HK$60-120",
+      },    ],
+    seasonal: [
+      {
+        name: "Mooncakes",
+        local: "月餅",
+        what:
+          "Cantonese mooncakes — dense lotus seed paste with salted egg yolk — plus the local snowskin variety. Hotel bakeries compete on packaging and the boxes become a gifting arms race.",
+        window: "Through 26 September",
+      },
+      {
+        name: "Snake soup",
+        local: "蛇羹",
+        what:
+          "A genuinely traditional autumn dish, thickened with shredded snake, chicken and wood ear. Specialist shops open as the weather turns; a handful remain in Sham Shui Po and Sheung Wan.",
+        window: "From late September through winter",
+      },
+      {
+        name: "Hairy crab",
+        local: "大閘蟹",
+        what:
+          "The season starts as September ends and runs through November. If your trip is late in the month you may catch the first of it.",
+        window: "Very late September onward",
+      },
+    ],
+    drinks: [
+      {
+        name: "Silk stocking milk tea",
+        local: "絲襪奶茶",
+        what:
+          "Strong black tea strained repeatedly through fabric, cut with evaporated milk. Bitter, tannic and nothing like a British builder's tea. The national drink.",
+        price: "HK$20-30",
+        where: "Any cha chaan teng",
+      },
+      {
+        name: "Yuenyeung",
+        local: "鴛鴦",
+        what: "Three parts milk tea to seven parts coffee, roughly. Invented here, and better than the description suggests.",
+        price: "HK$22-32",
+        where: "Any cha chaan teng",
+      },
+      {
+        name: "Herbal tea",
+        local: "涼茶",
+        what:
+          "Bitter medicinal brews sold from shopfront urns and drunk standing at the counter. 廿四味 is the punishing one. Locally held to counter the humidity.",
+        price: "HK$10-20",
+        where: "Herbal tea shops, Sheung Wan and Kowloon",
+      },
+      {
+        name: "Cocktails",
+        local: "",
+        what:
+          "Central and Soho hold several bars that rank on world lists. Prices match — expect HK$130-190 a drink and a 10% service charge.",
+        price: "HK$130-190",
+        where: "Central, Soho, Sheung Wan",
+      },
+      {
+        name: "Craft beer",
+        local: "",
+        what: "Young Master, Gweilo and Heroes lead a scene concentrated in Kennedy Town, Sai Ying Pun and Sheung Wan.",
+        price: "HK$60-95",
+        where: "Kennedy Town, Sai Ying Pun",
+      },
+    ],
+    whereToEat: [
+      {
+        dish: "Dim sum",
+        where: "Old-school halls in Sham Shui Po and Wan Chai",
+        note:
+          "Michelin-listed places take bookings and queues; a neighbourhood hall at 08:00 on a weekday is emptier, cheaper and often just as good.",
+      },
+      {
+        dish: "Roast goose",
+        where: "Sham Tseng village, or a specialist in town",
+        note:
+          "Sham Tseng in the New Territories is the traditional destination and worth the trip if you are serious. Otherwise the roast meat shops with queues are the signal.",
+      },
+      {
+        dish: "Wok hei stir fry",
+        where: "Dai pai dong, Central and Sham Shui Po",
+        note:
+          "The handful of surviving open-air cooked-food stalls produce a smoky char no restaurant kitchen matches. Temple Street and Stanley Street are the reliable spots.",
+      },
+      {
+        dish: "Late night",
+        where: "Temple Street, Mong Kok",
+        note: "Claypot rice, seafood and beer until 02:00. The one part of Hong Kong that is genuinely nocturnal.",
+      },
     ],
     ordering: [
       {
@@ -271,8 +584,6 @@ export const FOOD: FoodProfile[] = [
     ],
     vegetarian:
       "Harder than Taiwan. Buddhist vegetarian restaurants (齋 / 素食) exist and are good, but mainstream Cantonese cooking uses pork, oyster sauce and stock pervasively — including in dishes that look vegetable-only. Say 我食素 (ngóh sihk sou). Vegetarian dim sum is widely available.",
-    drinks:
-      "Milk tea is the default. Craft beer has taken hold in Sheung Wan and Kennedy Town. Cocktail bars in Central and Soho are world-class and priced accordingly — HK$120-180 per drink.",
     mealTimes:
       "Dim sum from 07:00. Lunch 12:00-14:00 and genuinely crowded — arrive before noon or after 14:00. Dinner 18:30-22:00. Late-night food in Mong Kok and Temple Street until 02:00.",
     budget:
@@ -370,6 +681,167 @@ export const FOOD: FoodProfile[] = [
         price: "₩5,000-9,000",
         mustTry: true,
       },
+      {
+        en: "Soft tofu stew",
+        local: "순두부찌개",
+        roman: "sundubu jjigae",
+        what:
+          "Silken tofu in a bubbling chilli broth with an egg cracked in at the table. Arrives volcanic. One of the few stews reliably served to a single diner.",
+        price: "₩9,000-12,000",
+        mustTry: true,
+      },
+      {
+        en: "Ginseng chicken soup",
+        local: "삼계탕",
+        roman: "samgyetang",
+        what:
+          "A whole young chicken stuffed with rice, ginseng and jujube in a clear broth. Eaten in the hottest weeks on the principle of fighting heat with heat.",
+        price: "₩16,000-22,000",
+        mustTry: true,
+      },
+      {
+        en: "Black bean noodles",
+        local: "짜장면",
+        roman: "jjajangmyeon",
+        what:
+          "Wheat noodles under a dark, sweet fermented bean sauce with pork and onion. Korean-Chinese, ubiquitous, and the default delivery order nationwide.",
+        price: "₩7,000-9,000",
+      },
+      {
+        en: "Boiled pork wraps",
+        local: "보쌈",
+        roman: "bossam",
+        what:
+          "Poached pork belly sliced thin, wrapped in cabbage leaves with salted shrimp and fresh kimchi. Gentler than grilled meat and usually for two or more.",
+        price: "₩30,000-45,000 to share",
+      },
+      {
+        en: "Pig trotters",
+        local: "족발",
+        roman: "jokbal",
+        what: "Braised in soy and spices, sliced, served cold-ish with wraps. A late-night drinking dish; better than it sounds.",
+        price: "₩30,000-45,000 to share",
+      },
+      {
+        en: "Hangover soup",
+        local: "해장국",
+        roman: "haejangguk",
+        what:
+          "A whole restaurant category dedicated to the morning after — usually ox bone or cabbage broth. Open at 06:00 near any nightlife district.",
+        price: "₩9,000-13,000",
+      },
+      {
+        en: "Sweet filled pancake",
+        local: "호떡",
+        roman: "hotteok",
+        what:
+          "Griddled dough filled with molten brown sugar, cinnamon and nuts. Street carts reappear as the weather turns — late September is when they come back.",
+        price: "₩2,000-3,000",
+        mustTry: true,
+      },
+      {
+        en: "Dumplings",
+        local: "만두",
+        roman: "mandu",
+        what: "Steamed or fried, pork and kimchi or vegetable. Cheap, everywhere, and fine for one.",
+        price: "₩6,000-9,000",
+      },    ],
+    seasonal: [
+      {
+        name: "Chuseok food",
+        local: "송편 / 전",
+        what:
+          "Songpyeon — half-moon rice cakes stuffed with sesame or bean — plus stacks of jeon (savoury pancakes). Department store food halls fill with gift sets; family restaurants close.",
+        window: "24-28 September",
+      },
+      {
+        name: "Autumn fruit",
+        local: "감 / 밤 / 배",
+        what:
+          "Persimmon, chestnut and Korean pear come in with the season and appear on every market stall. Korean pears are enormous, crisp and a standard Chuseok gift.",
+        window: "From mid-September",
+      },
+      {
+        name: "Street carts return",
+        local: "포장마차",
+        what:
+          "Hotteok, bungeoppang and roasted chestnut carts reappear as the evenings cool. Early September is too warm; by the last week of the month they are back.",
+        window: "Late September onward",
+      },
+      {
+        name: "Makgeolli and pajeon after a hike",
+        local: "막걸리 / 파전",
+        what:
+          "Autumn hiking season opens on Bukhansan, and the trailhead restaurants serving rice wine and scallion pancake to descending hikers are part of the ritual.",
+        window: "From late September",
+      },
+    ],
+    drinks: [
+      {
+        name: "Soju",
+        local: "소주",
+        what:
+          "Cheap, clear, around 16-17% and drunk in shots alongside food rather than on its own. Never pour your own; hold the glass with two hands when someone older pours.",
+        price: "₩4,000-6,000 a bottle in a restaurant",
+        where: "Everywhere food is served",
+      },
+      {
+        name: "Makgeolli",
+        local: "막걸리",
+        what:
+          "Cloudy unfiltered rice wine, lightly fizzy, 6-8%. Served in a kettle and poured into bowls. Traditional pairing is a savoury pancake.",
+        price: "₩5,000-9,000",
+        where: "Traditional bars, trailhead restaurants",
+      },
+      {
+        name: "Korean coffee culture",
+        local: "카페",
+        what:
+          "Seoul has one of the highest café densities on earth and they are destinations rather than pit stops — enormous, designed, and full at midnight. Seongsu and Yeonnam are the epicentres.",
+        price: "₩4,500-7,000",
+        where: "Seongsu, Yeonnam, Ikseon-dong",
+      },
+      {
+        name: "Beer and fried chicken",
+        local: "치맥",
+        what: "The combination is a national institution. Han River parks let you order delivery straight to a picnic mat.",
+        price: "₩25,000-35,000 for two",
+        where: "Han River parks, anywhere",
+      },
+      {
+        name: "Traditional tea",
+        local: "전통차",
+        what:
+          "Jujube, citron, omija and ginger teas served in hanok tea houses around Insadong and Bukchon. A genuinely pleasant break from the coffee arms race.",
+        price: "₩7,000-12,000",
+        where: "Insadong, Bukchon hanok tea houses",
+      },
+    ],
+    whereToEat: [
+      {
+        dish: "Street food",
+        where: "Gwangjang Market, Jongno",
+        note:
+          "The best single introduction to Korean street food in the city. Go hungry, sit at a stall, point. Bindaetteok (mung bean pancake) and mayak gimbap are the signatures.",
+      },
+      {
+        dish: "Korean BBQ",
+        where: "Mapo or Jongno backstreets, not a tourist strip",
+        note:
+          "Look for extraction ducts over every table and a queue of office workers. Two-person minimums are normal; solo diners should aim elsewhere.",
+      },
+      {
+        dish: "Late-night drinking food",
+        where: "Euljiro",
+        note:
+          "Bars hidden above printing workshops, reached by unmarked stairwells. The most distinctive night out in Seoul and almost entirely local.",
+      },
+      {
+        dish: "Temple food",
+        where: "Insadong",
+        note:
+          "The reliable vegetarian option — Buddhist temple cuisine, no meat, no fish sauce, no onion or garlic. Book ahead at the better-known places.",
+      },
     ],
     ordering: [
       {
@@ -404,8 +876,6 @@ export const FOOD: FoodProfile[] = [
     ],
     vegetarian:
       "The hardest of the three. Fish sauce, anchovy stock and shrimp paste are in most kimchi and nearly all stews, so dishes that look vegetarian usually are not. Temple food (사찰음식) restaurants are the reliable option and are genuinely excellent. Say 저는 채식주의자예요 (jeoneun chaesikjuuija-yeyo). Expect to explain repeatedly.",
-    drinks:
-      "Soju is ubiquitous and cheap (₩4,000-6,000 a bottle at a restaurant). Makgeolli for hiking days. Korean craft beer has improved sharply. Café culture is enormous — Seoul has more coffee shops per capita than almost anywhere.",
     mealTimes:
       "Breakfast is not a major meal out. Lunch 12:00-13:00 and rigidly observed — office districts are packed. Dinner 18:00-21:00, then a second round (2차) of drinks. Late-night food is abundant and many places run 24 hours.",
     budget:

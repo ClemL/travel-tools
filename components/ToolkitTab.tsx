@@ -1,7 +1,7 @@
 "use client";
 
 import { cityById } from "@/lib/cities";
-import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY } from "@/lib/toolkit";
+import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY, JETLAG, LOGISTICS } from "@/lib/toolkit";
 import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 const PACK_CATEGORIES = ["Weather", "Power & tech", "Documents", "Health", "Comfort"] as const;
@@ -245,6 +245,47 @@ export default function ToolkitTab() {
             </article>
           );
         })}
+      </div>
+
+      <h2 className="section-title">Jet lag</h2>
+      <div className="callout">
+        <strong>A 12-hour shift is the theoretical maximum</strong>
+        Boston to Taipei and Hong Kong is 12 hours; Seoul is 13. There is no worse case, and at exactly
+        12 hours the direction your body drifts becomes ambiguous — which is why the plan below is about
+        forcing a direction with light and meal timing rather than just enduring it. General guidance,
+        not medical advice.
+      </div>
+      <DismissBar scope="kit-jetlag" noun="steps" />
+      <div className="grid">
+        {JETLAG.map((j) => (
+          <Dismissible scope="kit-jetlag" itemKey={j.when} key={j.when}>
+            <article className="card">
+              <div className="eyebrow">{j.when}</div>
+              <h3 style={{ fontSize: "1rem", marginBottom: 6 }}>{j.action}</h3>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                {j.why}
+              </p>
+            </article>
+          </Dismissible>
+        ))}
+      </div>
+
+      <h2 className="section-title">Luggage, laundry &amp; logistics</h2>
+      <DismissBar scope="kit-logistics" noun="notes" />
+      <div className="grid">
+        {LOGISTICS.map((l) => (
+          <Dismissible scope="kit-logistics" itemKey={l.title} key={l.title}>
+            <article className="card">
+              {l.city !== "all" && (
+                <div className="eyebrow">{cityById(l.city).flag} {cityById(l.city).name}</div>
+              )}
+              <h3 style={{ fontSize: "1rem" }}>{l.title}</h3>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                {l.body}
+              </p>
+            </article>
+          </Dismissible>
+        ))}
       </div>
 
       <h2 className="section-title">Safety, health &amp; contingency</h2>

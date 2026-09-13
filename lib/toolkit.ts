@@ -286,3 +286,138 @@ export const SAFETY: SafetyNote[] = [
       "Taipei-Hong Kong is roughly 1h50m and one of the busiest air corridors in the world; Taipei-Seoul about 2h30m; Hong Kong-Seoul about 3h30m. China Airlines, EVA, Cathay Pacific, Korean Air and Asiana all serve these routes multiple times daily, so rebooking after weather disruption is usually possible within hours.",
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Jet lag                                                             */
+/* ------------------------------------------------------------------ */
+
+export interface JetLagStep {
+  when: string;
+  action: string;
+  why: string;
+}
+
+/**
+ * Boston to Taipei and Hong Kong is a 12-hour shift; to Seoul it is 13. Twelve
+ * hours is the theoretical maximum circadian disruption — there is no worse
+ * case, and the direction your body drifts becomes ambiguous, which is why the
+ * advice below is about forcing a direction rather than just enduring it.
+ */
+export const JETLAG: JetLagStep[] = [
+  {
+    when: "3-4 days before you fly",
+    action: "Shift your sleep an hour later each night and delay morning light by the same amount.",
+    why:
+      "A 12-hour shift is easier to reach by delaying than advancing, and a few hours banked before departure removes a day of misery on arrival.",
+  },
+  {
+    when: "On the plane",
+    action: "Set your watch to destination time at the gate and eat and sleep on that schedule, not the cabin's.",
+    why: "Meal timing is a real circadian cue, not just a comfort. Deciding once at the gate removes the constant arithmetic.",
+  },
+  {
+    when: "Arrival day, if you land in the morning",
+    action: "Get outside into daylight and stay up until at least 21:00 local. Cap any nap at 30 minutes before 15:00.",
+    why:
+      "Morning light after a long eastward shift is the strongest available signal. A long afternoon nap is the single most common way people extend jet lag from two days to five.",
+  },
+  {
+    when: "Arrival day, if you land in the evening",
+    action: "Go to bed at a normal local hour even if you are not tired, and set an alarm.",
+    why: "Sleeping in on day one pushes the whole adjustment back. The alarm matters more than the bedtime.",
+  },
+  {
+    when: "First three mornings",
+    action: "Get 30 minutes of outdoor light within an hour of waking, and avoid bright light late in the evening.",
+    why: "Light timing moves the body clock faster than anything else available to you. This is the part that actually works.",
+  },
+  {
+    when: "Caffeine",
+    action: "Use it in the local morning only, and stop by early afternoon.",
+    why: "It helps you stay awake on the right schedule, but late caffeine wrecks the night you are trying to establish.",
+  },
+  {
+    when: "Melatonin, if you use it",
+    action: "A small dose in the local evening, a few hours before your intended bedtime.",
+    why:
+      "Timing matters more than dose, and large doses are not better. Discuss it with your doctor rather than treating it as a sleeping pill.",
+  },
+  {
+    when: "Between cities",
+    action: "Taipei and Hong Kong share a time zone; Seoul is one hour ahead.",
+    why: "The inter-city legs cost you almost nothing. All the adjustment is the transpacific hop at each end.",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Luggage, laundry and logistics                                      */
+/* ------------------------------------------------------------------ */
+
+export interface LogisticsNote {
+  title: string;
+  body: string;
+  city: CityId | "all";
+}
+
+export const LOGISTICS: LogisticsNote[] = [
+  {
+    title: "Coin lockers at stations",
+    body:
+      "All three cities have lockers at major stations, sized small to large, paid by transit card or coins. Useful on a checkout day when your flight is at night — drop the bags and get a final day of sightseeing rather than dragging a suitcase around.",
+    city: "all",
+  },
+  {
+    title: "In-town airport check-in",
+    body:
+      "Hong Kong lets you check bags and collect boarding passes at Hong Kong and Kowloon stations on your departure day, then travel unencumbered. This is unusual and genuinely valuable. Confirm your airline participates.",
+    city: "hongkong",
+  },
+  {
+    title: "Luggage forwarding",
+    body:
+      "Taiwan and Korea both have door-to-door luggage delivery between hotels and airports, often via convenience stores. Worth it on a multi-city trip if you would rather not handle bags on transit days.",
+    city: "all",
+  },
+  {
+    title: "Laundry",
+    body:
+      "Self-service coin laundromats are common and cheap in Taipei and Seoul, often open 24 hours near residential areas. Hong Kong leans toward drop-off laundries charging by weight, which is inexpensive and usually same-day. In September humidity nothing air-dries — use the dryer.",
+    city: "all",
+  },
+  {
+    title: "Public toilets",
+    body:
+      "Metro stations in all three cities have clean public toilets, as do department stores and convenience stores in Taiwan and Korea. Carry tissues: some Taiwanese and Korean facilities do not supply paper, and many older Taiwanese buildings ask you to bin paper rather than flush it.",
+    city: "all",
+  },
+  {
+    title: "Rubbish bins",
+    body:
+      "Taipei has almost no public bins by design — the city runs on scheduled collection and you are expected to carry your rubbish to a convenience store or your hotel. Seoul is similar. Hong Kong has bins everywhere.",
+    city: "all",
+  },
+  {
+    title: "Drinking in public",
+    body:
+      "Legal and normal in Taiwan and Korea — a convenience-store beer in a Han River park is a national pastime. Hong Kong is more restrictive in practice. Nowhere here treats it the way Massachusetts does.",
+    city: "all",
+  },
+  {
+    title: "Smoking rules",
+    body:
+      "All three ban indoor smoking. Taiwan and Korea enforce street smoking zones with real fines, and vaping is fully illegal in Taiwan and Hong Kong — do not bring a vape into Taiwan at all.",
+    city: "all",
+  },
+  {
+    title: "Convenience stores as infrastructure",
+    body:
+      "In Taiwan and Korea, 7-Eleven, FamilyMart, CU and GS25 handle ATM withdrawals, bill payment, parcel pickup, transit card top-ups, hot food, seating and printing. Treat them as a utility rather than a shop.",
+    city: "all",
+  },
+  {
+    title: "Tap-water refills",
+    body:
+      "Taipei MRT stations, Korean public buildings and most hotels have filtered water dispensers, usually with hot and cold taps. Carrying a bottle removes most of the plastic and most of the cost.",
+    city: "all",
+  },
+];

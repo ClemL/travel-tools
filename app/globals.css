@@ -566,6 +566,28 @@ button:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
+.chip-btn {
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: var(--text-dim);
+}
+
+.chip-btn.chip-on {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.chip-btn.chip-on .muted {
+  color: inherit;
+  opacity: 0.75;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip-btn.chip-on { color: #0e1116; }
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

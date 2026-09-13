@@ -32,6 +32,8 @@ const LOADERS: Record<string, () => Promise<{ default: React.ComponentType<never
   climbing: () => import("@/components/ClimbingTab"),
   gaming: () => import("@/components/GamingTab"),
   golf: () => import("@/components/GolfTab"),
+  baseball: () => import("@/components/BaseballTab"),
+  wellness: () => import("@/components/WellnessTab"),
 };
 
 const CurrencyTab = lazy(LOADERS.currency as never);
@@ -51,6 +53,8 @@ const ArtisanTab = lazy(LOADERS.artisan as never);
 const ClimbingTab = lazy(LOADERS.climbing as never);
 const GamingTab = lazy(LOADERS.gaming as never);
 const GolfTab = lazy(LOADERS.golf as never);
+const BaseballTab = lazy(LOADERS.baseball as never);
+const WellnessTab = lazy(LOADERS.wellness as never);
 
 // Search pulls in every data module, so it loads on demand (or on idle) rather
 // than sitting in the first-load bundle.
@@ -61,7 +65,7 @@ type TabId =
   | "verify" | "climate" | "neighborhoods" | "airport" | "toolkit"
   | "essentials" | "food" | "phrases"
   | "stationery" | "artisan" | "sizing"
-  | "climbing" | "gaming" | "golf";
+  | "climbing" | "gaming" | "golf" | "baseball" | "wellness";
 
 interface Tab {
   id: TabId;
@@ -112,6 +116,8 @@ const GROUPS: { group: string; tabs: Tab[] }[] = [
       { id: "climbing", label: "Climbing", icon: "🧗", scoped: true },
       { id: "gaming", label: "Gaming", icon: "🎮", scoped: true },
       { id: "golf", label: "Golf", icon: "⛳", scoped: true },
+      { id: "baseball", label: "Baseball", icon: "⚾", scoped: true },
+      { id: "wellness", label: "Bathhouses", icon: "♨️", scoped: true },
     ],
   },
 ];
@@ -346,6 +352,8 @@ export default function Page() {
               {tab === "climbing" && <ClimbingTab />}
               {tab === "gaming" && <GamingTab />}
               {tab === "golf" && <GolfTab />}
+              {tab === "baseball" && <BaseballTab />}
+              {tab === "wellness" && <WellnessTab />}
             </Suspense>
           </ErrorBoundary>
         </div>

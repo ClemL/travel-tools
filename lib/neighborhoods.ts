@@ -17,6 +17,16 @@ export interface DayPlan {
   note?: string;
 }
 
+export interface DayTrip {
+  name: string;
+  local?: string;
+  travel: string;
+  duration: string;
+  what: string;
+  worthIt: string;
+  septemberNote?: string;
+}
+
 export interface ClosureTrap {
   place: string;
   closed: string;
@@ -32,6 +42,7 @@ export interface CityPlanner {
   planningRule: string;
   neighborhoods: Neighborhood[];
   days: DayPlan[];
+  dayTrips: DayTrip[];
   closures: ClosureTrap[];
   rainPlan: string;
 }
@@ -164,6 +175,66 @@ export const PLANNER: CityPlanner[] = [
         shape: "Gondola up in the late afternoon → Zhinan Temple → tea house at dusk → gondola down.",
         timing: "Go after 15:00. The gondola queue is worst at midday and the view is best at dusk.",
         note: "Gondola closes Mondays for maintenance. Check before committing the afternoon.",
+      },
+    ],
+    dayTrips: [
+      {
+        name: "Jiufen & Shifen",
+        local: "九份 / 十分",
+        travel: "TRA to Ruifang, then bus — about 1h15m",
+        duration: "Full day",
+        what:
+          "A former gold-mining town of lantern-lit stepped alleys clinging to a hillside above the sea, plus Shifen's old railway street where sky lanterns are released from the tracks.",
+        worthIt:
+          "The single most photographed day trip from Taipei, and genuinely atmospheric once the coach parties leave. Go late and stay for dusk when the lanterns come on.",
+        septemberNote: "Fog and rain are common on the ridge even when Taipei is clear. Bring the umbrella.",
+      },
+      {
+        name: "Yingge",
+        local: "鶯歌",
+        travel: "TRA local train, about 40 min",
+        duration: "Half day",
+        what: "Taiwan's ceramics town — a street of working studios, kilns and shops, plus a serious ceramics museum.",
+        worthIt:
+          "The best craft shopping within reach of Taipei, and far less touristed than Jiufen. Pairs naturally with Sanxia's indigo dyeing, two stops further.",
+      },
+      {
+        name: "Tamsui & Fisherman's Wharf",
+        local: "淡水",
+        travel: "MRT red line to the end — 40 min, no transfers",
+        duration: "Half day, best in late afternoon",
+        what:
+          "A riverside old street of food stalls, a Spanish-then-Dutch fort, and a sunset over the Taiwan Strait from the wharf.",
+        worthIt:
+          "The easiest trip on this list — it is just the end of a subway line. The sunset is the point; go after 16:00.",
+      },
+      {
+        name: "Wulai",
+        local: "烏來",
+        travel: "Bus from MRT Xindian, about 50 min",
+        duration: "Half day",
+        what:
+          "An Atayal indigenous township in a river gorge, with hot springs, a waterfall and a small log-cart railway.",
+        worthIt:
+          "Hot springs without the crowds of Beitou, plus one of the more accessible windows onto Taiwan's indigenous cultures.",
+        septemberNote: "Typhoon rain closes the gorge road and the springs. Check before committing.",
+      },
+      {
+        name: "Keelung night market",
+        local: "基隆廟口",
+        travel: "TRA or bus, about 50 min",
+        duration: "Evening",
+        what: "Miaokou is a temple-front night market with a serious seafood reputation, in a working port city.",
+        worthIt: "Arguably the best night market in northern Taiwan, and almost no foreign visitors make the trip.",
+      },
+      {
+        name: "Yehliu Geopark",
+        local: "野柳",
+        travel: "Bus from Taipei, about 1h20m",
+        duration: "Half day",
+        what: "A coastal cape of wind-eroded mushroom rocks, the Queen's Head among them.",
+        worthIt: "Striking, but small, crowded and fully exposed. Combine with Jiufen rather than making it the whole day.",
+        septemberNote: "No shade whatsoever. Go early or not at all in September heat.",
       },
     ],
     closures: [
@@ -324,6 +395,69 @@ export const PLANNER: CityPlanner[] = [
         shape: "Cable car to Ngong Ping → Big Buddha and monastery → bus to Tai O → stilt village → return by late afternoon.",
         timing: "Leave by 09:00. The cable car closes for maintenance some weekdays and shuts entirely in high wind.",
         note: "The single most weather-sensitive day in the itinerary. Do not schedule it on a day with wind warnings.",
+      },
+    ],
+    dayTrips: [
+      {
+        name: "Macau",
+        local: "澳門",
+        travel: "Ferry, about 1 hour, or bus over the HZMB bridge",
+        duration: "Full day, or overnight",
+        what:
+          "A Portuguese colonial old town — baroque church facades, egg tarts, cobbled squares — bolted onto the largest casino economy on earth.",
+        worthIt:
+          "A genuinely different city and an easy add. The Historic Centre is UNESCO-listed and walkable; the Cotai casino strip is the surreal counterpoint.",
+        septemberNote:
+          "This is a separate jurisdiction: you clear immigration both ways. Check entry requirements and carry your passport, not a copy.",
+      },
+      {
+        name: "Cheung Chau",
+        local: "長洲",
+        travel: "Ferry from Central, 35-60 min",
+        duration: "Half to full day",
+        what:
+          "A car-free dumbbell-shaped island of seafood restaurants, a fishing harbour, beaches and a pirate cave.",
+        worthIt:
+          "The most characterful of the outlying islands and the easiest to enjoy without hiking. Rent a bike; there are no cars at all.",
+      },
+      {
+        name: "Lamma Island",
+        local: "南丫島",
+        travel: "Ferry from Central, about 30 min",
+        duration: "Half day",
+        what:
+          "Walk the hour-long family trail between Yung Shue Wan and Sok Kwu Wan, ending at a seafood restaurant on stilts over the water.",
+        worthIt: "A low-effort island walk with a meal at the end and a ferry back. Reliably pleasant.",
+        septemberNote: "The trail is exposed and hilly. Do it in the morning, and carry water.",
+      },
+      {
+        name: "Sai Kung & the Geopark",
+        local: "西貢",
+        travel: "MTR to Diamond Hill, then bus 92 — about 1 hour",
+        duration: "Full day",
+        what:
+          "A seafood town where you choose your fish from tanks on the waterfront, plus boat trips to hexagonal volcanic rock columns and some of Hong Kong's best beaches.",
+        worthIt:
+          "The part of Hong Kong that surprises people most — it looks nothing like the city. Hire a sampan to the islands.",
+      },
+      {
+        name: "Tai O & Big Buddha",
+        local: "大澳",
+        travel: "MTR to Tung Chung, cable car, then bus — about 1h30m",
+        duration: "Full day",
+        what: "A stilt-house fishing village and the Po Lin Monastery's giant bronze Buddha, both on Lantau.",
+        worthIt: "The classic Lantau day. Do the Buddha first, then Tai O in the afternoon light.",
+        septemberNote: "The cable car suspends in high wind with no notice. Have the bus route as a fallback.",
+      },
+      {
+        name: "Shenzhen",
+        local: "深圳",
+        travel: "MTR East Rail to Lo Wu or Lok Ma Chau, about 45 min",
+        duration: "Full day",
+        what: "Mainland China's tech capital — electronics markets at Huaqiangbei, huge malls, and a completely different urban register.",
+        worthIt:
+          "Only if you specifically want the electronics markets or to set foot in the mainland. Requires a Chinese visa or a port visa, and a VPN for Western services.",
+        septemberNote: "Visa rules for US passport holders change; confirm well in advance rather than at the border.",
       },
     ],
     closures: [
@@ -505,6 +639,67 @@ export const PLANNER: CityPlanner[] = [
           "Start by 07:30. Korean hikers start early and the trails are crowded by mid-morning, especially on weekends.",
         note:
           "Save this for the last week of September if you can — cooler, drier, and the clearest air of the year. Trailhead restaurants serving pajeon and makgeolli after a hike are part of the ritual.",
+      },
+    ],
+    dayTrips: [
+      {
+        name: "The DMZ",
+        local: "비무장지대",
+        travel: "Organised tour only, about 1 hour each way",
+        duration: "Half to full day",
+        what:
+          "The Joint Security Area, observation posts over North Korea, and the Third Infiltration Tunnel. Access is by licensed tour with passport checks.",
+        worthIt:
+          "The most singular thing you can do from Seoul. JSA access is intermittently suspended depending on the security situation, so book early and have a fallback.",
+        septemberNote: "Book weeks ahead. Tours sell out around Chuseok and some do not run on the holiday itself.",
+      },
+      {
+        name: "Suwon Hwaseong Fortress",
+        local: "수원 화성",
+        travel: "Subway line 1 or a KTX hop — about 1 hour",
+        duration: "Half day",
+        what:
+          "A late-18th-century walled fortress with 5.7 km of ramparts you can walk, gates, and archery. UNESCO-listed and genuinely impressive.",
+        worthIt:
+          "The best history day trip from Seoul, and Suwon is also the home of galbi. Walk the full circuit in about two hours.",
+        septemberNote: "Late September is ideal for this — the whole point is a long exposed walk on the walls.",
+      },
+      {
+        name: "Nami Island & Garden of Morning Calm",
+        local: "남이섬",
+        travel: "ITX train to Gapyeong, then shuttle — about 1h20m",
+        duration: "Full day",
+        what: "A tree-lined river island famous from Korean television, usually paired with a landscaped garden nearby.",
+        worthIt:
+          "Pleasant rather than essential, and busy. Worth it in peak autumn colour, which is late October rather than September.",
+      },
+      {
+        name: "Icheon ceramics village",
+        local: "이천 도자기마을",
+        travel: "Bus or subway plus bus, about 1h15m",
+        duration: "Full day",
+        what: "Korea's ceramics centre — working kilns, studios, a museum, and shops selling directly from the makers.",
+        worthIt: "The right trip if craft is a priority. Prices are far better than Insadong and the work is the real thing.",
+      },
+      {
+        name: "Incheon Chinatown & Open Port",
+        local: "인천 차이나타운",
+        travel: "Subway line 1 to Incheon, about 1 hour",
+        duration: "Half day",
+        what:
+          "Korea's only official Chinatown, the birthplace of jjajangmyeon, plus a preserved Japanese-era open-port district and a museum about the noodle itself.",
+        worthIt: "An easy, odd, low-commitment half day. Convenient if you have a long layover at Incheon.",
+      },
+      {
+        name: "Bukhansan National Park",
+        local: "북한산",
+        travel: "Subway to Gupabal, then bus — about 1 hour",
+        duration: "Full day",
+        what: "Granite peaks inside the city limits, with genuine scrambling on the Baegundae route and superb views back over Seoul.",
+        worthIt:
+          "Korean hiking culture at full strength — busy, social, and ending in makgeolli at the trailhead. The best free thing to do near Seoul.",
+        septemberNote:
+          "Save it for the last week of the month: cooler, drier and the clearest air of the year. Trails close for days after heavy rain.",
       },
     ],
     closures: [

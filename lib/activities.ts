@@ -580,3 +580,372 @@ export function rankedCities(set: ActivityProfile[]): CityId[] {
   const order = { "World-class": 0, Strong: 1, Limited: 2 } as const;
   return [...set].sort((a, b) => order[a.sceneRating] - order[b.sceneRating]).map((p) => p.city);
 }
+
+/* ------------------------------------------------------------------ */
+/* Spectator sport                                                     */
+/* ------------------------------------------------------------------ */
+
+export const SPECTATOR: ActivityProfile[] = [
+  {
+    city: "seoul",
+    sceneRating: "World-class",
+    summary:
+      "Korean baseball is the best live sport experience in East Asia and nothing in American sport prepares you for it. Every team has a cheer squad with a leader on a platform, trumpets, and a distinct chant for each player that the entire stand sings on cue for nine innings. You are expected to join in.",
+    howToFind: {
+      app: "Interpark Global or the club's own site",
+      searchTerm: "KBO 티켓 (KBO ticket) · 잠실야구장",
+      note:
+        "Tickets go on sale roughly a week ahead and weekend games sell out. Foreign-card checkout works on the English Interpark site; the Korean-only sites often do not.",
+    },
+    practical: [
+      {
+        label: "Season timing",
+        value: "September is the playoff race",
+        detail:
+          "The KBO regular season runs to early October, so September games carry real stakes and the crowds are at their loudest. Postseason follows immediately after.",
+      },
+      {
+        label: "Tickets",
+        value: "₩8,000-30,000",
+        detail:
+          "Cheaper than almost any comparable sport. Outfield seats put you inside the cheer section, which is where the experience actually is — do not buy quiet seats behind home plate.",
+      },
+      {
+        label: "Bring your own food",
+        value: "Genuinely allowed",
+        detail:
+          "Korean stadiums let you bring in outside food and beer. Fried chicken delivered to your seat is normal. This is a core part of the ritual, not a loophole.",
+      },
+      {
+        label: "Seoul teams",
+        value: "LG Twins and Doosan Bears share Jamsil",
+        detail:
+          "Both play at Jamsil Baseball Stadium on subway line 2, so there is a game there most days. Kiwoom Heroes play at the domed Gocheok Sky Dome, which is the rain-proof option.",
+      },
+      {
+        label: "Football",
+        value: "K League, and it is quieter",
+        detail: "FC Seoul play at the 2002 World Cup stadium. Good atmosphere, but baseball is the one to prioritise.",
+      },
+    ],
+    venues: [
+      {
+        name: "Jamsil Baseball Stadium",
+        local: "잠실야구장",
+        area: "Line 2, Sports Complex station",
+        what: "Home to both LG Twins and Doosan Bears. The biggest crowds and the loudest cheer squads in the league.",
+        price: "₩8,000-30,000",
+        confidence: "verify",
+      },
+      {
+        name: "Gocheok Sky Dome",
+        local: "고척스카이돔",
+        area: "Line 1, Guil station",
+        what: "Korea's only domed stadium, home of the Kiwoom Heroes. The fallback when a typhoon remnant is passing through.",
+        price: "₩9,000-25,000",
+        confidence: "verify",
+      },
+      {
+        name: "Seoul World Cup Stadium",
+        local: "서울월드컵경기장",
+        area: "Line 6, World Cup Stadium station",
+        what: "FC Seoul in the K League, in the stadium built for 2002.",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Follow the cheer leader on the platform — everyone stands and chants when their team bats, and sits when the other team does.",
+      "Each player has his own chant. You will pick them up within an inning; nobody minds if you mangle it.",
+      "Inflatable clapping sticks are handed out or sold cheaply. Use them.",
+      "Bringing in your own beer and fried chicken is normal and expected.",
+    ],
+  },
+  {
+    city: "taipei",
+    sceneRating: "Strong",
+    summary:
+      "Taiwanese baseball is the national sport and the CPBL shares Korea's organised-cheering culture, at a smaller scale and with cheerleading squads that have become famous in their own right. Crowds are smaller than Korea's but the noise per person is comparable.",
+    howToFind: {
+      app: "Tixcraft or the CPBL site",
+      searchTerm: "中華職棒 (CPBL) · 職棒門票",
+      note: "Tickets are easy to get outside big derbies, and often available at the gate on the day.",
+    },
+    practical: [
+      {
+        label: "Season timing",
+        value: "September is the end of the regular season",
+        detail: "The CPBL season runs into October with the Taiwan Series following. September games matter.",
+      },
+      {
+        label: "Tickets",
+        value: "NT$300-600",
+        detail: "Cheap, and walk-up availability is usually fine for weekday games.",
+      },
+      {
+        label: "Where",
+        value: "Tianmu and Xinzhuang are the Taipei-area grounds",
+        detail:
+          "Taipei Dome opened recently and is the indoor option — worth checking for a fixture there if rain threatens.",
+      },
+      {
+        label: "Cheerleading",
+        value: "A genuine phenomenon",
+        detail:
+          "CPBL cheer squads have large followings of their own, and the between-innings performances are part of why people attend.",
+      },
+    ],
+    venues: [
+      {
+        name: "Taipei Dome",
+        local: "臺北大巨蛋",
+        area: "Xinyi, MRT Sun Yat-Sen Memorial Hall",
+        what: "The new domed stadium in central Taipei. Indoor, so typhoon-proof.",
+        confidence: "verify",
+      },
+      {
+        name: "Tianmu Baseball Stadium",
+        local: "天母棒球場",
+        area: "Shilin district",
+        what: "An older open-air ground with a neighbourhood feel. Easy walk-up tickets.",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "As in Korea, cheering is organised and continuous while your team bats. Follow the section.",
+      "Food and drink from outside are generally tolerated at the older grounds.",
+    ],
+  },
+  {
+    city: "hongkong",
+    sceneRating: "Limited",
+    summary:
+      "No major league team sport, but Hong Kong has one genuinely world-class spectator event: horse racing at Happy Valley, run under floodlights in the middle of the city on Wednesday evenings.",
+    howToFind: {
+      app: "Hong Kong Jockey Club site",
+      searchTerm: "Happy Valley racing · Sha Tin racecourse",
+      note: "The season typically starts in September. Check the fixture list against your dates.",
+    },
+    practical: [
+      {
+        label: "Happy Valley, Wednesday nights",
+        value: "HK$10 public enclosure",
+        detail:
+          "One of the cheapest great nights out anywhere. A floodlit track ringed by apartment towers, eight races, beer tents and a genuinely mixed crowd.",
+      },
+      {
+        label: "Season timing",
+        value: "Usually opens in September",
+        detail: "The racing season runs September to July. If your dates are early in the month, check the opening fixture.",
+      },
+      {
+        label: "Sha Tin",
+        value: "Weekend afternoon racing",
+        detail: "The bigger, more serious track in the New Territories. Happy Valley is the atmospheric one.",
+      },
+      {
+        label: "Rugby Sevens",
+        value: "Wrong season",
+        detail: "Hong Kong's other great sporting event runs in spring, not September.",
+      },
+    ],
+    venues: [
+      {
+        name: "Happy Valley Racecourse",
+        local: "跑馬地馬場",
+        area: "Happy Valley, tram or MTR Causeway Bay",
+        what:
+          "Wednesday evening floodlit racing in a natural amphitheatre of tower blocks. HK$10 gets you into the public enclosure.",
+        price: "HK$10 public enclosure",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "The HK$10 public enclosure is the fun one. You do not need a members' badge or a jacket.",
+      "Betting is in cash at windows; minimum stakes are small and nobody minds if you have no idea what you are doing.",
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Bathhouses, saunas and hot springs                                  */
+/* ------------------------------------------------------------------ */
+
+export const WELLNESS: ActivityProfile[] = [
+  {
+    city: "seoul",
+    sceneRating: "World-class",
+    summary:
+      "The jjimjilbang is a Korean institution: a 24-hour bathhouse complex with gender-separated hot and cold pools, plus a mixed common area of heated clay rooms, ice rooms, sleeping halls, snack bars and televisions, all entered in issued shorts and t-shirt. It is family entertainment, not a spa, and it is cheap.",
+    howToFind: {
+      app: "Naver Map",
+      searchTerm: "찜질방 (jjimjilbang) · 사우나 (sauna)",
+      note: "Open 24 hours, so it is also a legitimate option if you land at an awkward hour or miss the last subway.",
+    },
+    practical: [
+      {
+        label: "Entry",
+        value: "₩10,000-20,000",
+        detail: "Often with a surcharge after midnight. You can stay overnight, which some travellers use as accommodation.",
+      },
+      {
+        label: "How it works",
+        value: "Shoes off, locker, wash, then soak",
+        detail:
+          "Leave shoes in a small locker at the door, get a key wristband and a uniform, change, shower thoroughly, then use the pools. The wristband tallies anything you buy inside; you settle on the way out.",
+      },
+      {
+        label: "The bathing floor is nude",
+        value: "Non-negotiable and gender-separated",
+        detail:
+          "Swimwear is not allowed in the pools. Nobody looks at you. The mixed jjimjilbang floor upstairs is where the issued shorts and t-shirt go on.",
+      },
+      {
+        label: "Scrub",
+        value: "₩25,000-40,000",
+        detail:
+          "The optional 세신 body scrub is vigorous, thorough and slightly alarming. A genuine cultural experience if you are not precious about it.",
+      },
+      {
+        label: "Tattoos",
+        value: "Check first",
+        detail:
+          "Some establishments still refuse visible tattoos. Larger, tourist-facing places are usually relaxed, but it is worth asking at the desk.",
+      },
+    ],
+    venues: [
+      {
+        name: "Dragon Hill Spa",
+        local: "드래곤힐스파",
+        area: "Yongsan, Line 1",
+        what: "A large, famously over-the-top complex that is used to foreign visitors. The easy first jjimjilbang.",
+        price: "~₩15,000",
+        confidence: "verify",
+      },
+      {
+        name: "Siloam Sauna",
+        local: "실로암사우나",
+        area: "Near Seoul Station",
+        what: "Well regarded, convenient for a late arrival or an early departure, and popular with locals.",
+        price: "~₩12,000",
+        confidence: "verify",
+      },
+      {
+        name: "Neighbourhood sauna",
+        local: "동네 사우나",
+        area: "Everywhere",
+        what:
+          "Small local bathhouses cost less and feel more ordinary. Less spectacle, more of what the institution actually is day to day.",
+        price: "₩8,000-12,000",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Wash thoroughly at a seated shower station before entering any pool. This is the rule that matters most.",
+      "No swimwear, no towels, no phones on the bathing floor.",
+      "Move between hot pool, cold plunge and rest. Do not sit in the hottest pool for twenty minutes.",
+      "Voices stay low on the bathing floor; the mixed floor upstairs is where people talk and eat.",
+    ],
+  },
+  {
+    city: "taipei",
+    sceneRating: "Strong",
+    summary:
+      "Beitou is a volcanic hot spring valley inside the city limits, reachable by MRT, developed under Japanese rule and still working. You can choose between grand hotel baths, a cheap municipal public bath, and private rooms rented by the hour.",
+    howToFind: {
+      app: "Google Maps",
+      searchTerm: "溫泉 (hot spring) · 北投溫泉",
+      note: "MRT to Xinbeitou, then walk. Wulai and Jiaoxi are the out-of-town alternatives.",
+    },
+    practical: [
+      {
+        label: "Public baths",
+        value: "NT$40-150",
+        detail:
+          "The Beitou Public Hot Spring is the cheap, local, gender-separated option. Swim caps are sometimes required at the mixed-sex outdoor pools — check the rules at the gate.",
+      },
+      {
+        label: "Private rooms",
+        value: "NT$800-2,000 per hour",
+        detail: "Hotels rent private tubs by the hour, which sidesteps the nudity question entirely if that matters to you.",
+      },
+      {
+        label: "Water types",
+        value: "White, green and iron sulphur",
+        detail:
+          "Beitou has three distinct spring types. The green sulphur water is the rare and famously acidic one; Thermal Valley is its source and is far too hot to enter.",
+      },
+      {
+        label: "September logic",
+        value: "Better than it sounds",
+        detail:
+          "Soaking in 40 °C water in 32 °C weather seems wrong, but it works — especially on a rainy afternoon, and especially in an outdoor pool once the sun is down.",
+      },
+    ],
+    venues: [
+      {
+        name: "Beitou Public Hot Spring",
+        local: "北投公共溫泉",
+        area: "Xinbeitou, MRT",
+        what: "Outdoor terraced pools of varying temperature at a municipal price. Bring a swimsuit and a cap.",
+        price: "NT$40-60",
+        confidence: "verify",
+      },
+      {
+        name: "Hotel private baths",
+        area: "Beitou",
+        what: "Hourly private rooms at the spa hotels lining the valley. Book ahead at weekends.",
+        price: "NT$800-2,000/hour",
+        confidence: "verify",
+      },
+      {
+        name: "Thermal Valley",
+        local: "地熱谷",
+        area: "Beitou",
+        what: "The steaming, acidic source pool. To look at, not to enter. Free and a five-minute walk from the baths.",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Shower before entering, every time.",
+      "Gender-separated indoor pools are nude; mixed outdoor pools require swimwear and sometimes a cap.",
+      "Tattoo rules are generally relaxed compared with Japan, but the grander hotels may differ.",
+    ],
+  },
+  {
+    city: "hongkong",
+    sceneRating: "Limited",
+    summary:
+      "No bathhouse culture to speak of. What Hong Kong does have is foot reflexology and massage on almost every block, at prices that make it an everyday purchase rather than a treat.",
+    howToFind: {
+      app: "Google Maps or OpenRice",
+      searchTerm: "foot massage · 足浴 · 按摩",
+      note: "Shopfronts are everywhere in Causeway Bay, Jordan and Mong Kok. Check recent reviews rather than walking into the first one.",
+    },
+    practical: [
+      {
+        label: "Foot reflexology",
+        value: "HK$200-400 for 45-60 min",
+        detail: "The standard restorative move after a day of Hong Kong's hills and stairs. No appointment needed.",
+      },
+      {
+        label: "Full body massage",
+        value: "HK$400-800",
+        detail: "Widely available; quality varies enormously. Hotel spas cost several times more.",
+      },
+      {
+        label: "Hotel spas",
+        value: "HK$1,200+",
+        detail: "Genuinely good, priced accordingly. Not the reason to come to Hong Kong.",
+      },
+    ],
+    venues: [
+      {
+        name: "Neighbourhood reflexology shops",
+        area: "Causeway Bay, Jordan, Mong Kok",
+        what: "Dozens within a few blocks in each district. Walk-in, an hour, out again.",
+        price: "HK$200-400",
+        confidence: "verify",
+      },
+    ],
+  },
+];

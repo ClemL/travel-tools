@@ -58,6 +58,43 @@ export default function NeighborhoodsTab() {
         ))}
       </div>
 
+      <h2 className="section-title">Day trips</h2>
+      <p className="muted small" style={{ marginTop: -4 }}>
+        Worth leaving the city for, with how long each actually takes door to door.
+      </p>
+      <DismissBar scope={`nb-trips-${city}`} noun="day trips" />
+      <div className="grid">
+        {p.dayTrips.map((t) => (
+          <Dismissible scope={`nb-trips-${city}`} itemKey={t.name} kind="been" key={t.name}>
+            <article className="card">
+              <div className="eyebrow">
+                {t.travel} · {t.duration}
+              </div>
+              <h3 style={{ marginBottom: 2 }}>{t.name}</h3>
+              {t.local && (
+                <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+                  {t.local}
+                </div>
+              )}
+              <p className="fact-detail" style={{ marginTop: 8 }}>
+                {t.what}
+              </p>
+              <div className="eyebrow" style={{ marginTop: 8 }}>
+                Worth it?
+              </div>
+              <p className="fact-detail" style={{ marginBottom: t.septemberNote ? 8 : 0 }}>
+                {t.worthIt}
+              </p>
+              {t.septemberNote && (
+                <p className="small" style={{ margin: 0, color: "var(--warn)" }}>
+                  September: {t.septemberNote}
+                </p>
+              )}
+            </article>
+          </Dismissible>
+        ))}
+      </div>
+
       <h2 className="section-title">Closure traps</h2>
       <DismissBar scope={`nb-traps-${city}`} noun="traps" />
       <div className="grid">
