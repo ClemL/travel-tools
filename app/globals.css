@@ -5,7 +5,7 @@
   --border: #dfe3e8;
   --text: #14181d;
   --text-dim: #5b6572;
-  --text-faint: #8b95a3;
+  --text-faint: #646d79;
   --brand: #1f4e79;
   --brand-soft: #e8eff6;
   --good: #1f7a4d;
@@ -27,7 +27,7 @@
     --border: #2a313c;
     --text: #e7ebf0;
     --text-dim: #a3adba;
-    --text-faint: #76818f;
+    --text-faint: #828d9b;
     --brand: #7cb2e8;
     --brand-soft: #16283a;
     --good: #6ed49f;
@@ -776,6 +776,267 @@ code {
 .only-narrow { display: none; }
 .only-wide { display: block; }
 
+/* ---------- search ---------- */
+
+.masthead-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.masthead-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-search kbd {
+  margin-left: 6px;
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-faint);
+}
+
+.btn-icon {
+  flex: 0 0 auto;
+  padding: 9px 12px;
+  line-height: 1;
+}
+
+.mobilebar-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.mobilebar-row .sectionselect {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.search-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 14, 20, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6vh 16px 16px;
+}
+
+.search-panel {
+  width: min(720px, 100%);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(10, 14, 20, 0.35);
+  overflow: hidden;
+}
+
+.search-inputrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-inputrow input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background: none;
+  font-size: 1.02rem;
+  padding: 4px 0;
+}
+
+.search-inputrow input:focus {
+  outline: none;
+}
+
+.search-count {
+  margin: 0;
+  padding: 7px 14px 0;
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 650;
+}
+
+.search-results {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.search-results button {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: none;
+  border: none;
+  border-radius: 9px;
+  padding: 9px 10px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.search-results button[data-active="true"] {
+  background: var(--brand-soft);
+}
+
+.search-meta {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.search-title {
+  font-weight: 650;
+  font-size: 0.95rem;
+}
+
+.search-body {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.search-results mark {
+  background: color-mix(in srgb, var(--warn) 35%, transparent);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+
+.search-hint {
+  padding: 14px;
+}
+
+.search-hint p {
+  margin: 0 0 6px;
+}
+
+/* ---------- verify checklist ---------- */
+
+.verify-progress {
+  margin: 14px 0 16px;
+}
+
+.verify-bar {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.verify-bar span {
+  display: block;
+  height: 100%;
+  background: var(--good);
+  transition: width 0.25s ease;
+}
+
+.verify-stats {
+  margin-top: 6px;
+  font-size: 0.86rem;
+  color: var(--text-dim);
+}
+
+ul.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+ul.checklist li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* De-emphasised without opacity: blanket opacity drops text under the 4.5:1
+   contrast threshold, so the dimming is done with explicit colors instead. */
+ul.checklist li.checked {
+  background: var(--good-soft);
+  border-color: color-mix(in srgb, var(--good) 30%, transparent);
+}
+
+ul.checklist li.checked .fact-label,
+ul.checklist li.checked .check-question {
+  color: var(--text-dim);
+}
+
+ul.checklist li.checked .pill {
+  filter: saturate(0.7);
+}
+
+ul.checklist label {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 13px;
+  cursor: pointer;
+}
+
+ul.checklist input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--good);
+  cursor: pointer;
+}
+
+.check-body {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.check-question {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+ul.checklist li.checked .check-question,
+ul.checklist li.checked .fact-detail {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--text-dim) 45%, transparent);
+}
+
+.linkish {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tab-loading {
+  padding: 8px 0 40px;
+}
+
 footer.foot {
   margin-top: 40px;
   padding-top: 16px;
@@ -902,6 +1163,31 @@ footer.foot {
     gap: 8px;
   }
 
+  /* The header search button is redundant next to the one in the sticky bar. */
+  .masthead-actions {
+    display: none;
+  }
+
+  .masthead-right {
+    align-items: flex-start;
+  }
+
+  .search-backdrop {
+    padding: 0;
+  }
+
+  .search-panel {
+    max-height: 100vh;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    width: 100%;
+  }
+
+  ul.checklist label {
+    padding: 11px;
+  }
+
   input[type="number"],
   input[type="text"],
   select {
@@ -969,5 +1255,148 @@ footer.foot {
 
   .masthead {
     margin-bottom: 2px;
+  }
+}
+
+/* ================================================================
+   Print: one pocket card for the selected city. Paper is the only
+   thing that still works when the phone is dead.
+   ================================================================ */
+
+.printcard {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 12mm;
+  }
+
+  /* Hide the app; print only the card. */
+  .shell,
+  .search-backdrop {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .printcard {
+    display: block;
+    font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  .printcard .pc-head {
+    border-bottom: 2pt solid #000;
+    padding-bottom: 3mm;
+    margin-bottom: 4mm;
+  }
+
+  .printcard h1 {
+    font-size: 15pt;
+    margin: 0;
+  }
+
+  .printcard .pc-sub {
+    font-size: 9pt;
+    color: #333;
+  }
+
+  .printcard .pc-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm 6mm;
+  }
+
+  .printcard .pc-block {
+    break-inside: avoid;
+    border: 0.4pt solid #999;
+    border-radius: 2mm;
+    padding: 2.5mm 3mm;
+  }
+
+  .printcard .pc-block h2 {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 1.5mm;
+    color: #000;
+  }
+
+  .printcard .pc-block p {
+    margin: 0 0 1.5mm;
+  }
+
+  .printcard .pc-urgent {
+    border-width: 1.2pt;
+    border-color: #000;
+  }
+
+  .printcard .pc-big {
+    font-size: 12pt;
+  }
+
+  /* Blanks to fill in by hand before leaving. */
+  .printcard .pc-line {
+    display: inline-block;
+    min-width: 42mm;
+    border-bottom: 0.4pt solid #666;
+    height: 4.5mm;
+    vertical-align: bottom;
+  }
+
+  .printcard .pc-write p {
+    margin-bottom: 2.5mm;
+  }
+
+  .printcard .pc-phrases {
+    margin-top: 4mm;
+    break-inside: avoid;
+  }
+
+  .printcard .pc-phrases table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 0;
+    font-size: 9pt;
+  }
+
+  .printcard .pc-phrases td {
+    border: none;
+    border-bottom: 0.3pt dotted #bbb;
+    padding: 1mm 2mm 1mm 0;
+    vertical-align: baseline;
+  }
+
+  .printcard .pc-en {
+    width: 34%;
+    color: #333;
+  }
+
+  .printcard .pc-local {
+    width: 30%;
+    font-size: 11pt;
+    font-weight: 600;
+  }
+
+  .printcard .pc-roman {
+    width: 36%;
+    font-style: italic;
+    color: #222;
+  }
+
+  .printcard .pc-foot {
+    margin-top: 4mm;
+    padding-top: 2mm;
+    border-top: 0.4pt dashed #999;
+    font-size: 7.5pt;
+    color: #444;
   }
 }

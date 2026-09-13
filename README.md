@@ -1,6 +1,6 @@
 # Asia Trip Tools — Taipei · Hong Kong · Seoul
 
-A 16-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
+A 17-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
 Next.js 16 App Router, TypeScript, zero UI dependencies, installable as a PWA, works offline,
 and deploys to Vercel with no configuration and no required API keys.
 
@@ -22,6 +22,7 @@ re-selecting in each one. Cross-city tabs compare all three, ordered so your sel
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
+| ✅ Verify | Every flagged claim in the app as a pre-trip checklist, prioritised, with official links and persisted ticks | Per city |
 | 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to pack | All three |
 | 🗺️ Neighborhoods | Day plans pairing areas that work together, closure traps, rain fallbacks | Per city |
 | ✈️ Airport | Every transfer option with door-to-door times and costs in local currency and USD | Per city |
@@ -54,6 +55,31 @@ re-selecting in each one. Cross-city tabs compare all three, ordered so your sel
 The active tab is mirrored into the URL hash, so every view is linkable and browser back/forward
 works. The city choice persists in `localStorage`.
 
+## Verify before you go
+
+Reference content in this app was **compiled, not verified** — written from general knowledge and not
+checked against official sources. Rather than leaving 80-odd `verify` pills scattered across 17 tabs
+where nobody would find them, the Verify tab gathers the high-stakes ones into a prioritised
+checklist: what to confirm, why it matters, the official link, and a tick that persists in
+`localStorage` with the date you confirmed it.
+
+It also runs a live sweep of the data files at runtime, counting every `confidence: "verify"` record
+and reporting them by source. That count is computed, not hardcoded, so it cannot drift as content
+is added — if it jumps, the curated checklist needs a new entry.
+
+Ages are shown as elapsed time ("compiled 3 months ago", "you confirmed this 2 weeks ago") rather
+than a binary verified flag, so staleness decays visibly instead of silently.
+
+## Search
+
+`/` or `Cmd/Ctrl+K` opens search across every tab at once — dishes, phrases, fares, neighborhoods,
+shops, emergency numbers, shoe sizes. Results are grouped by tab and city, with matches highlighted
+and enough context that most questions are answered without leaving the overlay; Enter jumps to the
+tab and sets the city. Arrow keys navigate, Escape closes.
+
+It is a plain ranked scan over the in-memory data, no index and no dependency: the corpus is a few
+thousand short strings, so scanning per keystroke is cheaper than shipping a search library.
+
 ## Airport transfers
 
 Costs are stored in local currency and converted with the **live** exchange rate from the Currency
@@ -62,6 +88,23 @@ frozen at whatever the rate was when this was written. Each city shows every rea
 rail, all-stop rail, airport bus, night bus, taxi) with door-to-door time ranges, frequency, service
 hours, what it is best for, and what to watch out for, plus a decision rule and a note on the second
 airport where one is relevant.
+
+## Accessibility
+
+- Tabs implement the WAI-ARIA tabs pattern properly: arrow keys move and activate, Home/End jump to
+  the ends, and roving `tabindex` keeps exactly one tab in the focus order.
+- **Zero axe violations** (WCAG 2.1 A and AA) across all 17 tabs, verified with `axe-core`.
+- The colour palette was audited by computing contrast ratios for every token pair in both themes.
+  `--text-faint` failed at 2.70:1 against the worst background and was darkened to clear 4.5:1; the
+  checked-row style was rebuilt without blanket `opacity`, which had been dragging text under
+  threshold. Every remaining pair passes AA.
+
+## Resilience
+
+Each tab panel is wrapped in an error boundary. A throwing tab now renders a message naming the tab
+and leaves navigation and every other tab working, instead of white-screening the app — which
+matters most in the situation this app is built for: offline, underground, with no way to reload
+from a network. Switching tabs clears the error.
 
 ## Responsive layout
 
@@ -131,9 +174,22 @@ and lets the CDN absorb repeat traffic.
 - The alerts route never presents a failed feed as "no warnings in force" — it says the feed is
   unreachable and points at the official site.
 - Every tab renders an explicit error state with retry rather than an empty screen.
-- Verified: all 16 tabs render with no console errors and no horizontal overflow at five viewport
-  sizes; offline mode confirmed with the service worker controlling the page and the network
-  disabled; city propagation, persistence and the shoe converter covered by scripted checks.
+- Verified: all 17 tabs render with no console errors and no horizontal overflow at five viewport
+  sizes; zero axe violations; offline confirmed with the service worker controlling the page and the
+  network disabled, including tabs never visited in that session; error boundary confirmed against a
+  real render throw; city propagation, deep links, keyboard tab navigation, search, the verify
+  checklist and the shoe converter covered by scripted checks.
+
+## Bundle
+
+Tab components are code-split with `React.lazy`, so the first load only pays for the active tab:
+**154 KB of JS on first paint, 271 KB once everything is warm — 43% deferred.**
+
+Code splitting normally costs offline coverage, because the service worker can only cache chunks the
+browser has actually requested. The loader functions are therefore kept and every remaining chunk is
+prefetched on `requestIdleCallback` after first paint, so the cache ends up complete. This is
+verified: the offline test lands on one tab, waits out the prefetch, disables the network, and then
+opens eight tabs it never visited — all of them render, and search works offline too.
 
 ## Accuracy and verification
 

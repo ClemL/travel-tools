@@ -1,42 +1,67 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import ClockStrip from "@/components/ClockStrip";
-import CurrencyTab from "@/components/CurrencyTab";
-import WeatherTab from "@/components/WeatherTab";
-import AlertsTab from "@/components/AlertsTab";
-import ClimateTab from "@/components/ClimateTab";
-import NeighborhoodsTab from "@/components/NeighborhoodsTab";
-import AirportTab from "@/components/AirportTab";
-import EssentialsTab from "@/components/EssentialsTab";
-import FoodTab from "@/components/FoodTab";
-import PhrasesTab from "@/components/PhrasesTab";
-import SizingTab from "@/components/SizingTab";
-import ShopsTab from "@/components/ShopsTab";
-import ToolkitTab from "@/components/ToolkitTab";
-import ActivityTab from "@/components/ActivityTab";
+import PrintCard from "@/components/PrintCard";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { OfflineBadge } from "@/components/OfflineProvider";
-import { CityPicker } from "@/components/CityProvider";
-import { CLIMBING, GAMING, GOLF } from "@/lib/activities";
-import { STATIONERY, ARTISAN } from "@/lib/shops";
+import { CityPicker, useCity } from "@/components/CityProvider";
+import { CITIES, type CityId } from "@/lib/cities";
+
+/**
+ * Tab components are code-split so the first load only pays for the active tab.
+ * The loader functions are kept so every chunk can be prefetched on idle —
+ * without that, the service worker would never see chunks for tabs you have not
+ * visited, and they would be missing offline.
+ */
+const LOADERS: Record<string, () => Promise<{ default: React.ComponentType<never> }>> = {
+  currency: () => import("@/components/CurrencyTab"),
+  weather: () => import("@/components/WeatherTab"),
+  alerts: () => import("@/components/AlertsTab"),
+  verify: () => import("@/components/VerifyTab"),
+  climate: () => import("@/components/ClimateTab"),
+  neighborhoods: () => import("@/components/NeighborhoodsTab"),
+  airport: () => import("@/components/AirportTab"),
+  toolkit: () => import("@/components/ToolkitTab"),
+  essentials: () => import("@/components/EssentialsTab"),
+  food: () => import("@/components/FoodTab"),
+  phrases: () => import("@/components/PhrasesTab"),
+  stationery: () => import("@/components/StationeryTab"),
+  artisan: () => import("@/components/ArtisanTab"),
+  sizing: () => import("@/components/SizingTab"),
+  climbing: () => import("@/components/ClimbingTab"),
+  gaming: () => import("@/components/GamingTab"),
+  golf: () => import("@/components/GolfTab"),
+};
+
+const CurrencyTab = lazy(LOADERS.currency as never);
+const WeatherTab = lazy(LOADERS.weather as never);
+const AlertsTab = lazy(LOADERS.alerts as never);
+const VerifyTab = lazy(LOADERS.verify as never);
+const ClimateTab = lazy(LOADERS.climate as never);
+const NeighborhoodsTab = lazy(LOADERS.neighborhoods as never);
+const AirportTab = lazy(LOADERS.airport as never);
+const ToolkitTab = lazy(LOADERS.toolkit as never);
+const EssentialsTab = lazy(LOADERS.essentials as never);
+const FoodTab = lazy(LOADERS.food as never);
+const PhrasesTab = lazy(LOADERS.phrases as never);
+const SizingTab = lazy(LOADERS.sizing as never);
+const StationeryTab = lazy(LOADERS.stationery as never);
+const ArtisanTab = lazy(LOADERS.artisan as never);
+const ClimbingTab = lazy(LOADERS.climbing as never);
+const GamingTab = lazy(LOADERS.gaming as never);
+const GolfTab = lazy(LOADERS.golf as never);
+
+// Search pulls in every data module, so it loads on demand (or on idle) rather
+// than sitting in the first-load bundle.
+const SearchOverlay = lazy(() => import("@/components/SearchOverlay"));
 
 type TabId =
-  | "currency"
-  | "weather"
-  | "alerts"
-  | "climate"
-  | "neighborhoods"
-  | "airport"
-  | "toolkit"
-  | "essentials"
-  | "food"
-  | "phrases"
-  | "stationery"
-  | "artisan"
-  | "sizing"
-  | "climbing"
-  | "gaming"
-  | "golf";
+  | "currency" | "weather" | "alerts"
+  | "verify" | "climate" | "neighborhoods" | "airport" | "toolkit"
+  | "essentials" | "food" | "phrases"
+  | "stationery" | "artisan" | "sizing"
+  | "climbing" | "gaming" | "golf";
 
 interface Tab {
   id: TabId;
@@ -46,12 +71,7 @@ interface Tab {
   scoped: boolean;
 }
 
-interface TabGroup {
-  group: string;
-  tabs: Tab[];
-}
-
-const GROUPS: TabGroup[] = [
+const GROUPS: { group: string; tabs: Tab[] }[] = [
   {
     group: "Live",
     tabs: [
@@ -63,6 +83,7 @@ const GROUPS: TabGroup[] = [
   {
     group: "Plan",
     tabs: [
+      { id: "verify", label: "Verify", icon: "✅", scoped: true },
       { id: "climate", label: "Climate", icon: "📅", scoped: false },
       { id: "neighborhoods", label: "Neighborhoods", icon: "🗺️", scoped: true },
       { id: "airport", label: "Airport", icon: "✈️", scoped: true },
@@ -100,178 +121,258 @@ const ALL_TABS: Tab[] = GROUPS.flatMap((g) => g.tabs);
 function isTabId(value: string): value is TabId {
   return ALL_TABS.some((t) => t.id === value);
 }
+function isCityId(value: string): value is CityId {
+  return CITIES.some((c) => c.id === value);
+}
+
+/** Hash format: `#tab`, or `#tab/city` for a city-scoped tab. */
+function parseHash(hash: string): { tab: TabId | null; city: CityId | null } {
+  const [rawTab, rawCity] = hash.replace(/^#/, "").split("/");
+  return {
+    tab: rawTab && isTabId(rawTab) ? rawTab : null,
+    city: rawCity && isCityId(rawCity) ? rawCity : null,
+  };
+}
 
 export default function Page() {
   const [tab, setTab] = useState<TabId>("currency");
+  const [searchOpen, setSearchOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
+  const { city, setCity } = useCity();
   const active = ALL_TABS.find((t) => t.id === tab)!;
 
-  // Mirror the active tab into the URL hash so a view is linkable, survives
-  // reload, and responds to browser back/forward.
+  const writeHash = useCallback((id: TabId, cityId: CityId) => {
+    const scoped = ALL_TABS.find((t) => t.id === id)?.scoped;
+    const next = scoped ? `#${id}/${cityId}` : `#${id}`;
+    if (window.location.hash !== next) window.history.pushState(null, "", next);
+  }, []);
+
+  // Restore from the hash, and respond to back/forward.
   useEffect(() => {
     const sync = () => {
-      const fromHash = window.location.hash.replace("#", "");
-      if (isTabId(fromHash)) setTab(fromHash);
+      const { tab: t, city: c } = parseHash(window.location.hash);
+      if (t) setTab(t);
+      if (c) setCity(c);
     };
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
+  }, [setCity]);
+
+  // Keep the hash in step when the city changes on a scoped tab.
+  useEffect(() => {
+    if (active.scoped) {
+      const next = `#${tab}/${city}`;
+      if (window.location.hash !== next) window.history.replaceState(null, "", next);
+    }
+  }, [city, tab, active.scoped]);
+
+  // Warm every remaining chunk once the browser is idle, so code splitting does
+  // not cost offline coverage. Failures are ignored: they just mean a lazy load
+  // later, exactly as it would have been without prefetching.
+  useEffect(() => {
+    const warm = () => {
+      for (const load of Object.values(LOADERS)) void load().catch(() => {});
+    };
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: object) => number };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(warm, { timeout: 4000 });
+      return () => (window as unknown as { cancelIdleCallback?: (i: number) => void }).cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(warm, 2000);
+    return () => clearTimeout(t);
   }, []);
 
-  // On a narrow screen the desktop nav scrolls, so keep the active tab visible.
+  // Keep the active tab visible when the nav scrolls.
   useEffect(() => {
     navRef.current
       ?.querySelector<HTMLButtonElement>(`#tab-${tab}`)
       ?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }, [tab]);
 
-  const select = (id: TabId) => {
-    setTab(id);
-    // pushState rather than replaceState so back returns to the previous tab.
-    if (window.location.hash !== `#${id}`) {
-      window.history.pushState(null, "", `#${id}`);
-    }
-    // Jumping between long tabs otherwise leaves you mid-page.
-    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  const select = useCallback(
+    (id: TabId) => {
+      setTab(id);
+      writeHash(id, city);
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    },
+    [city, writeHash]
+  );
+
+  // Global shortcuts: "/" or Cmd/Ctrl+K opens search.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      const typing = el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  /** WAI-ARIA tabs pattern: arrows move and activate, Home/End jump to the ends. */
+  const onTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const i = ALL_TABS.findIndex((t) => t.id === tab);
+    let next = -1;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % ALL_TABS.length;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + ALL_TABS.length) % ALL_TABS.length;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = ALL_TABS.length - 1;
+    if (next < 0) return;
+    e.preventDefault();
+    const id = ALL_TABS[next].id;
+    select(id);
+    requestAnimationFrame(() => navRef.current?.querySelector<HTMLButtonElement>(`#tab-${id}`)?.focus());
   };
 
+  const jumpFromSearch = (tabId: string, cityId: CityId | null) => {
+    if (cityId) setCity(cityId);
+    if (isTabId(tabId)) {
+      setTab(tabId);
+      writeHash(tabId, cityId ?? city);
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    }
+  };
+
+  const fallback = (
+    <div className="tab-loading" role="status" aria-live="polite">
+      <div className="skeleton" style={{ width: "70%", height: "1.1rem" }} />
+      <div className="skeleton" style={{ width: "90%", marginTop: 10 }} />
+      <div className="skeleton" style={{ width: "55%", marginTop: 8 }} />
+    </div>
+  );
+
   return (
-    <main className="shell">
-      <header className="masthead">
-        <div className="masthead-title">
-          <h1>Asia Trip Tools</h1>
-          <p>Taipei · Hong Kong · Seoul — September 2026</p>
-          <OfflineBadge />
-        </div>
-        <ClockStrip />
-      </header>
-
-      {/* Phone: pick a city, then pick a section from a compact dropdown. */}
-      <div className="mobilebar">
-        <CityPicker />
-        <label className="sectionselect">
-          <span className="sr-only">Section</span>
-          <select value={tab} onChange={(e) => select(e.target.value as TabId)}>
-            {GROUPS.map((g) => (
-              <optgroup label={g.group} key={g.group}>
-                {g.tabs.map((t) => (
-                  <option value={t.id} key={t.id}>
-                    {t.icon}  {t.label}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      {/* Wide screens: the full grouped nav, plus a city picker when it applies. */}
-      <nav className="tabnav" role="tablist" aria-label="Trip tools" ref={navRef}>
-        {GROUPS.map((g) => (
-          <div className="tabgroup" key={g.group}>
-            <span className="tabgroup-label">{g.group}</span>
-            <div className="tabgroup-items">
-              {g.tabs.map((t) => (
-                <button
-                  key={t.id}
-                  role="tab"
-                  id={`tab-${t.id}`}
-                  aria-selected={tab === t.id}
-                  aria-controls={`panel-${t.id}`}
-                  onClick={() => select(t.id)}
-                >
-                  <span aria-hidden="true">{t.icon}</span> {t.label}
-                </button>
-              ))}
+    <>
+      <main className="shell">
+        <header className="masthead">
+          <div className="masthead-title">
+            <h1>Asia Trip Tools</h1>
+            <p>Taipei · Hong Kong · Seoul — September 2026</p>
+            <OfflineBadge />
+          </div>
+          <div className="masthead-right">
+            <ClockStrip />
+            <div className="masthead-actions">
+              <button className="btn btn-search" onClick={() => setSearchOpen(true)}>
+                <span aria-hidden="true">🔍</span> Search
+                <kbd>/</kbd>
+              </button>
+              <button className="btn" onClick={() => window.print()} title="Print a pocket card for the selected city">
+                <span aria-hidden="true">🖨️</span> Card
+              </button>
             </div>
           </div>
-        ))}
-      </nav>
+        </header>
 
-      {active.scoped && (
-        <div className="desktop-citybar">
-          <span className="eyebrow" style={{ marginBottom: 0 }}>
-            Showing
-          </span>
+        {/* Phone: pick a city, then pick a section from a compact dropdown. */}
+        <div className="mobilebar">
           <CityPicker />
+          <div className="mobilebar-row">
+            <label className="sectionselect">
+              <span className="sr-only">Section</span>
+              <select value={tab} onChange={(e) => select(e.target.value as TabId)}>
+                {GROUPS.map((g) => (
+                  <optgroup label={g.group} key={g.group}>
+                    {g.tabs.map((t) => (
+                      <option value={t.id} key={t.id}>
+                        {t.icon}  {t.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+            <button className="btn btn-icon" onClick={() => setSearchOpen(true)} aria-label="Search all content">
+              🔍
+            </button>
+          </div>
         </div>
+
+        {/* Wide screens: the full grouped nav. */}
+        <nav className="tabnav" role="tablist" aria-label="Trip tools" ref={navRef}>
+          {GROUPS.map((g) => (
+            <div className="tabgroup" key={g.group}>
+              <span className="tabgroup-label">{g.group}</span>
+              <div className="tabgroup-items">
+                {g.tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    role="tab"
+                    id={`tab-${t.id}`}
+                    aria-selected={tab === t.id}
+                    aria-controls="tabpanel"
+                    tabIndex={tab === t.id ? 0 : -1}
+                    onKeyDown={onTabKeyDown}
+                    onClick={() => select(t.id)}
+                  >
+                    <span aria-hidden="true">{t.icon}</span> {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {active.scoped && (
+          <div className="desktop-citybar">
+            <span className="eyebrow" style={{ marginBottom: 0 }}>
+              Showing
+            </span>
+            <CityPicker />
+          </div>
+        )}
+
+        <div role="tabpanel" id="tabpanel" aria-labelledby={`tab-${tab}`} tabIndex={-1}>
+          <ErrorBoundary label={active.label}>
+            <Suspense fallback={fallback}>
+              {tab === "currency" && <CurrencyTab />}
+              {tab === "weather" && <WeatherTab />}
+              {tab === "alerts" && <AlertsTab />}
+              {tab === "verify" && <VerifyTab />}
+              {tab === "climate" && <ClimateTab />}
+              {tab === "neighborhoods" && <NeighborhoodsTab />}
+              {tab === "airport" && <AirportTab />}
+              {tab === "toolkit" && <ToolkitTab />}
+              {tab === "essentials" && <EssentialsTab />}
+              {tab === "food" && <FoodTab />}
+              {tab === "phrases" && <PhrasesTab />}
+              {tab === "sizing" && <SizingTab />}
+              {tab === "stationery" && <StationeryTab />}
+              {tab === "artisan" && <ArtisanTab />}
+              {tab === "climbing" && <ClimbingTab />}
+              {tab === "gaming" && <GamingTab />}
+              {tab === "golf" && <GolfTab />}
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+
+        <footer className="foot">
+          <p>
+            Rates from open.er-api.com with failover to the currency-api mirrors. Weather and air quality
+            from Open-Meteo. Live warnings from Hong Kong Observatory open data. Climate normals from the
+            Central Weather Administration (Taiwan), the Hong Kong Observatory, and the Korea
+            Meteorological Administration.
+          </p>
+          <p>
+            Reference content was compiled, not verified against official sources. The{" "}
+            <button className="linkish" onClick={() => select("verify")}>
+              Verify
+            </button>{" "}
+            tab lists every claim that needs confirming before you travel.
+          </p>
+        </footer>
+      </main>
+
+      {searchOpen && (
+        <Suspense fallback={null}>
+          <SearchOverlay open onClose={() => setSearchOpen(false)} onJump={jumpFromSearch} />
+        </Suspense>
       )}
-
-      <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
-        {tab === "currency" && <CurrencyTab />}
-        {tab === "weather" && <WeatherTab />}
-        {tab === "alerts" && <AlertsTab />}
-        {tab === "climate" && <ClimateTab />}
-        {tab === "neighborhoods" && <NeighborhoodsTab />}
-        {tab === "airport" && <AirportTab />}
-        {tab === "toolkit" && <ToolkitTab />}
-        {tab === "essentials" && <EssentialsTab />}
-        {tab === "food" && <FoodTab />}
-        {tab === "phrases" && <PhrasesTab />}
-        {tab === "sizing" && <SizingTab />}
-        {tab === "stationery" && (
-          <ShopsTab
-            scenes={STATIONERY}
-            districtHeading="Where to browse"
-            lede="Stationery is a serious retail category across all three cities and one of the most travel-efficient things to buy — paper weighs nothing and survives a suitcase. The quality and the character differ sharply by city."
-          />
-        )}
-        {tab === "artisan" && (
-          <ShopsTab
-            scenes={ARTISAN}
-            districtHeading="Craft districts"
-            lede="Working craft rather than souvenir shops: ceramics, leather, bamboo, textiles, lacquer and the trades still done by hand. Each city has a different strength, and in Hong Kong some of it is genuinely close to disappearing."
-          />
-        )}
-        {tab === "climbing" && (
-          <ActivityTab
-            profiles={CLIMBING}
-            lede="Indoor bouldering and rope climbing in all three cities, plus what the outdoor options are and why September is the wrong month for most of them."
-            verdict={{
-              title: "Seoul is the reason to pack climbing shoes",
-              body:
-                "Seoul has one of the densest gym scenes on earth and it is genuinely worth planning around. Taipei and Hong Kong both have good gyms but fewer of them. All three cities' outdoor crags — Bukhansan, Long Dong, Tung Lung Chau — are excellent and effectively out of season in September: hot, humid, and exposed to typhoons. Plan on gyms.",
-            }}
-          />
-        )}
-        {tab === "gaming" && (
-          <ActivityTab
-            profiles={GAMING}
-            lede="PC bangs, arcades, board game cafés, esports and hobby retail. Gaming culture is one of the sharpest points of difference between these three cities."
-            verdict={{
-              title: "A PC bang in Seoul is the single most distinctive thing here",
-              body:
-                "Two dollars an hour for high-end hardware, food delivered to your seat, open 24 hours, on nearly every block. It is a genuine piece of Korean daily life rather than a tourist activity. Taipei's strength is arcades and hardware retail; Hong Kong's is buying things rather than playing them.",
-            }}
-          />
-        )}
-        {tab === "golf" && (
-          <ActivityTab
-            profiles={GOLF}
-            lede="Where golf is worth your time on this trip, and where it is an expensive mistake. The answer is not the same in all three cities."
-            verdict={{
-              title: "Screen golf in Seoul, and skip the courses entirely",
-              body:
-                "Korean screen golf is a mainstream social activity on the scale of bowling in the US — two hours in a simulator bay with beer costs a fraction of a green fee, needs no booking infrastructure, and tells you more about the country. Real courses near Seoul are member-oriented, cost ₩150,000-350,000, and are effectively unbookable for a visitor. Hong Kong's Kau Sai Chau is the one realistic actual round on this trip. In Taipei, do not bother.",
-            }}
-          />
-        )}
-      </div>
-
-      <footer className="foot">
-        <p>
-          Rates from open.er-api.com with failover to the currency-api mirrors. Weather and air quality
-          from Open-Meteo. Live warnings from Hong Kong Observatory open data. Climate normals from the
-          Central Weather Administration (Taiwan), the Hong Kong Observatory, and the Korea
-          Meteorological Administration.
-        </p>
-        <p>
-          Reference content reflects conditions as understood at build time. Fares, transfer times, card
-          products, entry requirements, shop listings and holiday dates change — anything marked{" "}
-          <span className="pill pill-warn">verify</span> should be reconfirmed against an official source
-          before you rely on it.
-        </p>
-      </footer>
-    </main>
+      <PrintCard />
+    </>
   );
 }
