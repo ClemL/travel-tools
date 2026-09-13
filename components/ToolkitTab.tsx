@@ -2,6 +2,7 @@
 
 import { cityById } from "@/lib/cities";
 import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY } from "@/lib/toolkit";
+import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 const PACK_CATEGORIES = ["Weather", "Power & tech", "Documents", "Health", "Comfort"] as const;
 
@@ -220,6 +221,7 @@ export default function ToolkitTab() {
       </p>
 
       <h2 className="section-title">Packing list for this specific trip</h2>
+      <DismissBar scope="kit-pack" noun="items" />
       <div className="grid">
         {PACK_CATEGORIES.map((cat) => {
           const items = PACKING.filter((p) => p.category === cat);
@@ -228,12 +230,11 @@ export default function ToolkitTab() {
               <h3>{cat}</h3>
               <ul className="factlist" style={{ marginTop: 10 }}>
                 {items.map((p) => (
-                  <li key={p.item}>
-                    <div className="fact-head">
-                      <span className="fact-label">{p.item}</span>
-                    </div>
+                  <DismissibleItem scope="kit-pack" itemKey={p.item} key={p.item}>
+                    <span className="fact-label">{p.item}</span>
+                    <br />
                     <span className="fact-detail">{p.why}</span>
-                  </li>
+                  </DismissibleItem>
                 ))}
               </ul>
             </article>
@@ -242,14 +243,17 @@ export default function ToolkitTab() {
       </div>
 
       <h2 className="section-title">Safety, health &amp; contingency</h2>
+      <DismissBar scope="kit-safety" noun="tips" />
       <div className="grid">
         {SAFETY.map((s) => (
-          <article className="card" key={s.title}>
-            <h3>{s.title}</h3>
-            <p className="fact-detail" style={{ marginBottom: 0 }}>
-              {s.body}
-            </p>
-          </article>
+          <Dismissible scope="kit-safety" itemKey={s.title} key={s.title}>
+            <article className="card">
+              <h3>{s.title}</h3>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                {s.body}
+              </p>
+            </article>
+          </Dismissible>
         ))}
       </div>
     </section>

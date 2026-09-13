@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CITIES, cityById } from "@/lib/cities";
 import { CLIMATE } from "@/lib/climate";
 import { cToF, mmToIn } from "@/lib/format";
+import { DismissibleItem, DismissBar } from "./Dismissible";
 
 type Unit = "F" | "C";
 
@@ -155,7 +156,7 @@ export default function ClimateTab() {
               </div>
               <ul className="bullets small">
                 {c.wear.map((w) => (
-                  <li key={w}>{w}</li>
+                  <DismissibleItem scope={`clim-${c.city}`} itemKey={w} key={w}>{w}</DismissibleItem>
                 ))}
               </ul>
 
@@ -164,7 +165,7 @@ export default function ClimateTab() {
               </div>
               <ul className="bullets small">
                 {c.pack.map((p) => (
-                  <li key={p}>{p}</li>
+                  <DismissibleItem scope={`clim-${c.city}`} itemKey={p} key={p}>{p}</DismissibleItem>
                 ))}
               </ul>
 
@@ -173,9 +174,10 @@ export default function ClimateTab() {
               </div>
               <ul className="bullets small">
                 {c.watchOut.map((w) => (
-                  <li key={w}>{w}</li>
+                  <DismissibleItem scope={`clim-${c.city}`} itemKey={w} key={w}>{w}</DismissibleItem>
                 ))}
               </ul>
+              <DismissBar scope={`clim-${c.city}`} noun="tips" />
 
               <p className="status" style={{ marginTop: 12, marginBottom: 0 }}>
                 {c.daylight}

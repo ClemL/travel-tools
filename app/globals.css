@@ -1037,6 +1037,143 @@ ul.checklist li.checked .fact-detail {
   padding: 8px 0 40px;
 }
 
+/* ---------- dismissible tips and places ---------- */
+
+/* The wrapper becomes the grid item so the checkbox can be positioned against
+   it; the card inside stretches to fill, keeping row heights even. */
+.dismissible {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dismissible > .card,
+.dismissible > article.card {
+  flex: 1 1 auto;
+}
+
+.dismiss-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px 3px 5px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 650;
+  color: var(--text-faint);
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+}
+
+.dismiss-toggle input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+
+.dismiss-toggle:hover,
+.dismiss-toggle:focus-within {
+  opacity: 1;
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+
+/* The label text is kept out of the resting state: showing it on hover moved
+   the checkbox under the cursor and swallowed the click. The label's title
+   attribute carries the meaning instead, and pointer-events keeps the text
+   from ever intercepting. */
+.dismiss-text {
+  display: none;
+  pointer-events: none;
+}
+
+.dismissible.is-dismissed .dismiss-text {
+  display: inline;
+}
+
+.dismissible.is-dismissed > .card,
+.dismissible.is-dismissed > article.card {
+  border-style: dashed;
+  background: var(--surface-2);
+}
+
+.dismissible.is-dismissed .dismiss-toggle {
+  opacity: 1;
+  color: var(--text-dim);
+}
+
+.dismissible.is-dismissed > .card > *,
+.dismissible.is-dismissed > article.card > * {
+  opacity: 0.72;
+}
+
+li.dismiss-li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  list-style: none;
+}
+
+/* .bullets carries an 18px list indent that the checkbox should sit in. */
+ul.bullets > li.dismiss-li {
+  margin-left: -18px;
+}
+
+li.dismiss-li > input {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+  accent-color: var(--brand);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+li.dismiss-li:hover > input,
+li.dismiss-li > input:focus-visible,
+li.dismiss-li.is-dismissed > input {
+  opacity: 1;
+}
+
+li.dismiss-li > span {
+  min-width: 0;
+}
+
+li.dismiss-li.is-dismissed > span {
+  color: var(--text-dim);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--text-dim) 40%, transparent);
+}
+
+.dismissbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.btn-small {
+  padding: 3px 9px;
+  font-size: 0.78rem;
+  border-radius: 7px;
+}
+
 footer.foot {
   margin-top: 40px;
   padding-top: 16px;
@@ -1186,6 +1323,19 @@ footer.foot {
 
   ul.checklist label {
     padding: 11px;
+  }
+
+  /* No hover on touch, so the dismiss control stays visible and finger-sized. */
+  .dismiss-toggle {
+    opacity: 1;
+    border-color: var(--border);
+  }
+
+  .dismiss-toggle input,
+  li.dismiss-li > input {
+    width: 17px;
+    height: 17px;
+    opacity: 1;
   }
 
   input[type="number"],

@@ -3,6 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { rankedCities, type ActivityProfile } from "@/lib/activities";
+import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 const RATING_PILL = {
   "World-class": "pill-good",
@@ -99,9 +100,11 @@ export default function ActivityTab({
         <span className="pill pill-warn">verify</span> — confirm on a map app before travelling across the
         city for one.
       </p>
+      <DismissBar scope={`act-venues-${p.city}-${p.venues.length}`} noun="venues" />
       <div className="grid">
         {p.venues.map((v) => (
-          <article className="card" key={v.name}>
+          <Dismissible scope={`act-venues-${p.city}-${p.venues.length}`} itemKey={v.name} kind="been" key={v.name}>
+          <article className="card">
             <div className="fact-head">
               <span className="eyebrow" style={{ marginBottom: 0 }}>
                 {v.area}
@@ -119,16 +122,20 @@ export default function ActivityTab({
               </p>
             )}
           </article>
+          </Dismissible>
         ))}
       </div>
 
       {p.etiquette && p.etiquette.length > 0 && (
         <>
           <h2 className="section-title">Etiquette</h2>
+          <DismissBar scope={`act-etiq-${p.city}-${p.venues.length}`} noun="tips" />
           <div className="card">
             <ul className="bullets">
               {p.etiquette.map((e) => (
-                <li key={e}>{e}</li>
+                <DismissibleItem scope={`act-etiq-${p.city}-${p.venues.length}`} itemKey={e} key={e}>
+                  {e}
+                </DismissibleItem>
               ))}
             </ul>
           </div>

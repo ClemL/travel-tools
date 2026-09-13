@@ -3,6 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { sceneFor, type ShopScene } from "@/lib/shops";
+import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 const RATING_PILL = {
   "World-class": "pill-good",
@@ -56,14 +57,17 @@ export default function ShopsTab({
       </article>
 
       <h2 className="section-title">{districtHeading}</h2>
+      <DismissBar scope={`shop-dist-${districtHeading}-${city}`} noun="districts" />
       <div className="grid">
         {s.district.map((d) => (
-          <article className="card" key={d.name}>
+          <Dismissible scope={`shop-dist-${districtHeading}-${city}`} itemKey={d.name} kind="been" key={d.name}>
+          <article className="card">
             <h3 style={{ fontSize: "1rem" }}>{d.name}</h3>
             <p className="fact-detail" style={{ marginBottom: 0 }}>
               {d.why}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
 
@@ -72,9 +76,11 @@ export default function ShopsTab({
         All marked <span className="pill pill-warn">verify</span> — shops move and close. Search{" "}
         <strong>{s.searchTerm}</strong> to find current options nearby.
       </p>
+      <DismissBar scope={`shop-list-${districtHeading}-${city}`} noun="shops" />
       <div className="grid">
         {s.shops.map((shop) => (
-          <article className="card" key={shop.name}>
+          <Dismissible scope={`shop-list-${districtHeading}-${city}`} itemKey={shop.name} kind="been" key={shop.name}>
+          <article className="card">
             <div className="fact-head">
               <span className="eyebrow" style={{ marginBottom: 0 }}>
                 {shop.area}
@@ -91,14 +97,18 @@ export default function ShopsTab({
               {shop.what}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
 
       <h2 className="section-title">Buying notes</h2>
+      <DismissBar scope={`shop-buy-${districtHeading}-${city}`} noun="tips" />
       <div className="card">
         <ul className="bullets">
           {s.buying.map((b) => (
-            <li key={b}>{b}</li>
+            <DismissibleItem scope={`shop-buy-${districtHeading}-${city}`} itemKey={b} key={b}>
+              {b}
+            </DismissibleItem>
           ))}
         </ul>
       </div>

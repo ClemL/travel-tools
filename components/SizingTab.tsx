@@ -12,6 +12,7 @@ import {
   SHOPPING,
   type ShoeRow,
 } from "@/lib/sizing";
+import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 type Gender = "mens" | "womens";
 
@@ -147,9 +148,11 @@ export default function SizingTab() {
       </div>
 
       <h2 className="section-title">Before you buy anything</h2>
+      <DismissBar scope="size-notes" noun="tips" />
       <div className="grid">
         {SIZING_NOTES.map((n) => (
-          <article className={`card${n.severity === "warn" ? " card-accent" : ""}`} key={n.title} style={{ ["--accent" as string]: "#9a6200" }}>
+          <Dismissible scope="size-notes" itemKey={n.title} key={n.title}>
+          <article className={`card${n.severity === "warn" ? " card-accent" : ""}`} style={{ ["--accent" as string]: "#9a6200" }}>
             <div className="fact-head">
               <h3 style={{ marginBottom: 0 }}>{n.title}</h3>
               {n.severity === "warn" && <span className="pill pill-warn">important</span>}
@@ -158,6 +161,7 @@ export default function SizingTab() {
               {n.body}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
 
@@ -214,15 +218,15 @@ export default function SizingTab() {
               </div>
               <ul className="factlist" style={{ marginTop: 10 }}>
                 {items.map((s) => (
-                  <li key={s.what}>
-                    <div className="fact-head">
-                      <span className="fact-label">{s.what}</span>
-                    </div>
+                  <DismissibleItem scope={`size-shop-${id}`} itemKey={s.what} kind="been" key={s.what}>
+                    <span className="fact-label">{s.what}</span>
+                    <br />
                     <span className="fact-value" style={{ fontSize: "0.85rem" }}>
                       {s.where}
                     </span>
+                    <br />
                     <span className="fact-detail">{s.note}</span>
-                  </li>
+                  </DismissibleItem>
                 ))}
               </ul>
             </article>

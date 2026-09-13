@@ -70,6 +70,22 @@ is added — if it jumps, the curated checklist needs a new entry.
 Ages are shown as elapsed time ("compiled 3 months ago", "you confirmed this 2 weeks ago") rather
 than a binary verified flag, so staleness decays visibly instead of silently.
 
+## Hiding what you already know
+
+Tips and place cards carry a checkbox. Tick it and the item disappears, so the page collapses down to
+what is still worth reading — useful on a return trip where you already know the etiquette and have
+already been to half the neighborhoods.
+
+- **Places** ("Been here"): neighborhoods, day plans, venues, shops, craft districts, dishes,
+  shopping spots.
+- **Tips** ("I know this"): etiquette, gotchas, ordering rules, buying notes, packing items, safety
+  notes, closure traps, contingency steps, climate advice, sizing warnings.
+
+State persists in `localStorage` and is scoped per tab **and** per city, so hiding Taipei etiquette
+does not touch Seoul's. Once anything in a section is hidden, a bar appears offering **Show hidden**
+(items return dimmed with the box still ticked, so they can be restored individually) and **Reset**
+for the whole section. Nothing appears until you have hidden something.
+
 ## Search
 
 `/` or `Cmd/Ctrl+K` opens search across every tab at once — dishes, phrases, fares, neighborhoods,

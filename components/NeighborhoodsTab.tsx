@@ -3,6 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { plannerFor } from "@/lib/neighborhoods";
+import { Dismissible, DismissBar } from "./Dismissible";
 
 export default function NeighborhoodsTab() {
   const { city } = useCity();
@@ -30,9 +31,11 @@ export default function NeighborhoodsTab() {
       <p className="muted">{p.geography}</p>
 
       <h2 className="section-title">Day plans</h2>
+      <DismissBar scope={`nb-days-${city}`} noun="day plans" />
       <div className="grid">
         {p.days.map((d) => (
-          <article className="card card-accent" key={d.title} style={{ ["--accent" as string]: c.accent }}>
+          <Dismissible scope={`nb-days-${city}`} itemKey={d.title} kind="been" key={d.title}>
+          <article className="card card-accent" style={{ ["--accent" as string]: c.accent }}>
             <div className="eyebrow">{d.areas.join(" + ")}</div>
             <h3>{d.title}</h3>
             <p className="fact-detail" style={{ marginTop: 6 }}>
@@ -48,13 +51,16 @@ export default function NeighborhoodsTab() {
               </div>
             )}
           </article>
+          </Dismissible>
         ))}
       </div>
 
       <h2 className="section-title">Closure traps</h2>
+      <DismissBar scope={`nb-traps-${city}`} noun="traps" />
       <div className="grid">
         {traps.map((t) => (
-          <article className="card card-accent" key={t.place} style={{ ["--accent" as string]: "#b3261e" }}>
+          <Dismissible scope={`nb-traps-${city}`} itemKey={t.place} key={t.place}>
+          <article className="card card-accent" style={{ ["--accent" as string]: "#b3261e" }}>
             <div className="fact-head">
               <span className="eyebrow" style={{ marginBottom: 0 }}>
                 Closed {t.closed}
@@ -66,6 +72,7 @@ export default function NeighborhoodsTab() {
               {t.detail}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
 
@@ -93,9 +100,11 @@ export default function NeighborhoodsTab() {
       </div>
 
       <h2 className="section-title">Neighborhoods</h2>
+      <DismissBar scope={`nb-areas-${city}`} noun="neighborhoods" />
       <div className="grid">
         {p.neighborhoods.map((n) => (
-          <article className="card" key={n.name}>
+          <Dismissible scope={`nb-areas-${city}`} itemKey={n.name} kind="been" key={n.name}>
+          <article className="card">
             <div className="eyebrow">{n.station}</div>
             <h3 style={{ marginBottom: 2 }}>{n.name}</h3>
             {n.local && (
@@ -117,6 +126,7 @@ export default function NeighborhoodsTab() {
               Budget: {n.timeNeeded}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
     </section>

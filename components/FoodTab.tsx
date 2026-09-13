@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { foodFor } from "@/lib/food";
+import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 export default function FoodTab() {
   const { city } = useCity();
@@ -38,9 +39,11 @@ export default function FoodTab() {
         </span>
       </div>
 
+      <DismissBar scope={`food-dishes-${city}`} noun="dishes" />
       <div className="grid">
         {dishes.map((d) => (
-          <article className="card" key={d.en}>
+          <Dismissible scope={`food-dishes-${city}`} itemKey={d.en} kind="been" key={d.en}>
+          <article className="card">
             <div className="fact-head" style={{ marginBottom: 2 }}>
               <span className="eyebrow" style={{ marginBottom: 0 }}>
                 {d.en}
@@ -58,19 +61,20 @@ export default function FoodTab() {
               Typically {d.price}
             </p>
           </article>
+          </Dismissible>
         ))}
       </div>
 
       <h2 className="section-title">How to order</h2>
+      <DismissBar scope={`food-order-${city}`} noun="tips" />
       <div className="card">
         <ul className="factlist">
           {f.ordering.map((r) => (
-            <li key={r.title}>
-              <div className="fact-head">
-                <span className="fact-label">{r.title}</span>
-              </div>
+            <DismissibleItem scope={`food-order-${city}`} itemKey={r.title} key={r.title}>
+              <span className="fact-label">{r.title}</span>
+              <br />
               <span className="fact-detail">{r.detail}</span>
-            </li>
+            </DismissibleItem>
           ))}
         </ul>
       </div>

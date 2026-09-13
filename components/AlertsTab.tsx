@@ -4,6 +4,7 @@ import { cityById } from "@/lib/cities";
 import { useCity } from "./CityProvider";
 import { HKO_CODES, HK_LADDER, TYPHOON_BASICS, CONTINGENCY, type Severity } from "@/lib/alerts";
 import { useApi, timeAgo } from "@/lib/useApi";
+import { DismissibleItem, DismissBar } from "./Dismissible";
 
 interface WatchDay {
   date: string;
@@ -264,13 +265,16 @@ export default function AlertsTab() {
       </div>
 
       <h2 className="section-title">Contingency plan</h2>
+      <DismissBar scope="alerts-contingency" noun="tips" />
       <div className="grid">
         {CONTINGENCY.map((block) => (
           <article className="card" key={block.title}>
             <h3>{block.title}</h3>
             <ul className="bullets">
               {block.points.map((p) => (
-                <li key={p}>{p}</li>
+                <DismissibleItem scope="alerts-contingency" itemKey={p} key={p}>
+                  {p}
+                </DismissibleItem>
               ))}
             </ul>
           </article>

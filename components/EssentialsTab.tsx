@@ -3,6 +3,7 @@
 import { useCity } from "./CityProvider";
 import { CITIES, cityById } from "@/lib/cities";
 import { ESSENTIALS, essentialsFor, type Fact } from "@/lib/essentials";
+import { DismissibleItem, DismissBar } from "./Dismissible";
 
 function FactList({ facts }: { facts: Fact[] }) {
   return (
@@ -138,19 +139,25 @@ export default function EssentialsTab() {
 
         <article className="card">
           <h3>Etiquette that actually matters</h3>
+          <DismissBar scope={`basics-etiquette-${city}`} noun="tips" />
           <ul className="bullets">
             {e.etiquette.map((item) => (
-              <li key={item}>{item}</li>
+              <DismissibleItem scope={`basics-etiquette-${city}`} itemKey={item} key={item}>
+                {item}
+              </DismissibleItem>
             ))}
           </ul>
         </article>
       </div>
 
       <h2 className="section-title">Things that will cost you</h2>
+      <DismissBar scope={`basics-gotchas-${city}`} noun="tips" />
       <div className="card">
         <ul className="bullets">
           {e.gotchas.map((g) => (
-            <li key={g}>{g}</li>
+            <DismissibleItem scope={`basics-gotchas-${city}`} itemKey={g} key={g}>
+              {g}
+            </DismissibleItem>
           ))}
         </ul>
       </div>
