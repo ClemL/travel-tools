@@ -6,6 +6,7 @@ import { cityById } from "@/lib/cities";
 import { airportFor } from "@/lib/airport";
 import { useApi } from "@/lib/useApi";
 import { usd } from "@/lib/format";
+import { DismissBar, Dismissible } from "./Dismissible";
 
 interface RatesResponse {
   rates: Record<string, number>;
@@ -177,12 +178,15 @@ export default function AirportTab() {
       {a.secondAirport && (
         <>
           <h2 className="section-title">The other airport</h2>
-          <div className="callout">
-            <strong>
-              {a.secondAirport.name} ({a.secondAirport.code})
-            </strong>
-            {a.secondAirport.note}
-          </div>
+          <DismissBar scope={`air-tips-${city}`} noun="tips" />
+          <Dismissible scope={`air-tips-${city}`} itemKey={`air-second-${city}`}>
+            <div className="callout">
+              <strong>
+                {a.secondAirport.name} ({a.secondAirport.code})
+              </strong>
+              {a.secondAirport.note}
+            </div>
+          </Dismissible>
         </>
       )}
 

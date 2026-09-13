@@ -3,7 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { rankedCities, type ActivityProfile } from "@/lib/activities";
-import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
+import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
 
 const RATING_PILL = {
   "World-class": "pill-good",
@@ -35,10 +35,13 @@ export default function ActivityTab({
     <section>
       <p className="lede">{lede}</p>
 
-      <div className="callout callout-warn">
-        <strong>{verdict.title}</strong>
-        {verdict.body}
-      </div>
+      <DismissBar scope={`act-verdict-${p.venues.length}`} noun="tips" />
+      <Dismissible scope={`act-verdict-${p.venues.length}`} itemKey={verdict.title}>
+        <div className="callout callout-warn">
+          <strong>{verdict.title}</strong>
+          {verdict.body}
+        </div>
+      </Dismissible>
 
       {best.id !== city && (
         <p className="muted small" style={{ marginTop: -8 }}>

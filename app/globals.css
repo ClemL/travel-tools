@@ -1048,8 +1048,16 @@ ul.checklist li.checked .fact-detail {
 }
 
 .dismissible > .card,
-.dismissible > article.card {
+.dismissible > article.card,
+.dismissible > .callout {
   flex: 1 1 auto;
+}
+
+/* A callout needs the same positioning context and room for the checkbox. */
+.dismissible > .callout {
+  position: relative;
+  padding-right: 44px;
+  margin-top: 0;
 }
 
 .dismiss-toggle {
@@ -1101,7 +1109,8 @@ ul.checklist li.checked .fact-detail {
 }
 
 .dismissible.is-dismissed > .card,
-.dismissible.is-dismissed > article.card {
+.dismissible.is-dismissed > article.card,
+.dismissible.is-dismissed > .callout {
   border-style: dashed;
   background: var(--surface-2);
 }
@@ -1112,7 +1121,8 @@ ul.checklist li.checked .fact-detail {
 }
 
 .dismissible.is-dismissed > .card > *,
-.dismissible.is-dismissed > article.card > * {
+.dismissible.is-dismissed > article.card > *,
+.dismissible.is-dismissed > .callout > * {
   opacity: 0.72;
 }
 
@@ -1152,6 +1162,114 @@ li.dismiss-li.is-dismissed > span {
   color: var(--text-dim);
   text-decoration: line-through;
   text-decoration-color: color-mix(in srgb, var(--text-dim) 40%, transparent);
+}
+
+/* Ticking flashes green with a check before the item is removed, so the click
+   is acknowledged rather than the content just disappearing. */
+.dismissible.is-confirming {
+  position: relative;
+  animation: dismiss-confirm 850ms ease forwards;
+}
+
+.dismissible.is-confirming > .card,
+.dismissible.is-confirming > article.card,
+.dismissible.is-confirming > .callout {
+  border-color: var(--good);
+  background: var(--good-soft);
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.dismissible.is-confirming .dismiss-toggle {
+  opacity: 1;
+  color: var(--good);
+  border-color: var(--good);
+}
+
+li.dismiss-li.is-confirming {
+  position: relative;
+  border-radius: 8px;
+  animation: dismiss-confirm 850ms ease forwards;
+}
+
+li.dismiss-li.is-confirming > span {
+  color: var(--good);
+}
+
+@keyframes dismiss-confirm {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  10% {
+    transform: scale(1.012);
+  }
+  55% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.965);
+    opacity: 0;
+  }
+}
+
+.dismiss-confirm-mark {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  color: var(--good);
+  /* A wash so the check reads against a clean field rather than body text. */
+  background: color-mix(in srgb, var(--good-soft) 92%, transparent);
+  border-radius: var(--radius);
+  pointer-events: none;
+  animation: dismiss-check 850ms ease forwards;
+}
+
+.dismiss-confirm-mark svg {
+  width: 48px;
+  height: 48px;
+}
+
+li.dismiss-li .dismiss-confirm-mark {
+  background: none;
+  place-items: center end;
+  padding-right: 4px;
+}
+
+li.dismiss-li .dismiss-confirm-mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes dismiss-check {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* No flash, no shrink — the item is removed immediately instead. */
+@media (prefers-reduced-motion: reduce) {
+  .dismissible.is-confirming,
+  li.dismiss-li.is-confirming,
+  .dismiss-confirm-mark {
+    animation: none;
+  }
 }
 
 .dismissbar {

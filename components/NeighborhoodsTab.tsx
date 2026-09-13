@@ -3,7 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { plannerFor } from "@/lib/neighborhoods";
-import { Dismissible, DismissBar } from "./Dismissible";
+import { DismissBar, Dismissible } from "./Dismissible";
 
 export default function NeighborhoodsTab() {
   const { city } = useCity();
@@ -21,12 +21,15 @@ export default function NeighborhoodsTab() {
         recently.
       </p>
 
-      <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
-        <strong>
-          {c.flag} {c.name} — the planning rule
-        </strong>
-        {p.planningRule}
-      </div>
+      <DismissBar scope={`nb-tips-${city}`} noun="tips" />
+      <Dismissible scope={`nb-tips-${city}`} itemKey={`nb-rule-${city}`}>
+        <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
+          <strong>
+            {c.flag} {c.name} — the planning rule
+          </strong>
+          {p.planningRule}
+        </div>
+      </Dismissible>
 
       <p className="muted">{p.geography}</p>
 
@@ -94,10 +97,12 @@ export default function NeighborhoodsTab() {
       )}
 
       <h2 className="section-title">When it rains</h2>
-      <div className="callout">
-        <strong>Indoor fallbacks</strong>
-        {p.rainPlan}
-      </div>
+      <Dismissible scope={`nb-tips-${city}`} itemKey={`nb-rain-${city}`}>
+        <div className="callout">
+          <strong>Indoor fallbacks</strong>
+          {p.rainPlan}
+        </div>
+      </Dismissible>
 
       <h2 className="section-title">Neighborhoods</h2>
       <DismissBar scope={`nb-areas-${city}`} noun="neighborhoods" />

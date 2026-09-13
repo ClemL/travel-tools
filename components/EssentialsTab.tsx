@@ -3,7 +3,7 @@
 import { useCity } from "./CityProvider";
 import { CITIES, cityById } from "@/lib/cities";
 import { ESSENTIALS, essentialsFor, type Fact } from "@/lib/essentials";
-import { DismissibleItem, DismissBar } from "./Dismissible";
+import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
 
 function FactList({ facts }: { facts: Fact[] }) {
   return (
@@ -104,12 +104,15 @@ export default function EssentialsTab() {
       </div>
 
       <h2 className="section-title">Full detail</h2>
-      <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
-        <strong>
-          {c.flag} {c.name} — tipping in one line
-        </strong>
-        {e.tipVerdict}
-      </div>
+      <DismissBar scope={`basics-tipline-${city}`} noun="tips" />
+      <Dismissible scope={`basics-tipline-${city}`} itemKey={`basics-tipline-${city}`}>
+        <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
+          <strong>
+            {c.flag} {c.name} — tipping in one line
+          </strong>
+          {e.tipVerdict}
+        </div>
+      </Dismissible>
 
       <div className="grid">
         <article className="card">

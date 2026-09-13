@@ -20,12 +20,15 @@ export default function FoodTab() {
         between the three cities, and that is where visitors get stuck, not the food itself.
       </p>
 
-      <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
-        <strong>
-          {c.flag} {c.name} — the thing to know
-        </strong>
-        {f.keyMechanic}
-      </div>
+      <DismissBar scope={`food-key-${city}`} noun="tips" />
+      <Dismissible scope={`food-key-${city}`} itemKey={`food-key-${city}`}>
+        <div className="callout" style={{ borderLeft: `4px solid ${c.accent}` }}>
+          <strong>
+            {c.flag} {c.name} — the thing to know
+          </strong>
+          {f.keyMechanic}
+        </div>
+      </Dismissible>
 
       <p className="muted">{f.summary}</p>
 

@@ -79,7 +79,18 @@ already been to half the neighborhoods.
 - **Places** ("Been here"): neighborhoods, day plans, venues, shops, craft districts, dishes,
   shopping spots.
 - **Tips** ("I know this"): etiquette, gotchas, ordering rules, buying notes, packing items, safety
-  notes, closure traps, contingency steps, climate advice, sizing warnings.
+  notes, closure traps, contingency steps, climate advice, sizing warnings, and the standalone
+  advice callouts — "Always decline dynamic currency conversion", "One adapter will not cover the
+  trip", "Sequence the trip so weather risk falls early", and the rest.
+
+Ticking plays a brief green confirmation with a checkmark before the item is removed, so the thing
+you clicked acknowledges the click instead of just vanishing. Un-ticking is immediate — there is
+nothing to confirm — and `prefers-reduced-motion` skips the animation entirely.
+
+Three callouts are deliberately **not** dismissible, because they are the app being honest about its
+own limits rather than advice you can outgrow: "Compiled, not verified" on Verify, "This is a
+convenience view, not an authority" on Alerts, and "Reconfirm every line of this section" on the
+Toolkit entry requirements.
 
 State persists in `localStorage` and is scoped per tab **and** per city, so hiding Taipei etiquette
 does not touch Seoul's. Once anything in a section is hidden, a bar appears offering **Show hidden**

@@ -39,6 +39,8 @@ export default function ToolkitTab() {
           );
         })}
       </div>
+      <DismissBar scope="kit-tips" noun="tips" />
+      <Dismissible scope="kit-tips" itemKey="One adapter will not cover the trip">
       <div className="callout">
         <strong>One adapter will not cover the trip</strong>
         Taipei uses US sockets, Hong Kong uses the British 3-pin, and Seoul uses the round European
@@ -46,6 +48,7 @@ export default function ToolkitTab() {
         chargers are rated 100-240 V — nearly all laptop and phone bricks are, but hair tools and shavers
         frequently are not.
       </div>
+      </Dismissible>
 
       <h2 className="section-title">Entry &amp; documents</h2>
       <div className="callout callout-warn">
@@ -174,12 +177,14 @@ export default function ToolkitTab() {
       </div>
 
       <h2 className="section-title">Holidays during your window</h2>
+      <Dismissible scope="kit-tips" itemKey="Mid-Autumn Festival and Chuseok both fall in late September 2026">
       <div className="callout callout-warn">
         <strong>Mid-Autumn Festival and Chuseok both fall in late September 2026</strong>
         This is the single biggest scheduling factor of the trip. All three destinations observe the same
         lunar date, so you get overlapping public holidays across Taiwan, Hong Kong and Korea within the
         same week. Intercity transport sells out, small businesses close, and hotel rates rise.
       </div>
+      </Dismissible>
       <div className="table-wrap">
         <table>
           <thead>

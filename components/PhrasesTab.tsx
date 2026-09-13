@@ -3,6 +3,7 @@
 import { useCity } from "./CityProvider";
 import { cityById } from "@/lib/cities";
 import { phrasesFor } from "@/lib/phrases";
+import { DismissBar, Dismissible } from "./Dismissible";
 
 export default function PhrasesTab() {
   const { city } = useCity();
@@ -50,6 +51,8 @@ export default function PhrasesTab() {
         </article>
       </div>
 
+      <DismissBar scope="phr-tips" noun="tips" />
+      <Dismissible scope="phr-tips" itemKey="Highest-leverage preparation">
       <div className="callout">
         <strong>Highest-leverage preparation</strong>
         Learning to read Hangul takes roughly an hour and pays off immediately, because a large share of
@@ -57,6 +60,7 @@ export default function PhrasesTab() {
         such shortcut — for Taipei and Hong Kong, put the effort into a translation app with camera mode
         instead, and save your hotel address in Chinese characters on your phone before you land.
       </div>
+      </Dismissible>
     </section>
   );
 }

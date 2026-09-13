@@ -1,6 +1,10 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDismiss, dismissId } from "./DismissProvider";
+
+/** Long enough to read as confirmation, short enough not to feel like a wait. */
+const CONFIRM_MS = 850;
 
 interface Props {
   scope: string;
@@ -16,30 +20,90 @@ const LABEL = {
   been: { check: "Been here", hidden: "Marked as visited" },
 } as const;
 
+function prefersReducedMotion(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+}
+
 /**
- * Wraps one card. Ticking the box hides it, so the page collapses down to the
- * things still worth reading. Hidden items come back via the scope's Show
- * control, where they render dimmed with the box still ticked.
+ * Ticking plays a brief green confirmation before the item is actually removed,
+ * so the thing you clicked acknowledges the click instead of just vanishing.
+ * Un-ticking is immediate — there is nothing to confirm.
+ */
+function useConfirmedToggle(id: string, isHidden: boolean) {
+  const { toggle } = useDismiss();
+  const [confirming, setConfirming] = useState(false);
+  const timer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timer.current !== null) window.clearTimeout(timer.current);
+    },
+    []
+  );
+
+  const onChange = useCallback(() => {
+    if (confirming) return; // ignore double-clicks mid-animation
+    if (isHidden || prefersReducedMotion()) {
+      toggle(id);
+      return;
+    }
+    setConfirming(true);
+    timer.current = window.setTimeout(() => {
+      timer.current = null;
+      setConfirming(false);
+      toggle(id);
+    }, CONFIRM_MS);
+  }, [confirming, isHidden, id, toggle]);
+
+  return { confirming, onChange };
+}
+
+function ConfirmMark({ label }: { label: string }) {
+  return (
+    <>
+      {/* Drawn rather than a ✓ glyph: the character renders thin and small at
+          any font size, and gets lost against the text underneath. */}
+      <span className="dismiss-confirm-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2"
+             strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </span>
+      <span className="sr-only" role="status">
+        {label}
+      </span>
+    </>
+  );
+}
+
+/**
+ * Wraps one card or callout. Ticking the box hides it, so the page collapses
+ * down to the things still worth reading. Hidden items come back via the
+ * scope's Show control, where they render dimmed with the box still ticked.
  */
 export function Dismissible({ scope, itemKey, kind = "known", children }: Props) {
-  const { hidden, loaded, toggle, revealed } = useDismiss();
+  const { hidden, loaded, revealed } = useDismiss();
   const id = dismissId(scope, itemKey);
   const isHidden = loaded && hidden.has(id);
+  const { confirming, onChange } = useConfirmedToggle(id, isHidden);
   const showing = revealed.has(scope);
 
   if (isHidden && !showing) return null;
 
   return (
-    <div className={`dismissible${isHidden ? " is-dismissed" : ""}`}>
+    <div
+      className={`dismissible${isHidden ? " is-dismissed" : ""}${confirming ? " is-confirming" : ""}`}
+    >
       <label className="dismiss-toggle" title={LABEL[kind].check}>
         <input
           type="checkbox"
-          checked={isHidden}
-          onChange={() => toggle(id)}
+          checked={isHidden || confirming}
+          onChange={onChange}
           aria-label={`${LABEL[kind].check}: ${itemKey}`}
         />
         <span className="dismiss-text">{isHidden ? LABEL[kind].hidden : LABEL[kind].check}</span>
       </label>
+      {confirming && <ConfirmMark label={LABEL[kind].hidden} />}
       {children}
     </div>
   );
@@ -47,23 +111,27 @@ export function Dismissible({ scope, itemKey, kind = "known", children }: Props)
 
 /** List-item variant, for bullet-style tips. */
 export function DismissibleItem({ scope, itemKey, kind = "known", children }: Props) {
-  const { hidden, loaded, toggle, revealed } = useDismiss();
+  const { hidden, loaded, revealed } = useDismiss();
   const id = dismissId(scope, itemKey);
   const isHidden = loaded && hidden.has(id);
+  const { confirming, onChange } = useConfirmedToggle(id, isHidden);
   const showing = revealed.has(scope);
 
   if (isHidden && !showing) return null;
 
   return (
-    <li className={`dismiss-li${isHidden ? " is-dismissed" : ""}`}>
+    <li
+      className={`dismiss-li${isHidden ? " is-dismissed" : ""}${confirming ? " is-confirming" : ""}`}
+    >
       <input
         type="checkbox"
-        checked={isHidden}
-        onChange={() => toggle(id)}
+        checked={isHidden || confirming}
+        onChange={onChange}
         aria-label={`${LABEL[kind].check}: ${itemKey}`}
         title={LABEL[kind].check}
       />
       <span>{children}</span>
+      {confirming && <ConfirmMark label={LABEL[kind].hidden} />}
     </li>
   );
 }

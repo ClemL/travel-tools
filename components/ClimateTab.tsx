@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CITIES, cityById } from "@/lib/cities";
 import { CLIMATE } from "@/lib/climate";
 import { cToF, mmToIn } from "@/lib/format";
-import { DismissibleItem, DismissBar } from "./Dismissible";
+import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
 
 type Unit = "F" | "C";
 
@@ -193,6 +193,8 @@ export default function ClimateTab() {
       </div>
 
       <h2 className="section-title">The one decision September forces</h2>
+      <DismissBar scope="clim-tips" noun="tips" />
+      <Dismissible scope="clim-tips" itemKey="Sequence the trip so weather risk falls early, not late">
       <div className="callout callout-warn">
         <strong>Sequence the trip so weather risk falls early, not late</strong>
         Taipei and Hong Kong carry real shutdown risk in September; Seoul does not. If your itinerary is
@@ -201,6 +203,7 @@ export default function ClimateTab() {
         transpacific flight, a rebooking fee, and a night in an airport hotel. Verify that all three
         legs are on refundable or same-alliance tickets before you lock the routing.
       </div>
+      </Dismissible>
       <p className="muted small">
         Only {CITIES.length} cities are covered here; the pattern generalizes across coastal East Asia,
         where September is consistently the highest-variance travel month of the year.

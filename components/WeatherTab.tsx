@@ -5,6 +5,7 @@ import { useCity } from "./CityProvider";
 import { useApi, timeAgo } from "@/lib/useApi";
 import { describeWeather, aqiBand } from "@/lib/weatherCodes";
 import { temp, tempFull, kmhToMph, mmToIn } from "@/lib/format";
+import { DismissBar, Dismissible } from "./Dismissible";
 
 interface CityWeather {
   city: string;
@@ -176,6 +177,8 @@ export default function WeatherTab() {
         })}
       </div>
 
+      <DismissBar scope="wx-tips" noun="tips" />
+      <Dismissible scope="wx-tips" itemKey="A forecast is not a typhoon warning">
       <div className="callout callout-warn">
         <strong>A forecast is not a typhoon warning</strong>
         Open-Meteo models rain and wind, but it does not issue the official signals that actually close
@@ -183,6 +186,7 @@ export default function WeatherTab() {
         Central Weather Administration directly each morning — those are the authorities that decide
         whether the MTR runs and whether your flight departs.
       </div>
+      </Dismissible>
 
       <p className="status">
         {data ? `Source: ${data.source}. Fetched ${new Date(data.updated).toLocaleString()}.` : "Loading…"}

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useCity } from "./CityProvider";
 import { money, usd } from "@/lib/format";
 import { useApi, timeAgo } from "@/lib/useApi";
+import { DismissBar, Dismissible } from "./Dismissible";
 
 interface RatesResponse {
   base: "USD";
@@ -164,12 +165,15 @@ export default function CurrencyTab() {
         })}
       </div>
 
+      <DismissBar scope="cur-tips" noun="tips" />
+      <Dismissible scope="cur-tips" itemKey="Always decline dynamic currency conversion">
       <div className="callout callout-warn">
         <strong>Always decline dynamic currency conversion</strong>
         When a card terminal or ATM offers to charge you in US dollars instead of the local currency, say
         no and choose the local currency. The merchant&apos;s conversion typically carries a 3-7% markup
         on top of the rate above. This is the single most common and most avoidable cost of the trip.
       </div>
+      </Dismissible>
 
       <p className="status">
         {data
