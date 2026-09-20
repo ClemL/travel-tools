@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { cityById } from "@/lib/cities";
+import { useCity, CompareToggle } from "./CityProvider";
 import {
   MENS_SHOES,
   WOMENS_SHOES,
@@ -18,6 +19,11 @@ type Gender = "mens" | "womens";
 
 export default function SizingTab() {
   const [gender, setGender] = useState<Gender>("mens");
+  const { visible } = useCity();
+  const inView = (id: string) => visible.some((v) => v.id === id);
+  // Clothing scales are country-specific; only show the columns in view.
+  const showKorea = inView("seoul");
+  const showGreaterChina = inView("taipei") || inView("hongkong");
   const [usShoe, setUsShoe] = useState<string>("9");
 
   const shoes: ShoeRow[] = gender === "mens" ? MENS_SHOES : WOMENS_SHOES;
@@ -35,10 +41,14 @@ export default function SizingTab() {
   return (
     <section>
       <p className="lede">
-        Sizing conventions differ enough across the three cities to waste an afternoon. Korea labels shoes
-        in millimetres, Korean clothing uses its own numeric scales, and everything runs smaller than the
-        US equivalent.
+        Sizing conventions differ enough from the US to waste an afternoon. Korea labels shoes in
+        millimetres, Korean clothing uses its own numeric scales, and everything across the region runs
+        smaller than the US equivalent.
       </p>
+
+      <div className="converter">
+        <CompareToggle />
+      </div>
 
       <div className="citytabs" role="group" aria-label="Sizing chart">
         <button aria-pressed={gender === "mens"} onClick={() => setGender("mens")}>
@@ -68,24 +78,30 @@ export default function SizingTab() {
 
       {match && (
         <div className="grid" style={{ marginBottom: 18 }}>
-          <article className="card card-accent" style={{ ["--accent" as string]: "#4361ee" }}>
-            <div className="eyebrow">🇰🇷 Korea — ask for this number</div>
-            <div className="rate-big">{match.mm} mm</div>
-            <p className="fact-detail" style={{ marginBottom: 0 }}>
-              Korean shoe boxes and labels show foot length in millimetres. Each half size is 5 mm. Say the
-              number — &quot;이백칠십&quot; (270) — and staff will understand immediately.
-            </p>
-          </article>
-          <article className="card">
-            <div className="eyebrow">Everywhere else</div>
-            <div className="rate-big" style={{ fontSize: "1.4rem" }}>
-              EU {match.eu} · UK {match.uk}
-            </div>
-            <p className="fact-detail" style={{ marginBottom: 0 }}>
-              Taiwan and Hong Kong label shoes in US, EU or UK numbers depending on the brand. International
-              chains use the same US sizing you are used to.
-            </p>
-          </article>
+          {/* Lead with the convention actually used where you are. */}
+          {showKorea && (
+            <article className="card card-accent" style={{ ["--accent" as string]: "#4361ee" }}>
+              <div className="eyebrow">🇰🇷 Korea — ask for this number</div>
+              <div className="rate-big">{match.mm} mm</div>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                Korean shoe boxes and labels show foot length in millimetres. Each half size is 5 mm. Say
+                the number — &quot;이백칠십&quot; (270) — and staff will understand immediately.
+              </p>
+            </article>
+          )}
+          {showGreaterChina && (
+            <article className={`card${showKorea ? "" : " card-accent"}`} style={{ ["--accent" as string]: "#e4572e" }}>
+              <div className="eyebrow">Taiwan &amp; Hong Kong — US, EU or UK</div>
+              <div className="rate-big" style={{ fontSize: "1.4rem" }}>
+                US {match.us} · EU {match.eu} · UK {match.uk}
+              </div>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                Shoes are labelled in US, EU or UK numbers depending on the brand, and international
+                chains use the same US sizing you are used to. Some stock also carries the millimetre
+                figure — {match.mm} mm for this size.
+              </p>
+            </article>
+          )}
         </div>
       )}
 
@@ -127,8 +143,8 @@ export default function SizingTab() {
           <thead>
             <tr>
               <th>US</th>
-              <th>Korea</th>
-              <th>Taiwan / Hong Kong</th>
+              {showKorea && <th>Korea</th>}
+              {showGreaterChina && <th>Taiwan / Hong Kong</th>}
               {gender === "mens" && <th>Chest</th>}
             </tr>
           </thead>
@@ -138,8 +154,8 @@ export default function SizingTab() {
                 <td>
                   <strong>{row.us}</strong>
                 </td>
-                <td>{row.korea}</td>
-                <td>{row.taiwanHk}</td>
+                {showKorea && <td>{row.korea}</td>}
+                {showGreaterChina && <td>{row.taiwanHk}</td>}
                 {gender === "mens" && <td>{row.chestCm ?? "—"}</td>}
               </tr>
             ))}
@@ -178,7 +194,7 @@ export default function SizingTab() {
             </tr>
           </thead>
           <tbody>
-            {TAX_REFUNDS.map((t) => {
+            {TAX_REFUNDS.filter((t) => inView(t.city)).map((t) => {
               const c = cityById(t.city);
               return (
                 <tr key={t.city}>
@@ -208,7 +224,7 @@ export default function SizingTab() {
 
       <h2 className="section-title">Worth buying, and where</h2>
       <div className="grid">
-        {(["taipei", "hongkong", "seoul"] as const).map((id) => {
+        {(["taipei", "hongkong", "seoul"] as const).filter(inView).map((id) => {
           const c = cityById(id);
           const items = SHOPPING.filter((s) => s.city === id);
           return (

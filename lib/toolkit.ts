@@ -149,6 +149,8 @@ export interface Holiday {
   weekday: string;
   name: string;
   where: string;
+  /** Which cities this affects, so the tab can filter reliably rather than matching on `where`. */
+  cities: CityId[];
   impact: string;
   confidence: "stable" | "verify";
 }
@@ -160,6 +162,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Friday",
     name: "Mid-Autumn Festival (中秋節)",
     where: "Taiwan",
+    cities: ["taipei"],
     impact:
       "Public holiday. Expect a long weekend, heavy domestic travel, packed trains, and barbecue smoke everywhere — Taiwan barbecues for Mid-Autumn. Book intercity rail early.",
     confidence: "stable",
@@ -169,6 +172,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Saturday",
     name: "Day following Mid-Autumn Festival",
     where: "Hong Kong",
+    cities: ["hongkong"],
     impact:
       "Hong Kong takes the day after as the statutory holiday, not the festival day itself. The Tai Hang Fire Dragon Dance and Victoria Park lantern displays run on the festival evening of the 25th — worth planning around.",
     confidence: "stable",
@@ -178,6 +182,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Thursday-Saturday",
     name: "Chuseok (추석)",
     where: "South Korea",
+    cities: ["seoul"],
     impact:
       "Korea's biggest holiday. Many small restaurants and shops close for several days, KTX and intercity buses sell out weeks ahead, and Seoul empties out as families travel to hometowns. Palaces and major museums usually open free on the holiday. A substitute holiday on Monday 28 September is likely given the Saturday overlap.",
     confidence: "verify",
@@ -187,6 +192,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Monday",
     name: "Teachers' Day / Confucius' Birthday",
     where: "Taiwan",
+    cities: ["taipei"],
     impact:
       "Taiwan legislated additional public holidays effective 2026, which would make this a day off and turn 25-28 September into a four-day weekend. Confirm before assuming shops and offices are open.",
     confidence: "verify",
@@ -196,6 +202,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Thursday",
     name: "National Day of the PRC",
     where: "Hong Kong",
+    cities: ["hongkong"],
     impact: "Public holiday with a fireworks display over Victoria Harbour. Hotels and cross-border travel get expensive.",
     confidence: "stable",
   },
@@ -204,6 +211,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Saturday",
     name: "National Foundation Day (개천절)",
     where: "South Korea",
+    cities: ["seoul"],
     impact: "Public holiday. Falls on a Saturday, so a substitute Monday may apply.",
     confidence: "verify",
   },
@@ -212,6 +220,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Friday",
     name: "Hangeul Day (한글날)",
     where: "South Korea",
+    cities: ["seoul"],
     impact: "Public holiday celebrating the Korean alphabet. Long weekend.",
     confidence: "stable",
   },
@@ -220,6 +229,7 @@ export const HOLIDAYS: Holiday[] = [
     weekday: "Saturday",
     name: "National Day (雙十節)",
     where: "Taiwan",
+    cities: ["taipei"],
     impact: "Double Ten. Parades and fireworks; central Taipei around the Presidential Office closes to traffic.",
     confidence: "stable",
   },
@@ -252,36 +262,44 @@ export const PACKING: PackItem[] = [
 export interface SafetyNote {
   title: string;
   body: string;
+  /** "all" for notes that apply everywhere; otherwise the cities they concern. */
+  cities: CityId[] | "all";
 }
 
 export const SAFETY: SafetyNote[] = [
   {
     title: "Typhoon protocol",
+    cities: ["taipei", "hongkong"],
     body:
       "Hong Kong hoists numbered signals: T1 (standby), T3 (strong wind), T8 (gale — city shuts down), T9 and T10 (hurricane force). Taiwan issues sea and then land warnings; a land warning generally means a government-declared day off. In both places, follow the official app, expect flight cancellations 12-24 hours ahead of landfall, and do not plan to move cities on a warning day.",
   },
   {
     title: "Tap water",
+    cities: "all",
     body:
       "Seoul's Arisu tap water is treated to a high standard and safe, though most locals still drink filtered or bottled. Hong Kong tap water meets WHO standards at the mains, but older building plumbing means many residents boil it. Taipei's tap water is treated but conventionally boiled or filtered before drinking. Practical rule: drink the filtered water dispensers that are everywhere in hotels, convenience stores and metro stations.",
   },
   {
     title: "Personal safety",
+    cities: "all",
     body:
       "All three cities are among the safest large cities in the world, with very low violent crime and normal late-night solo walking. The realistic risks are heat exhaustion, traffic (scooters in Taipei ignore crosswalk conventions), and typhoon-related disruption — not crime.",
   },
   {
     title: "Health and pharmacies",
+    cities: "all",
     body:
       "Pharmacies are plentiful and staffed by pharmacists who can recommend over-the-counter treatment. Taiwan and Korea both have excellent, inexpensive walk-in clinics; Hong Kong private clinics are fast but costly. Carry prescriptions in their original packaging with the generic name written down.",
   },
   {
     title: "Scams and pricing",
+    cities: "all",
     body:
       "Rare in all three. The realistic ones: dynamic currency conversion at card terminals (always choose to be charged in the local currency), tailor and gemstone touts in Tsim Sha Tsui, and 'juicy bar' bill scams in Seoul's Itaewon and Hongdae nightlife areas.",
   },
   {
     title: "Connecting the three cities",
+    cities: "all",
     body:
       "Taipei-Hong Kong is roughly 1h50m and one of the busiest air corridors in the world; Taipei-Seoul about 2h30m; Hong Kong-Seoul about 3h30m. China Airlines, EVA, Cathay Pacific, Korean Air and Asiana all serve these routes multiple times daily, so rebooking after weather disruption is usually possible within hours.",
   },

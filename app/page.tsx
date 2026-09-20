@@ -71,7 +71,10 @@ interface Tab {
   id: TabId;
   label: string;
   icon: string;
-  /** City-scoped tabs follow the header selection; the rest compare all three. */
+  /**
+   * Whether this tab's content is city-specific enough to belong in the URL.
+   * Every tab now follows the header selection; this only controls deep links.
+   */
   scoped: boolean;
 }
 
@@ -323,14 +326,12 @@ export default function Page() {
           ))}
         </nav>
 
-        {active.scoped && (
-          <div className="desktop-citybar">
-            <span className="eyebrow" style={{ marginBottom: 0 }}>
-              Showing
-            </span>
-            <CityPicker />
-          </div>
-        )}
+        <div className="desktop-citybar">
+          <span className="eyebrow" style={{ marginBottom: 0 }}>
+            Showing
+          </span>
+          <CityPicker />
+        </div>
 
         <div role="tabpanel" id="tabpanel" aria-labelledby={`tab-${tab}`} tabIndex={-1}>
           <ErrorBoundary label={active.label}>

@@ -1,12 +1,25 @@
 "use client";
 
 import { cityById } from "@/lib/cities";
+import { useCity, CompareToggle } from "./CityProvider";
 import { POWER, ENTRY, EMERGENCY, APPS, HOLIDAYS, PACKING, SAFETY, JETLAG, LOGISTICS } from "@/lib/toolkit";
 import { Dismissible, DismissibleItem, DismissBar } from "./Dismissible";
 
 const PACK_CATEGORIES = ["Weather", "Power & tech", "Documents", "Health", "Comfort"] as const;
 
 export default function ToolkitTab() {
+  const { visible, compareAll } = useCity();
+  const inView = (id: string) => visible.some((v) => v.id === id);
+  const power = POWER.filter((p) => inView(p.city));
+  const entry = ENTRY.filter((e) => inView(e.city));
+  const emergency = EMERGENCY.filter((e) => inView(e.city));
+  const holidays = HOLIDAYS.filter((h) => h.cities.some(inView));
+  const logistics = LOGISTICS.filter((l) => l.city === "all" || inView(l.city));
+  const safety = SAFETY.filter((n) => n.cities === "all" || n.cities.some(inView));
+  const appScopes = (["all", "taipei", "hongkong", "seoul"] as const).filter(
+    (s) => s === "all" || inView(s)
+  );
+
   return (
     <section>
       <p className="lede">
@@ -15,9 +28,13 @@ export default function ToolkitTab() {
         built specifically for a September itinerary across these three cities.
       </p>
 
+      <div className="converter">
+        <CompareToggle />
+      </div>
+
       <h2 className="section-title">Power &amp; plugs</h2>
       <div className="grid">
-        {POWER.map((p) => {
+        {power.map((p) => {
           const c = cityById(p.city);
           return (
             <article className="card card-accent" key={p.city} style={{ ["--accent" as string]: c.accent }}>
@@ -40,6 +57,8 @@ export default function ToolkitTab() {
         })}
       </div>
       <DismissBar scope="kit-tips" noun="tips" />
+      {/* Only meaningful when all three are in view — it is a comparison. */}
+      {compareAll && (
       <Dismissible scope="kit-tips" itemKey="One adapter will not cover the trip">
       <div className="callout">
         <strong>One adapter will not cover the trip</strong>
@@ -49,6 +68,7 @@ export default function ToolkitTab() {
         frequently are not.
       </div>
       </Dismissible>
+      )}
 
       <h2 className="section-title">Entry &amp; documents</h2>
       <div className="callout callout-warn">
@@ -59,7 +79,7 @@ export default function ToolkitTab() {
         authority.
       </div>
       <div className="grid">
-        {ENTRY.map((e) => {
+        {entry.map((e) => {
           const c = cityById(e.city);
           return (
             <article className="card" key={e.city}>
@@ -110,7 +130,7 @@ export default function ToolkitTab() {
             </tr>
           </thead>
           <tbody>
-            {EMERGENCY.map((e) => {
+            {emergency.map((e) => {
               const c = cityById(e.city);
               return (
                 <tr key={e.city}>
@@ -148,7 +168,7 @@ export default function ToolkitTab() {
 
       <h2 className="section-title">Apps to install before you fly</h2>
       <div className="grid">
-        {(["all", "taipei", "hongkong", "seoul"] as const).map((scope) => {
+        {appScopes.map((scope) => {
           const items = APPS.filter((a) => a.city === scope);
           if (items.length === 0) return null;
           const label =
@@ -177,6 +197,7 @@ export default function ToolkitTab() {
       </div>
 
       <h2 className="section-title">Holidays during your window</h2>
+      {compareAll && (
       <Dismissible scope="kit-tips" itemKey="Mid-Autumn Festival and Chuseok both fall in late September 2026">
       <div className="callout callout-warn">
         <strong>Mid-Autumn Festival and Chuseok both fall in late September 2026</strong>
@@ -185,6 +206,7 @@ export default function ToolkitTab() {
         same week. Intercity transport sells out, small businesses close, and hotel rates rise.
       </div>
       </Dismissible>
+      )}
       <div className="table-wrap">
         <table>
           <thead>
@@ -196,7 +218,7 @@ export default function ToolkitTab() {
             </tr>
           </thead>
           <tbody>
-            {HOLIDAYS.map((h) => (
+            {holidays.map((h) => (
               <tr key={`${h.date}-${h.where}`}>
                 <td>
                   <strong>{h.date}</strong>
@@ -273,7 +295,7 @@ export default function ToolkitTab() {
       <h2 className="section-title">Luggage, laundry &amp; logistics</h2>
       <DismissBar scope="kit-logistics" noun="notes" />
       <div className="grid">
-        {LOGISTICS.map((l) => (
+        {logistics.map((l) => (
           <Dismissible scope="kit-logistics" itemKey={l.title} key={l.title}>
             <article className="card">
               {l.city !== "all" && (
@@ -291,7 +313,7 @@ export default function ToolkitTab() {
       <h2 className="section-title">Safety, health &amp; contingency</h2>
       <DismissBar scope="kit-safety" noun="tips" />
       <div className="grid">
-        {SAFETY.map((s) => (
+        {safety.map((s) => (
           <Dismissible scope="kit-safety" itemKey={s.title} key={s.title}>
             <article className="card">
               <h3>{s.title}</h3>

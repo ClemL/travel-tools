@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCity } from "./CityProvider";
+import { useCity, CompareToggle } from "./CityProvider";
 import { useApi, timeAgo } from "@/lib/useApi";
 import { describeWeather, aqiBand } from "@/lib/weatherCodes";
 import { temp, tempFull, kmhToMph, mmToIn } from "@/lib/format";
@@ -25,7 +25,7 @@ interface WeatherResponse {
 type Unit = "F" | "C";
 
 export default function WeatherTab() {
-  const { ordered } = useCity();
+  const { visible } = useCity();
   // acceptPartial: the route returns a usable per-city payload even on a 502.
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<WeatherResponse>(
     "/api/weather",
@@ -37,8 +37,8 @@ export default function WeatherTab() {
     <section>
       <p className="lede">
         Current conditions and a 7-day outlook from Open-Meteo, plus a US-scale air quality reading.
-        Note the apparent temperature rather than the air temperature — in Taipei and Hong Kong in
-        September, humidity is what actually limits how far you can walk.
+        Note the apparent temperature rather than the air temperature — in September, humidity is what
+        actually limits how far you can walk.
       </p>
 
       <div className="converter">
@@ -53,6 +53,7 @@ export default function WeatherTab() {
             Saved forecast · {timeAgo(cachedAt)}
           </span>
         )}
+        <CompareToggle />
       </div>
 
       {error && (
@@ -62,7 +63,7 @@ export default function WeatherTab() {
       )}
 
       <div className="grid">
-        {ordered.map((city) => {
+        {visible.map((city) => {
           const entry = data?.cities.find((c) => c.city === city.id);
           const cur = entry?.current;
           const daily = entry?.daily;
@@ -182,9 +183,10 @@ export default function WeatherTab() {
       <div className="callout callout-warn">
         <strong>A forecast is not a typhoon warning</strong>
         Open-Meteo models rain and wind, but it does not issue the official signals that actually close
-        a city. For September travel, check the Hong Kong Observatory (MyObservatory app) and Taiwan&apos;s
-        Central Weather Administration directly each morning — those are the authorities that decide
-        whether the MTR runs and whether your flight departs.
+        a city. For September travel, check the official meteorological service each morning —{" "}
+        {visible.map((v) => v.name).join(", ")} {visible.length === 1 ? "has" : "each have"} a national
+        authority whose warnings decide whether the metro runs and whether your flight departs. The
+        Alerts tab carries the live status and the links.
       </div>
       </Dismissible>
 

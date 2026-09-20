@@ -1308,6 +1308,12 @@ li.dismiss-li .dismiss-confirm-mark svg {
   color: var(--text-dim);
 }
 
+.compare-toggle.is-on {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-soft);
+}
+
 .btn-small {
   padding: 3px 9px;
   font-size: 0.78rem;

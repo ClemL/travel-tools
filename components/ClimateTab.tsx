@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CITIES, cityById } from "@/lib/cities";
+import { cityById } from "@/lib/cities";
+import { useCity, CompareToggle } from "./CityProvider";
 import { CLIMATE } from "@/lib/climate";
 import { cToF, mmToIn } from "@/lib/format";
 import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
@@ -15,30 +16,33 @@ function riskPill(risk: "High" | "Moderate" | "Low") {
 
 export default function ClimateTab() {
   const [unit, setUnit] = useState<Unit>("F");
+  const { visible, compareAll } = useCity();
+  // Only the climate profiles for the cities currently in view.
+  const shown = CLIMATE.filter((c) => visible.some((v) => v.id === c.city));
   const t = (c: number) => (unit === "F" ? `${Math.round(cToF(c))}°F` : `${c.toFixed(1)}°C`);
 
   return (
     <section>
       <p className="lede">
-        What September actually looks like in each city, based on 1991-2020 climatological normals from
-        the national meteorological agencies. The short version: Taipei and Hong Kong are still in full
-        summer and peak typhoon season, while Seoul is in the middle of the sharpest seasonal transition
-        of its year.
+        {compareAll
+          ? "What September actually looks like in each city, based on 1991-2020 climatological normals from the national meteorological agencies. The short version: Taipei and Hong Kong are still in full summer and peak typhoon season, while Seoul is in the middle of the sharpest seasonal transition of its year."
+          : `What September actually looks like in ${shown[0]?.headline ? cityById(shown[0].city).name : "this city"}, based on 1991-2020 climatological normals from the national meteorological agency.`}
       </p>
 
       <div className="converter">
         <button className="btn" onClick={() => setUnit(unit === "F" ? "C" : "F")}>
           Show °{unit === "F" ? "C" : "F"}
         </button>
+        <CompareToggle />
       </div>
 
-      <h2 className="section-title">Side by side</h2>
+      <h2 className="section-title">{compareAll ? "Side by side" : "September normals"}</h2>
       <div className="table-wrap">
         <table>
           <thead>
             <tr>
               <th>September normal</th>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <th key={c.city}>
                   {cityById(c.city).flag} {cityById(c.city).name}
                 </th>
@@ -48,7 +52,7 @@ export default function ClimateTab() {
           <tbody>
             <tr>
               <td>Average high</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>
                   <strong>{t(c.meanHighC)}</strong>
                 </td>
@@ -56,13 +60,13 @@ export default function ClimateTab() {
             </tr>
             <tr>
               <td>Average low</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>{t(c.meanLowC)}</td>
               ))}
             </tr>
             <tr>
               <td>Monthly rainfall</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>
                   {unit === "F"
                     ? `${mmToIn(c.rainfallMm).toFixed(1)} in`
@@ -72,31 +76,31 @@ export default function ClimateTab() {
             </tr>
             <tr>
               <td>Rainy days</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>{c.rainDays} of 30</td>
               ))}
             </tr>
             <tr>
               <td>Relative humidity</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>{c.humidityPct}%</td>
               ))}
             </tr>
             <tr>
               <td>Sunshine</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>~{c.sunshineHours} h</td>
               ))}
             </tr>
             <tr>
               <td>Sea temperature</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>{c.seaTempC ? t(c.seaTempC) : "—"}</td>
               ))}
             </tr>
             <tr>
               <td>Typhoon risk</td>
-              {CLIMATE.map((c) => (
+              {shown.map((c) => (
                 <td key={c.city}>{riskPill(c.typhoonRisk)}</td>
               ))}
             </tr>
@@ -110,7 +114,7 @@ export default function ClimateTab() {
 
       <h2 className="section-title">City by city</h2>
       <div className="grid">
-        {CLIMATE.map((c) => {
+        {shown.map((c) => {
           const city = cityById(c.city);
           return (
             <article className="card card-accent" key={c.city} style={{ ["--accent" as string]: city.accent }}>
@@ -192,6 +196,8 @@ export default function ClimateTab() {
         })}
       </div>
 
+      {compareAll && (
+        <>
       <h2 className="section-title">The one decision September forces</h2>
       <DismissBar scope="clim-tips" noun="tips" />
       <Dismissible scope="clim-tips" itemKey="Sequence the trip so weather risk falls early, not late">
@@ -205,9 +211,11 @@ export default function ClimateTab() {
       </div>
       </Dismissible>
       <p className="muted small">
-        Only {CITIES.length} cities are covered here; the pattern generalizes across coastal East Asia,
-        where September is consistently the highest-variance travel month of the year.
+        The pattern generalizes across coastal East Asia, where September is consistently the
+        highest-variance travel month of the year.
       </p>
+        </>
+      )}
     </section>
   );
 }

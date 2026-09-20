@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useCity } from "./CityProvider";
+import { useCity, CompareToggle } from "./CityProvider";
 import { money, usd } from "@/lib/format";
 import { useApi, timeAgo } from "@/lib/useApi";
 import { DismissBar, Dismissible } from "./Dismissible";
@@ -39,7 +39,7 @@ const CASH_NOTES: Record<string, string> = {
 };
 
 export default function CurrencyTab() {
-  const { ordered } = useCity();
+  const { visible } = useCity();
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<RatesResponse>("/api/rates");
   const [amount, setAmount] = useState<string>("100");
   const [direction, setDirection] = useState<Direction>("localToUsd");
@@ -96,10 +96,11 @@ export default function CurrencyTab() {
             Saved rates · {timeAgo(cachedAt)}
           </span>
         )}
+        <CompareToggle />
       </div>
 
       <div className="grid">
-        {ordered.map((city) => {
+        {visible.map((city) => {
           const rate = data?.rates?.[city.currency];
           const ladder = LADDERS[city.currency] ?? [];
           return (

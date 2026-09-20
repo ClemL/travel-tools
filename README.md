@@ -6,9 +6,18 @@ and deploys to Vercel with no configuration and no required API keys.
 
 ## Tabs
 
-Grouped into five sections. **Pick a city first** — the header selection drives every city-scoped
-tab, so choosing Seoul once shows you Seoul's food, phrases, airport transfers and shops without
-re-selecting in each one. Cross-city tabs compare all three, ordered so your selected city leads.
+Grouped into five sections. **Pick a city first** — the header selection filters *every* tab, not
+just the obviously city-specific ones. Choosing Seoul shows Seoul's food, phrases and shops, and also
+narrows Currency to the won, Weather to Seoul's forecast, Toolkit to Korean plugs, entry rules,
+emergency numbers and holidays, and Sizing to Korean scales and the 10% VAT refund.
+
+Content that is genuinely universal stays visible regardless — the packing list, the jet lag plan,
+luggage and laundry logistics, the shoe conversion table. Content that only makes sense as a
+comparison is hidden when you are filtered to one city: the side-by-side climate table collapses to
+that city's normals, and advice like "one adapter will not cover the trip" only appears in compare
+mode.
+
+A **Compare all three** button on those tabs is the way back to a three-way view. The choice persists.
 
 **Live** — needs a connection, degrades to cached data offline
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { cityById } from "@/lib/cities";
-import { useCity } from "./CityProvider";
+import { useCity, CompareToggle } from "./CityProvider";
 import { HKO_CODES, HK_LADDER, TYPHOON_BASICS, CONTINGENCY, type Severity } from "@/lib/alerts";
 import { useApi, timeAgo } from "@/lib/useApi";
 import { DismissibleItem, DismissBar } from "./Dismissible";
@@ -49,7 +49,7 @@ const LEVEL_COPY = {
 } as const;
 
 export default function AlertsTab() {
-  const { ordered } = useCity();
+  const { visible } = useCity();
   const { data, error, loading, fromCache, cachedAt, reload } = useApi<AlertsResponse>("/api/alerts");
 
   return (
@@ -77,6 +77,7 @@ export default function AlertsTab() {
             Cached copy · {timeAgo(cachedAt)}
           </span>
         )}
+        <CompareToggle />
       </div>
 
       {error && (
@@ -87,7 +88,7 @@ export default function AlertsTab() {
 
       <h2 className="section-title">Current status</h2>
       <div className="grid">
-        {ordered.map((city) => {
+        {visible.map((city) => {
           const entry = data?.cities.find((c) => c.city === city.id);
           const basics = TYPHOON_BASICS.find((b) => b.city === city.id)!;
           const warnings = entry?.officialWarnings ?? [];
@@ -211,7 +212,7 @@ export default function AlertsTab() {
 
       <h2 className="section-title">How each system works</h2>
       <div className="grid">
-        {TYPHOON_BASICS.map((b) => {
+        {TYPHOON_BASICS.filter((b) => visible.some((v) => v.id === b.city)).map((b) => {
           const c = cityById(b.city);
           return (
             <article className="card" key={b.city}>
@@ -234,6 +235,8 @@ export default function AlertsTab() {
         })}
       </div>
 
+      {visible.some((v) => v.id === "hongkong") && (
+        <>
       <h2 className="section-title">The Hong Kong signal ladder</h2>
       <p className="muted" style={{ marginTop: -4 }}>
         The most consequential of the three systems, because the signals are legally binding on employers
@@ -263,6 +266,9 @@ export default function AlertsTab() {
           </tbody>
         </table>
       </div>
+
+        </>
+      )}
 
       <h2 className="section-title">Contingency plan</h2>
       <DismissBar scope="alerts-contingency" noun="tips" />
