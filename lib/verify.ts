@@ -83,6 +83,19 @@ export const CHECKS: VerifyItem[] = [
     officialLabel: "Taiwan Bureau of Consular Affairs",
   },
   {
+    id: "china-entry",
+    title: "Mainland China entry basis for US passport holders",
+    question:
+      "Do you hold a valid Chinese visa — or does your routing qualify for 240-hour visa-free transit, arriving from one country or region and leaving for a different one within 240 hours?",
+    why: "US citizens cannot use the 5-day Shenzhen port visa and, as of compilation, are not on China's unilateral visa-free list. A Hong Kong → Shenzhen → Hong Kong round trip is not transit. Getting this wrong means being refused at the border.",
+    city: "shenzhen",
+    category: "Entry & documents",
+    priority: "critical",
+    tab: "Toolkit",
+    officialUrl: "https://en.nia.gov.cn/",
+    officialLabel: "China National Immigration Administration",
+  },
+  {
     id: "passport-validity",
     title: "Passport validity and onward ticket",
     question: "Passport valid well beyond the trip, and an onward or return ticket available to show at check-in for each leg?",
@@ -98,7 +111,7 @@ export const CHECKS: VerifyItem[] = [
     id: "insurance",
     title: "Travel insurance covering weather disruption",
     question: "Does your policy cover typhoon-related cancellation and delay, and does cover stop once a storm is named?",
-    why: "September is peak typhoon season in Taipei and Hong Kong. Many policies exclude 'known events' from the moment a storm is named, which can be days before it lands.",
+    why: "September is peak typhoon season in Taipei, Hong Kong and Shenzhen. Many policies exclude 'known events' from the moment a storm is named, which can be days before it lands.",
     city: "all",
     category: "Bookings",
     priority: "critical",
@@ -107,7 +120,7 @@ export const CHECKS: VerifyItem[] = [
   {
     id: "ticket-flexibility",
     title: "Refundable or same-alliance inter-city legs",
-    question: "Can each of the three legs be rebooked rather than rebought if a typhoon cancels it?",
+    question: "Can each inter-city leg be rebooked rather than rebought if a typhoon cancels it?",
     why: "A cancelled leg on a non-flexible ticket is a full rebuy. Taipei-Hong Kong and Taipei-Seoul are high-frequency routes, so rebooking is usually possible if the fare allows it.",
     city: "all",
     category: "Bookings",
@@ -140,8 +153,18 @@ export const CHECKS: VerifyItem[] = [
     id: "mid-autumn",
     title: "Mid-Autumn Festival holidays in Taiwan and Hong Kong",
     question: "Confirm 25 September (Taiwan) and 26 September (Hong Kong) as public holidays, and check festival event dates.",
-    why: "All three destinations observe the same lunar date, so you get overlapping public holidays in one week. Hong Kong takes the day after, not the festival day itself.",
+    why: "Every destination here observes the same lunar date, so you get overlapping public holidays in one week. Hong Kong takes the day after, not the festival day itself.",
     city: "all",
+    category: "Timing & closures",
+    priority: "high",
+    tab: "Toolkit",
+  },
+  {
+    id: "golden-week",
+    title: "National Day Golden Week 2026",
+    question: "Confirm the 2026 National Day holiday span (expected 1-7 October) and which weekend days become working days.",
+    why: "The biggest domestic travel week in China. Trains, hotels, attractions and the Hong Kong–Shenzhen crossings are at capacity, and prices spike on both sides of the border.",
+    city: "shenzhen",
     category: "Timing & closures",
     priority: "high",
     tab: "Toolkit",
@@ -229,6 +252,16 @@ export const CHECKS: VerifyItem[] = [
     tab: "Basics",
   },
   {
+    id: "border-hours",
+    title: "Hong Kong–Shenzhen checkpoint hours",
+    question: "Confirm opening hours for the crossing you will use (Lo Wu, Lok Ma Chau Spur Line, Shenzhen Bay) and the last train on each side.",
+    why: "Lo Wu closes at midnight and other crossings earlier. Missing the last crossing means an unplanned hotel night on the wrong side.",
+    city: "shenzhen",
+    category: "Transit & cards",
+    priority: "high",
+    tab: "Basics",
+  },
+  {
     id: "climate-card",
     title: "Seoul Climate Card short-term pass",
     question: "Current short-term pass durations and prices, and whether it covers the airport line.",
@@ -242,7 +275,7 @@ export const CHECKS: VerifyItem[] = [
     id: "airport-fares",
     title: "Airport transfer fares and last services",
     question: "Confirm current fares and, more importantly, the last train of the night for each airport link.",
-    why: "All three cities' airport trains stop before midnight. Landing after the last service changes your plan and your budget.",
+    why: "Every airport train in this app stops before midnight. Landing after the last service changes your plan and your budget.",
     city: "all",
     category: "Transit & cards",
     priority: "high",
@@ -281,11 +314,32 @@ export const CHECKS: VerifyItem[] = [
     tab: "Basics",
   },
 
+  {
+    id: "alipay-setup",
+    title: "Alipay or WeChat Pay linked to a foreign card",
+    question: "Install Alipay, link a Visa or Mastercard, complete passport verification and make one small test payment before you cross the border.",
+    why: "Mainland China runs on QR payments. Without one, metro rides, taxis, coffee and small restaurants all become difficult. The fee-free limit for foreign cards has changed more than once.",
+    city: "shenzhen",
+    category: "Money",
+    priority: "critical",
+    tab: "Basics",
+  },
+  {
+    id: "china-tax-refund",
+    title: "China departure tax refund",
+    question: "Confirm the minimum spend per store, the refund rate after fees, the cash cap, and whether your departure port handles refunds.",
+    why: "The threshold was cut sharply in 2025 and instant refunds are rolling out store by store. Only participating stores qualify.",
+    city: "shenzhen",
+    category: "Money",
+    priority: "medium",
+    tab: "Sizing",
+  },
+
   /* ---------------- Connectivity ---------------- */
   {
     id: "google-fi",
     title: "Google Fi plan tier and international data",
-    question: "Does your Fi plan include data in Taiwan, Hong Kong and South Korea at no extra cost?",
+    question: "Does your Fi plan include data in Taiwan, Hong Kong, mainland China and South Korea at no extra cost?",
     why: "International data is included on Unlimited Plus but not Simply Unlimited. Confirm before departure rather than at the gate — otherwise buy an eSIM in advance.",
     city: "all",
     category: "Connectivity",
@@ -301,6 +355,17 @@ export const CHECKS: VerifyItem[] = [
     category: "Connectivity",
     priority: "high",
     tab: "Toolkit",
+  },
+
+  {
+    id: "china-firewall",
+    title: "Data plan that works behind the firewall",
+    question: "Confirm your roaming plan or Hong Kong eSIM routes traffic outside the mainland, and download offline maps and translation before crossing.",
+    why: "On a mainland connection, Google, WhatsApp and Instagram do not load. Roaming and most Hong Kong travel eSIMs avoid this; a mainland SIM does not.",
+    city: "shenzhen",
+    category: "Connectivity",
+    priority: "high",
+    tab: "Basics",
   },
 
   /* ---------------- Places ---------------- */
@@ -386,14 +451,20 @@ export function sweepFlags(): { total: number; bySource: { source: string; items
   return { total: bySource.reduce((n, s) => n + s.items.length, 0), bySource };
 }
 
-export function checksForCity(city: CityId | "all", all: boolean): VerifyItem[] {
-  const list = all ? CHECKS : CHECKS.filter((c) => c.city === city || c.city === "all");
+/**
+ * The checklist for one city, or — with `all` — for every destination in
+ * `among` (the ones switched on in Settings). Items scoped to "all" always apply.
+ */
+export function checksForCity(city: CityId | "all", all: boolean, among?: CityId[]): VerifyItem[] {
+  const list = all
+    ? CHECKS.filter((c) => c.city === "all" || !among || among.includes(c.city))
+    : CHECKS.filter((c) => c.city === city || c.city === "all");
   const rank: Record<Priority, number> = { critical: 0, high: 1, medium: 2 };
   return [...list].sort((a, b) => rank[a.priority] - rank[b.priority]);
 }
 
 export function cityLabel(city: CityId | "all"): string {
-  if (city === "all") return "All three";
+  if (city === "all") return "All cities";
   const c = CITIES.find((x) => x.id === city);
   return c ? `${c.flag} ${c.name}` : city;
 }

@@ -16,8 +16,8 @@ export default function FoodTab() {
   return (
     <section>
       <p className="lede">
-        What to eat and — more usefully — how ordering actually works. The mechanics differ sharply
-        between the three cities, and that is where visitors get stuck, not the food itself.
+        What to eat and — more usefully — how ordering actually works. The mechanics differ sharply from
+        city to city, and that is where visitors get stuck, not the food itself.
       </p>
 
       <DismissBar scope={`food-key-${city}`} noun="tips" />
@@ -53,7 +53,7 @@ export default function FoodTab() {
               </span>
               {d.mustTry && <span className="pill pill-brand">shortlist</span>}
             </div>
-            <div className="phrase-local" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+            <div className="phrase-local" lang={c.lang}>
               {d.local}
             </div>
             <div className="roman-line">{d.roman}</div>
@@ -94,7 +94,7 @@ export default function FoodTab() {
               <div className="eyebrow">{sn.window}</div>
               <h3 style={{ marginBottom: 2 }}>{sn.name}</h3>
               {sn.local && (
-                <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+                <div className="roman-line" lang={c.lang}>
                   {sn.local}
                 </div>
               )}
@@ -130,7 +130,7 @@ export default function FoodTab() {
             <article className="card">
               <h3 style={{ marginBottom: 2 }}>{d.name}</h3>
               {d.local && (
-                <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+                <div className="roman-line" lang={c.lang}>
                   {d.local}
                 </div>
               )}

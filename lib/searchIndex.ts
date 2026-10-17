@@ -202,15 +202,18 @@ export interface SearchHit extends SearchEntry {
 /**
  * Small, dependency-free ranked search. The corpus is a few thousand short
  * strings already in memory, so scanning it per keystroke is cheaper than
- * building and shipping an index.
+ * building and shipping an index. `cities`, when given, limits city-specific
+ * entries to those destinations; entries with no city always match.
  */
-export function search(query: string, limit = 40): SearchHit[] {
+export function search(query: string, limit = 40, cities?: ReadonlySet<CityId>): SearchHit[] {
   const q = query.trim().toLowerCase();
   if (q.length < 2) return [];
   const terms = q.split(/\s+/).filter(Boolean);
 
   const hits: SearchHit[] = [];
   for (const entry of SEARCH_INDEX) {
+    // Destinations switched off in Settings are left out entirely.
+    if (cities && entry.city && !cities.has(entry.city)) continue;
     const title = entry.title.toLowerCase();
     const body = entry.body.toLowerCase();
     const extra = (entry.extra ?? "").toLowerCase();

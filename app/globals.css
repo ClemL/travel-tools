@@ -953,6 +953,160 @@ code {
   margin: 0 0 6px;
 }
 
+/* ---------- settings ---------- */
+
+.search-panel.settings-panel {
+  width: min(520px, 100%);
+  overflow-y: auto;
+}
+
+.settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.settings-section {
+  padding: 14px;
+}
+
+.settings-section h3 {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+}
+
+.settings-section > p {
+  margin: 0 0 10px;
+}
+
+.settings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.settings-row.is-on {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+  background: var(--brand-soft);
+}
+
+.settings-flag {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.settings-name {
+  flex: 1 1 auto;
+  display: grid;
+  min-width: 0;
+}
+
+/* A checkbox drawn as a switch; it stays a real checkbox for forms and AT. */
+input.switch {
+  appearance: none;
+  flex: 0 0 auto;
+  position: relative;
+  width: 42px;
+  height: 24px;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+input.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+input.switch:checked {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+input.switch:checked::after {
+  transform: translateX(18px);
+  background: var(--surface);
+}
+
+input.switch:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+input.switch:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.settings-foot {
+  margin: 10px 0 0;
+}
+
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input.switch,
+  input.switch::after {
+    transition: none;
+  }
+}
+
+/* On a phone the search panel goes full screen; settings is short, so it stays a sheet. */
+@media (max-width: 700px) {
+  .search-backdrop:has(.settings-panel) {
+    padding: 10px;
+    align-items: flex-end;
+  }
+
+  .search-panel.settings-panel {
+    height: auto;
+    max-height: 92vh;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+}
+
 /* ---------- verify checklist ---------- */
 
 .verify-progress {

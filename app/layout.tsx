@@ -5,9 +5,9 @@ import CityProvider from "@/components/CityProvider";
 import DismissProvider from "@/components/DismissProvider";
 
 export const metadata: Metadata = {
-  title: "Asia Trip Tools — Taipei · Hong Kong · Seoul",
+  title: "Asia Trip Tools",
   description:
-    "Currency, live weather, September climate normals, and on-the-ground logistics for Taipei, Hong Kong and Seoul.",
+    "Currency, live weather, September climate normals, and on-the-ground logistics for Taipei, Hong Kong, Shenzhen and Seoul.",
 };
 
 export const viewport: Viewport = {

@@ -72,7 +72,7 @@ export default function NeighborhoodsTab() {
               </div>
               <h3 style={{ marginBottom: 2 }}>{t.name}</h3>
               {t.local && (
-                <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+                <div className="roman-line" lang={c.lang}>
                   {t.local}
                 </div>
               )}
@@ -150,7 +150,7 @@ export default function NeighborhoodsTab() {
             <div className="eyebrow">{n.station}</div>
             <h3 style={{ marginBottom: 2 }}>{n.name}</h3>
             {n.local && (
-              <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+              <div className="roman-line" lang={c.lang}>
                 {n.local}
               </div>
             )}

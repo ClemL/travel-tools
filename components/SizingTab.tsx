@@ -23,7 +23,11 @@ export default function SizingTab() {
   const inView = (id: string) => visible.some((v) => v.id === id);
   // Clothing scales are country-specific; only show the columns in view.
   const showKorea = inView("seoul");
-  const showGreaterChina = inView("taipei") || inView("hongkong");
+  const showTaiwanHk = inView("taipei") || inView("hongkong");
+  const showMainland = inView("shenzhen");
+  const taiwanHkLabel = [inView("taipei") && "Taiwan", inView("hongkong") && "Hong Kong"]
+    .filter(Boolean)
+    .join(" & ");
   const [usShoe, setUsShoe] = useState<string>("9");
 
   const shoes: ShoeRow[] = gender === "mens" ? MENS_SHOES : WOMENS_SHOES;
@@ -42,8 +46,8 @@ export default function SizingTab() {
     <section>
       <p className="lede">
         Sizing conventions differ enough from the US to waste an afternoon. Korea labels shoes in
-        millimetres, Korean clothing uses its own numeric scales, and everything across the region runs
-        smaller than the US equivalent.
+        millimetres, Korean and mainland Chinese clothing use their own numeric scales, and everything
+        across the region runs smaller than the US equivalent.
       </p>
 
       <div className="converter">
@@ -89,9 +93,22 @@ export default function SizingTab() {
               </p>
             </article>
           )}
-          {showGreaterChina && (
-            <article className={`card${showKorea ? "" : " card-accent"}`} style={{ ["--accent" as string]: "#e4572e" }}>
-              <div className="eyebrow">Taiwan &amp; Hong Kong — US, EU or UK</div>
+          {showMainland && (
+            <article className={`card${showKorea ? "" : " card-accent"}`} style={{ ["--accent" as string]: "#b5179e" }}>
+              <div className="eyebrow">🇨🇳 Mainland China — EU number or mm</div>
+              <div className="rate-big" style={{ fontSize: "1.4rem" }}>
+                {Math.round(match.eu)}码 · {match.mm} mm
+              </div>
+              <p className="fact-detail" style={{ marginBottom: 0 }}>
+                Mainland shops size shoes with EU-style numbers, said with 码 (mǎ) — EU {match.eu} is
+                &quot;{Math.round(match.eu)}码&quot; — and some brands print the millimetre figure. Half
+                sizes are uncommon, so try both neighbours.
+              </p>
+            </article>
+          )}
+          {showTaiwanHk && (
+            <article className={`card${showKorea || showMainland ? "" : " card-accent"}`} style={{ ["--accent" as string]: "#e4572e" }}>
+              <div className="eyebrow">{taiwanHkLabel} — US, EU or UK</div>
               <div className="rate-big" style={{ fontSize: "1.4rem" }}>
                 US {match.us} · EU {match.eu} · UK {match.uk}
               </div>
@@ -144,7 +161,8 @@ export default function SizingTab() {
             <tr>
               <th>US</th>
               {showKorea && <th>Korea</th>}
-              {showGreaterChina && <th>Taiwan / Hong Kong</th>}
+              {showTaiwanHk && <th>Taiwan / Hong Kong</th>}
+              {showMainland && <th>Mainland China</th>}
               {gender === "mens" && <th>Chest</th>}
             </tr>
           </thead>
@@ -155,7 +173,8 @@ export default function SizingTab() {
                   <strong>{row.us}</strong>
                 </td>
                 {showKorea && <td>{row.korea}</td>}
-                {showGreaterChina && <td>{row.taiwanHk}</td>}
+                {showTaiwanHk && <td>{row.taiwanHk}</td>}
+                {showMainland && <td>{row.china}</td>}
                 {gender === "mens" && <td>{row.chestCm ?? "—"}</td>}
               </tr>
             ))}
@@ -224,8 +243,8 @@ export default function SizingTab() {
 
       <h2 className="section-title">Worth buying, and where</h2>
       <div className="grid">
-        {(["taipei", "hongkong", "seoul"] as const).filter(inView).map((id) => {
-          const c = cityById(id);
+        {visible.map((c) => {
+          const id = c.id;
           const items = SHOPPING.filter((s) => s.city === id);
           return (
             <article className="card card-accent" key={id} style={{ ["--accent" as string]: c.accent }}>

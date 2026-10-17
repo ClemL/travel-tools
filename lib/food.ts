@@ -590,6 +590,269 @@ export const FOOD: FoodProfile[] = [
       "Cha chaan teng meal: HK$50-80. Siu mei rice: HK$60-90. Mid-range dinner: HK$200-400. Dim sum: HK$150-350. Hong Kong is the most expensive of the three for restaurant dining but the cheap end is still cheap.",
   },
   {
+    city: "shenzhen",
+    summary:
+      "A forty-year-old city of migrants, and it eats like one. The local base is Cantonese, Chaoshan and Hakka cooking from the surrounding province, layered with Hunan, Sichuan and northern food brought by everyone who moved here for work. Prices run roughly half of Hong Kong's for comparable food.",
+    keyMechanic:
+      "Almost every restaurant runs on scan-to-order. A QR code on the table opens a menu inside WeChat or Alipay, with photos; you order and often pay on your phone, and the food simply arrives. Without a working Alipay or WeChat Pay account linked to a foreign card, the simplest meal becomes a negotiation — set it up before you cross the border. Expect a small charge for sealed tableware and tea; it is a standard fee, not a scam.",
+    dishes: [
+      {
+        en: "Chaoshan beef hot pot",
+        local: "潮汕牛肉火锅",
+        roman: "cháo shàn niú ròu huǒ guō",
+        what:
+          "Beef slaughtered that morning, cut to order into named cuts and dipped in a clear broth for a set number of seconds — staff will tell you, or the menu prints it. Shenzhen's signature night out, and the beef balls are the benchmark.",
+        price: "¥100-160 per person",
+        mustTry: true,
+      },
+      {
+        en: "Coconut chicken hot pot",
+        local: "椰子鸡",
+        roman: "yē zi jī",
+        what:
+          "Free-range chicken simmered in fresh coconut water, eaten with a lime-and-chilli soy dip. A Hainanese idea that Shenzhen turned into its own citywide craze. Gentle, sweet and a good counterweight to the heat outside.",
+        price: "¥90-150 per person",
+        mustTry: true,
+      },
+      {
+        en: "Gongming roast pigeon",
+        local: "公明烧乳鸽",
+        roman: "gōng míng shāo rǔ gē",
+        what:
+          "Young pigeon roasted or deep-fried until the skin shatters. Named for Gongming in the northwest of the city and on almost every Cantonese menu. Eat it with your hands.",
+        price: "¥40-80 per bird",
+        mustTry: true,
+      },
+      {
+        en: "Chaozhou braised goose",
+        local: "潮州卤鹅",
+        roman: "cháo zhōu lǔ é",
+        what:
+          "Goose braised in a dark master stock of soy, galangal and spices, sliced cold and served with vinegar-garlic dip. The braised tofu from the same pot is often the best thing on the plate.",
+        price: "¥50-120",
+        mustTry: true,
+      },
+      {
+        en: "Morning tea (dim sum)",
+        local: "早茶",
+        roman: "zǎo chá",
+        what:
+          "The same Cantonese dim sum ritual as Hong Kong — har gow, siu mai, chicken feet, egg tarts — at noticeably lower prices and with easier tables. Weekend mornings are a family event.",
+        price: "¥60-150 per person",
+        mustTry: true,
+      },
+      {
+        en: "Rice noodle rolls",
+        local: "肠粉",
+        roman: "cháng fěn",
+        what:
+          "Steamed rice sheets with egg, minced pork or prawn, doused in sweet soy. The Guangdong breakfast — cheap stalls steam them to order on cloth (布拉肠) from 07:00.",
+        price: "¥10-25",
+        mustTry: true,
+      },
+      {
+        en: "Pork tripe chicken hot pot",
+        local: "猪肚鸡",
+        roman: "zhū dǔ jī",
+        what:
+          "Peppery white soup of pork tripe and chicken, drunk first as soup and then used as a hot pot base. Hakka-Cantonese comfort food, and the thing locals order when the air conditioning has given them a cold.",
+        price: "¥80-140 per person",
+      },
+      {
+        en: "Hakka salt-baked chicken",
+        local: "盐焗鸡",
+        roman: "yán jú jī",
+        what: "Chicken wrapped in paper and baked in hot salt until the meat is dense, savoury and golden. Hakka villages in eastern Shenzhen still make it the old way.",
+        price: "¥60-120",
+      },
+      {
+        en: "Hakka stuffed tofu",
+        local: "客家酿豆腐",
+        roman: "kè jiā niàng dòu fu",
+        what: "Tofu squares stuffed with seasoned minced pork and fish, pan-fried and braised. Homestyle, cheap and on nearly every Hakka menu.",
+        price: "¥25-45",
+      },
+      {
+        en: "Chaoshan beef balls",
+        local: "牛肉丸",
+        roman: "niú ròu wán",
+        what: "Hand-pounded until springy enough to bounce. Ordered in hot pot, in noodle soup, or by the bag to take home.",
+        price: "¥20-40",
+      },
+      {
+        en: "Chaoshan rice noodles",
+        local: "粿条",
+        roman: "guǒ tiáo",
+        what: "Flat rice noodles in clear pork or beef broth, or dry-tossed. The everyday Chaoshan lunch and one of the cheapest good meals in the city.",
+        price: "¥15-30",
+      },
+      {
+        en: "Claypot rice",
+        local: "煲仔饭",
+        roman: "bāo zǎi fàn",
+        what: "Rice cooked to order in a clay pot with cured sausage or chicken, so the bottom forms a crisp crust. Pour the soy over, close the lid, wait a minute.",
+        price: "¥25-45",
+      },
+      {
+        en: "Cantonese roast meat rice",
+        local: "烧腊饭",
+        roman: "shāo là fàn",
+        what: "Char siu, roast duck or crispy pork over rice from a shop with meat hanging in the window. The same thing as in Hong Kong at around half the price.",
+        price: "¥20-35",
+      },
+      {
+        en: "Seafood from the tank",
+        local: "海鲜",
+        roman: "hǎi xiān",
+        what:
+          "Choose live fish, prawns, clams and mantis shrimp at the tanks, agree the cooking method, and it comes out steamed, salt-and-pepper fried or in garlic. The coast at Shekou, Nan'ao and Dapeng is where to do it.",
+        price: "Market price, per jin (500 g)",
+      },
+      {
+        en: "Chopped-chilli fish head",
+        local: "剁椒鱼头",
+        roman: "duò jiāo yú tóu",
+        what:
+          "A Hunan classic: a whole fish head steamed under a red blanket of salted chopped chillies, with noodles to soak up the juices. Shenzhen has some of the best Hunan food outside Hunan because so many residents come from there.",
+        price: "¥80-140",
+      },
+      {
+        en: "Double-skin milk",
+        local: "双皮奶",
+        roman: "shuāng pí nǎi",
+        what: "Steamed milk pudding with two skins, served hot or cold, sometimes with red bean. The classic Guangdong dessert.",
+        price: "¥15-25",
+      },
+      {
+        en: "Late-night barbecue skewers",
+        local: "烧烤",
+        roman: "shāo kǎo",
+        what:
+          "Lamb, oysters, aubergine and chicken wings off the grill, eaten outdoors with beer after 21:00. 宵夜 (xiāo yè), the late-night meal, is a real part of Shenzhen life.",
+        price: "¥60-120 per person",
+      },
+    ],
+    seasonal: [
+      {
+        name: "Mooncakes",
+        local: "月饼",
+        what:
+          "Cantonese lotus-seed and salted-yolk mooncakes, plus Chaoshan flaky-pastry versions and the Shenzhen milk-tea chains' novelty flavours. Boxes become corporate gifts and the bakeries run queues.",
+        window: "The two weeks before 25 September",
+      },
+      {
+        name: "Pomelo and late longan",
+        local: "柚子 / 龙眼",
+        what:
+          "Pomelo arrives for Mid-Autumn and is everywhere; the longan season tails off in early September. Fruit stalls will cut and bag either.",
+        window: "Through September",
+      },
+      {
+        name: "Hairy crab",
+        local: "大闸蟹",
+        what:
+          "The mainland season opens in late September and supermarkets, restaurants and online shops start selling it immediately — at prices well below Hong Kong's.",
+        window: "Late September onward",
+      },
+    ],
+    drinks: [
+      {
+        name: "New-style tea",
+        local: "新式茶饮",
+        what:
+          "HEYTEA (喜茶) and Nayuki (奈雪的茶) both grew up in Shenzhen and started the fruit-tea and cheese-foam wave. Order on the chain's mini-program in Alipay or WeChat and collect by number.",
+        price: "¥15-30",
+        where: "Every mall; flagship stores in Futian and Nanshan",
+      },
+      {
+        name: "Gongfu tea",
+        local: "工夫茶",
+        what:
+          "Tiny cups of strong oolong (often Phoenix dancong) poured repeatedly at Chaoshan restaurants, usually free or for a small tea fee. Leave the cup upright to be refilled.",
+        price: "Often included",
+        where: "Any Chaoshan restaurant",
+      },
+      {
+        name: "Cheap coffee",
+        local: "瑞幸",
+        what:
+          "Luckin and Cotti sell perfectly good lattes for ¥9-20 through constant app coupons, which makes Shenzhen one of the cheapest coffee cities on the trip. Independent specialty cafés cluster in Nanshan and OCT.",
+        price: "¥9-35",
+        where: "Everywhere; independents in OCT Loft and Shekou",
+      },
+      {
+        name: "Herbal tea",
+        local: "凉茶",
+        what:
+          "Guangdong's bitter cooling teas — Wong Lo Kat in a can at any convenience store, or brewed from urns at herbal shops. Locally held to counter humidity and 'heatiness'.",
+        price: "¥4-15",
+        where: "Convenience stores, herbal tea shops",
+      },
+      {
+        name: "Craft beer",
+        local: "精酿啤酒",
+        what: "A real local scene led by Bionic Brew, with taprooms concentrated in Shekou and the Nanshan tech district.",
+        price: "¥40-70",
+        where: "Shekou, Nanshan",
+      },
+    ],
+    whereToEat: [
+      {
+        dish: "Chaoshan beef hot pot",
+        where: "Futian and Luohu Chaoshan restaurants",
+        note:
+          "Look for a counter where a butcher is cutting the beef in view and a board listing cuts with cooking times. Book or arrive before 18:00 — the good ones queue.",
+      },
+      {
+        dish: "Morning tea",
+        where: "Old-school Cantonese restaurants in Luohu and Futian",
+        note: "Busiest on weekend mornings, when it is a family event. On weekdays you will get a table without waiting.",
+      },
+      {
+        dish: "Seafood",
+        where: "Shekou, Nan'ao and Dapeng seafood streets",
+        note:
+          "Prices are per jin (500 g) and sometimes per liang (50 g) — the difference is a factor of ten. Confirm the unit and watch the weighing.",
+      },
+      {
+        dish: "Hunan and Sichuan",
+        where: "Anywhere in the city",
+        note: "Because so many residents come from those provinces, ordinary neighbourhood restaurants are often more authentic than the famous ones.",
+      },
+    ],
+    ordering: [
+      {
+        title: "Scan the table QR code",
+        detail:
+          "Opens a picture menu in WeChat or Alipay. Order, add items later the same way, and pay on your phone. Ask staff for a paper menu if scanning fails; most places still have one.",
+      },
+      {
+        title: "Tea and tableware fees are normal",
+        detail:
+          "A sealed set of plates and cups costs ¥1-3 per person, and Chaoshan or Cantonese places may charge a tea fee. Both are standard and appear on the bill.",
+      },
+      {
+        title: "Seafood is weighed before it is cooked",
+        detail:
+          "You pick the live animal, it is weighed in front of you, and you agree the price per jin. Confirm before it goes to the kitchen; after that it is yours.",
+      },
+      {
+        title: "Hot pot sauce bars are self-service",
+        detail: "Mix your own dip at the counter. At Chaoshan beef hot pot, the house shacha sauce is the classic.",
+      },
+      {
+        title: "No tipping",
+        detail: "Not expected anywhere, including in taxis and hotels. Higher-end restaurants may add a 10% service charge, which is printed on the bill.",
+      },
+    ],
+    vegetarian:
+      "Possible but not easy. Buddhist vegetarian restaurants (素食) exist and are good value, often as buffets near temples and in Futian. Mainstream Cantonese and Hakka cooking uses lard, pork stock and oyster sauce even in vegetable dishes. Say 我吃素 (wǒ chī sù) and add 不要肉汤 (bú yào ròu tāng, no meat stock).",
+    mealTimes:
+      "Breakfast and morning tea 07:00-11:00. Lunch 11:30-13:30, strict, because offices break 12:00-14:00. Dinner 18:00-20:30. Late-night food (宵夜) runs until 02:00 at barbecue and congee places.",
+    budget:
+      "Noodles or rice plate: ¥15-35. Casual sit-down: ¥50-100 per person. Chaoshan hot pot or Cantonese dinner: ¥100-200 per person. Roughly half of Hong Kong prices for the same category of meal.",
+  },
+  {
     city: "seoul",
     summary:
       "Korean eating is structurally different from the other two: a meal is a shared table of communal dishes plus unlimited free side dishes, and many restaurants specialize in exactly one thing that requires two or more people to order.",

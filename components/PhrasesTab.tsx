@@ -92,7 +92,7 @@ export default function PhrasesTab() {
               {list.map((p) => (
                 <div className="phrase" key={p.en}>
                   <span className="en">{p.en}</span>
-                  <span className="local" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+                  <span className="local" lang={c.lang}>
                     {p.local}
                   </span>
                   <span className="roman">{p.roman}</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCity } from "./CityProvider";
-import { cityById } from "@/lib/cities";
+import { cityById, type CityId } from "@/lib/cities";
 import { rankedCities, type ActivityProfile } from "@/lib/activities";
 import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
 
@@ -22,12 +22,14 @@ export default function ActivityTab({
 }: {
   profiles: ActivityProfile[];
   lede: string;
-  verdict: { title: string; body: string };
+  /** `city` is the destination the verdict recommends; it only shows while that one is switched on. */
+  verdict: { title: string; body: string; city: CityId };
 }) {
-  const { city } = useCity();
-  // Ranked by scene quality, so the strongest city is always visible as a hint
-  // even when the header selection points somewhere else.
-  const best = cityById(rankedCities(profiles)[0]);
+  const { city, enabledCities } = useCity();
+  // Ranked by scene quality, so the strongest enabled city is always visible as
+  // a hint even when the header selection points somewhere else.
+  const best = cityById(rankedCities(profiles, enabledCities.map((x) => x.id))[0] ?? city);
+  const showVerdict = enabledCities.some((x) => x.id === verdict.city);
   const p = profiles.find((x) => x.city === city)!;
   const c = cityById(city);
 
@@ -35,17 +37,22 @@ export default function ActivityTab({
     <section>
       <p className="lede">{lede}</p>
 
-      <DismissBar scope={`act-verdict-${p.venues.length}`} noun="tips" />
-      <Dismissible scope={`act-verdict-${p.venues.length}`} itemKey={verdict.title}>
-        <div className="callout callout-warn">
-          <strong>{verdict.title}</strong>
-          {verdict.body}
-        </div>
-      </Dismissible>
+      {showVerdict && (
+        <>
+          <DismissBar scope={`act-verdict-${p.venues.length}`} noun="tips" />
+          <Dismissible scope={`act-verdict-${p.venues.length}`} itemKey={verdict.title}>
+            <div className="callout callout-warn">
+              <strong>{verdict.title}</strong>
+              {verdict.body}
+            </div>
+          </Dismissible>
+        </>
+      )}
 
       {best.id !== city && (
-        <p className="muted small" style={{ marginTop: -8 }}>
-          Strongest scene of the three: {best.flag} {best.name}. Switch cities in the header to see it.
+        <p className="muted small" style={{ marginTop: showVerdict ? -8 : 0 }}>
+          Strongest scene among your destinations: {best.flag} {best.name}. Switch cities in the header to
+          see it.
         </p>
       )}
 

@@ -11,21 +11,22 @@ export default function ToolkitTab() {
   const { visible, compareAll } = useCity();
   const inView = (id: string) => visible.some((v) => v.id === id);
   const power = POWER.filter((p) => inView(p.city));
+  // The adapter warning only makes sense when the cities in view disagree.
+  const mixedSockets = new Set(power.map((p) => p.plugs)).size > 1;
   const entry = ENTRY.filter((e) => inView(e.city));
   const emergency = EMERGENCY.filter((e) => inView(e.city));
   const holidays = HOLIDAYS.filter((h) => h.cities.some(inView));
   const logistics = LOGISTICS.filter((l) => l.city === "all" || inView(l.city));
   const safety = SAFETY.filter((n) => n.cities === "all" || n.cities.some(inView));
-  const appScopes = (["all", "taipei", "hongkong", "seoul"] as const).filter(
-    (s) => s === "all" || inView(s)
-  );
+  const packing = PACKING.filter((p) => !p.cities || p.cities.some(inView));
+  const appScopes = ["all" as const, ...visible.map((v) => v.id)];
 
   return (
     <section>
       <p className="lede">
         The logistics that do not fit anywhere else: sockets, entry paperwork, emergency numbers, the
         apps worth installing before you fly, the holidays that fall during this trip, and a packing list
-        built specifically for a September itinerary across these three cities.
+        built specifically for a September itinerary across these cities.
       </p>
 
       <div className="converter">
@@ -57,15 +58,14 @@ export default function ToolkitTab() {
         })}
       </div>
       <DismissBar scope="kit-tips" noun="tips" />
-      {/* Only meaningful when all three are in view — it is a comparison. */}
-      {compareAll && (
+      {/* Only meaningful when the cities in view use different sockets — it is a comparison. */}
+      {compareAll && mixedSockets && (
       <Dismissible scope="kit-tips" itemKey="One adapter will not cover the trip">
       <div className="callout">
         <strong>One adapter will not cover the trip</strong>
-        Taipei uses US sockets, Hong Kong uses the British 3-pin, and Seoul uses the round European
-        2-pin. Carry a single universal adapter rather than assembling a collection, and check that your
-        chargers are rated 100-240 V — nearly all laptop and phone bricks are, but hair tools and shavers
-        frequently are not.
+        {power.map((p) => `${cityById(p.city).name}: ${p.plugs}`).join(" · ")}. Carry a single universal
+        adapter rather than assembling a collection, and check that your chargers are rated 100-240 V —
+        nearly all laptop and phone bricks are, but hair tools and shavers frequently are not.
       </div>
       </Dismissible>
       )}
@@ -73,8 +73,9 @@ export default function ToolkitTab() {
       <h2 className="section-title">Entry &amp; documents</h2>
       <div className="callout callout-warn">
         <strong>Reconfirm every line of this section before you fly</strong>
-        Entry requirements across all three destinations have changed repeatedly since 2023 —
-        electronic arrival cards, K-ETA exemptions, and onward-ticket enforcement in particular. Treat
+        Entry requirements across these destinations have changed repeatedly since 2023 — electronic
+        arrival cards, K-ETA exemptions, mainland China&apos;s visa-free transit rules, and onward-ticket
+        enforcement in particular. Treat
         the table below as a checklist of what to verify, not as authority. The official links are the
         authority.
       </div>
@@ -162,8 +163,9 @@ export default function ToolkitTab() {
         </table>
       </div>
       <p className="status">
-        The numbers are not consistent across the three: 110 is police in Taiwan but does nothing in
-        Korea, where police is 112. Save all of them in your phone before you go.
+        The numbers are not consistent across destinations: 110 is police in Taiwan and mainland China but
+        does nothing in Korea, where police is 112, and the mainland splits ambulance (120) from fire
+        (119). Save all of them in your phone before you go.
       </p>
 
       <h2 className="section-title">Apps to install before you fly</h2>
@@ -173,7 +175,7 @@ export default function ToolkitTab() {
           if (items.length === 0) return null;
           const label =
             scope === "all"
-              ? "🌏 All three cities"
+              ? "🌏 Every destination"
               : `${cityById(scope).flag} ${cityById(scope).name}`;
           return (
             <article className="card" key={scope}>
@@ -197,13 +199,24 @@ export default function ToolkitTab() {
       </div>
 
       <h2 className="section-title">Holidays during your window</h2>
-      {compareAll && (
+      {compareAll && inView("seoul") && visible.length > 1 && (
       <Dismissible scope="kit-tips" itemKey="Mid-Autumn Festival and Chuseok both fall in late September 2026">
       <div className="callout callout-warn">
         <strong>Mid-Autumn Festival and Chuseok both fall in late September 2026</strong>
-        This is the single biggest scheduling factor of the trip. All three destinations observe the same
-        lunar date, so you get overlapping public holidays across Taiwan, Hong Kong and Korea within the
-        same week. Intercity transport sells out, small businesses close, and hotel rates rise.
+        This is the single biggest scheduling factor of the trip. Every destination here observes the same
+        lunar date, so you get overlapping public holidays in the same week. Intercity transport sells out,
+        small businesses close, and hotel rates rise.
+      </div>
+      </Dismissible>
+      )}
+      {inView("shenzhen") && (
+      <Dismissible scope="kit-tips" itemKey="Golden Week follows Mid-Autumn almost immediately">
+      <div className="callout callout-warn">
+        <strong>Golden Week follows Mid-Autumn almost immediately</strong>
+        Mainland China&apos;s National Day holiday runs 1-7 October, a few days after the Mid-Autumn
+        weekend. It is the busiest travel week of the Chinese year: border crossings into Hong Kong,
+        high-speed rail and attractions on both sides are at capacity. If Shenzhen falls in that window,
+        move it.
       </div>
       </Dismissible>
       )}
@@ -251,7 +264,7 @@ export default function ToolkitTab() {
       <DismissBar scope="kit-pack" noun="items" />
       <div className="grid">
         {PACK_CATEGORIES.map((cat) => {
-          const items = PACKING.filter((p) => p.category === cat);
+          const items = packing.filter((p) => p.category === cat);
           return (
             <article className="card" key={cat}>
               <h3>{cat}</h3>
@@ -272,7 +285,7 @@ export default function ToolkitTab() {
       <h2 className="section-title">Jet lag</h2>
       <div className="callout">
         <strong>A 12-hour shift is the theoretical maximum</strong>
-        Boston to Taipei and Hong Kong is 12 hours; Seoul is 13. There is no worse case, and at exactly
+        Boston to Taipei, Hong Kong and Shenzhen is 12 hours; Seoul is 13. There is no worse case, and at exactly
         12 hours the direction your body drifts becomes ambiguous — which is why the plan below is about
         forcing a direction with light and meal timing rather than just enduring it. General guidance,
         not medical advice.

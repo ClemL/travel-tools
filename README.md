@@ -1,8 +1,20 @@
-# Asia Trip Tools — Taipei · Hong Kong · Seoul
+# Asia Trip Tools — Taipei · Hong Kong · Shenzhen · Seoul
 
-A 19-tab trip companion for a September 2026 itinerary across Taipei, Hong Kong and Seoul.
-Next.js 16 App Router, TypeScript, zero UI dependencies, installable as a PWA, works offline,
-and deploys to Vercel with no configuration and no required API keys.
+A 19-tab trip companion covering Taipei, Hong Kong, Shenzhen and Seoul, written around a September
+travel window. Next.js 16 App Router, TypeScript, zero UI dependencies, installable as a PWA, works
+offline, and deploys to Vercel with no configuration and no required API keys.
+
+## Destinations
+
+**⚙️ Settings → Destinations** switches each city on or off. A switched-off destination disappears
+from the city picker, the clocks, every comparison view, the Verify checklist and search. Its data and
+anything you ticked off are kept, so switching it back on restores it exactly. At least one
+destination always stays on.
+
+The trip defaults (`defaultEnabled` in `lib/cities.ts`) are **Hong Kong and Shenzhen**, with Taipei
+and Seoul off. **Reset to trip defaults** returns to that set, and **Turn all on** shows everything.
+The choice persists per device in `localStorage`. A deep link to a switched-off city falls back to
+the first enabled one rather than overriding the setting.
 
 ## Tabs
 
@@ -17,25 +29,27 @@ comparison is hidden when you are filtered to one city: the side-by-side climate
 that city's normals, and advice like "one adapter will not cover the trip" only appears in compare
 mode.
 
-A **Compare all three** button on those tabs is the way back to a three-way view. The choice persists.
+A **Compare** button on those tabs ("Compare both", "Compare all four") is the way back to a
+side-by-side view of every enabled destination. It hides when only one destination is on. The choice
+persists.
 
 **Live** — needs a connection, degrades to cached data offline
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
-| 💱 Currency | TWD / HKD / KRW ↔ USD, denominations, mental-math rules, ATM guidance | All three |
-| 🌦️ Weather | Current conditions, 7-day forecast, apparent temperature, UV, AQI | All three |
-| 🌀 Alerts | Live Hong Kong typhoon signals, derived wind/rain watch, signal ladder, contingency plan | All three |
+| 💱 Currency | TWD / HKD / CNY / KRW ↔ USD, denominations, mental-math rules, ATM guidance | All destinations |
+| 🌦️ Weather | Current conditions, 7-day forecast, apparent temperature, UV, AQI | All destinations |
+| 🌀 Alerts | Live Hong Kong typhoon signals, derived wind/rain watch, signal ladder, contingency plan | All destinations |
 
 **Plan**
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
 | ✅ Verify | Every flagged claim in the app as a pre-trip checklist, prioritised, with official links and persisted ticks | Per city |
-| 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to pack | All three |
+| 📅 Climate | 1991–2020 September normals side by side, typhoon outlook, what to pack | All destinations |
 | 🗺️ Neighborhoods | Day plans pairing areas that work together, six day trips per city, closure traps, rain fallbacks | Per city |
 | ✈️ Airport | Every transfer option with door-to-door times and costs in local currency and USD | Per city |
-| 🧰 Toolkit | Plugs, entry rules, emergency numbers, apps, holidays, packing list, safety, a jet lag plan for the 12-hour shift, and luggage/laundry logistics | All three |
+| 🧰 Toolkit | Plugs, entry rules, emergency numbers, apps, holidays, packing list, safety, a jet lag plan for the 12-hour shift, and luggage/laundry logistics | All destinations |
 
 **On the ground**
 
@@ -49,35 +63,51 @@ A **Compare all three** button on those tabs is the way back to a three-way view
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
-| ✒️ Stationery | Stationery districts and shops — Seoul's design ateliers, Taipei's independents, Hong Kong's supply streets | Per city |
-| 🏺 Artisan | Craft districts and working makers — ceramics, leather, bamboo, lacquer, and Hong Kong's endangered trades | Per city |
-| 👕 Sizing | Interactive shoe converter, clothing charts, tax refunds, what to buy where | All three |
+| ✒️ Stationery | Stationery districts and shops — Seoul's design ateliers, Taipei's independents, Hong Kong's supply streets, Shenzhen's Book City and Chinese fountain pens | Per city |
+| 🏺 Artisan | Craft districts and working makers — ceramics, leather, bamboo, lacquer, Hong Kong's endangered trades, Shenzhen's Dafen painting village | Per city |
+| 👕 Sizing | Interactive shoe converter, clothing charts including mainland GB codes, tax refunds, what to buy where | All destinations |
 
 **Do**
 
 | Tab | What it does | Scope |
 | --- | --- | --- |
 | 🧗 Climbing | Bouldering scenes, grading systems, etiquette, pricing, outdoor seasonality | Per city |
-| 🎮 Gaming | PC bangs, arcades, board game cafés, esports, hobby retail | Per city |
-| ⛳ Golf | Korean screen golf, driving ranges, where a real round is realistic | Per city |
-| ⚾ Baseball | KBO and CPBL as a live experience, plus Happy Valley racing in Hong Kong | Per city |
-| ♨️ Bathhouses | Jjimjilbang, Beitou hot springs, and the etiquette that matters | Per city |
+| 🎮 Gaming | PC bangs, arcades, board game cafés, escape rooms, jubensha, esports, hobby retail | Per city |
+| ⛳ Golf | Korean screen golf, Shenzhen's Mission Hills, driving ranges, where a real round is realistic | Per city |
+| ⚾ Baseball | KBO and CPBL as a live experience, Happy Valley racing in Hong Kong, Chinese Super League football in Shenzhen | Per city |
+| ♨️ Bathhouses | Jjimjilbang, Beitou hot springs, Shenzhen's 24-hour bathhouse-spas, and the etiquette that matters | Per city |
 
 The active tab is mirrored into the URL hash, so every view is linkable and browser back/forward
 works. The city choice persists in `localStorage`.
 
 ## Content
 
-Roughly 6,000 lines of curated reference across 13 data modules. The bulk of it:
+Roughly 7,500 lines of curated reference across 13 data modules. The bulk of it:
 
-- **51 dishes** across the three cities, plus what is specifically in season during the September
+- **70 dishes** across the four cities, plus what is specifically in season during the September
   window — mooncakes and Mid-Autumn barbecue in Taipei, snake soup and the start of hairy crab in
-  Hong Kong, Chuseok food and the return of the street carts in Seoul.
-- **118 phrases**, grouped into Basics, Ordering, Getting around, Shopping, Numbers and Emergency,
-  with allergy vocabulary and the phrase for asking which typhoon signal is up.
-- **18 day trips** — Jiufen, Yingge and Keelung from Taipei; Macau, Cheung Chau and Sai Kung from
-  Hong Kong; the DMZ, Suwon and Bukhansan from Seoul.
-- **28 neighborhoods**, **15 day plans**, and the closure traps that cost a day.
+  Hong Kong, Chaoshan beef hot pot and the mainland hairy crab season in Shenzhen, Chuseok food and
+  the return of the street carts in Seoul.
+- **162 phrases**, grouped into Basics, Ordering, Getting around, Shopping, Numbers and Emergency,
+  with allergy vocabulary, the phrase for asking which typhoon signal is up, and — for Shenzhen —
+  "do I scan you, or do you scan me?".
+- **24 day trips** — Jiufen, Yingge and Keelung from Taipei; Macau, Cheung Chau and Sai Kung from
+  Hong Kong; Guangzhou, Chaozhou and the Dapeng peninsula from Shenzhen; the DMZ, Suwon and
+  Bukhansan from Seoul.
+- **37 neighborhoods**, **19 day plans**, and the closure traps that cost a day.
+
+### Shenzhen specifics
+
+Shenzhen is the one mainland destination, and three things about it differ from everywhere else in
+the app. They are covered in Basics, Toolkit and Verify, and flagged as critical where it matters:
+
+- **Entry.** US passport holders cannot use the 5-day Shenzhen port visa, and a Hong Kong → Shenzhen →
+  Hong Kong round trip does not count as 240-hour visa-free transit. Plan the order of cities around
+  your entry basis.
+- **Payments.** The city runs on Alipay and WeChat Pay, both of which accept a linked foreign card.
+  Set one up and test it before crossing.
+- **Connectivity.** Google, WhatsApp and Instagram are blocked on mainland connections. Roaming data
+  and most Hong Kong travel eSIMs route around this; download offline maps and translation first.
 
 ## Verify before you go
 
@@ -208,11 +238,13 @@ No API keys are required for anything. One optional key adds coverage.
 - **Typhoon warnings (Taiwan)** — optional. Taiwan's CWA open data API requires a free key. Set
   `CWA_API_KEY` in your Vercel environment variables to enable live Taiwanese warnings; without it
   the tab falls back to the derived watch and links to the official site.
-- **Derived wind/rain watch** — computed from Open-Meteo gust and precipitation forecasts for all
-  three cities, with thresholds set deliberately below official warning criteria. This is an early
+- **Derived wind/rain watch** — computed from Open-Meteo gust and precipitation forecasts for every
+  destination, with thresholds set deliberately below official warning criteria. This is an early
   indication, explicitly **not** a warning.
-- **Climate normals** — Central Weather Administration (Taiwan), Hong Kong Observatory, and Korea
-  Meteorological Administration, 1991–2020 station normals.
+- **Climate normals** — Central Weather Administration (Taiwan), Hong Kong Observatory, Shenzhen
+  Meteorological Bureau, and Korea Meteorological Administration, 1991–2020 station normals.
+- **Typhoon warnings (Shenzhen)** — link-only. The Shenzhen Meteorological Bureau has no keyless
+  English feed, so the tab shows the derived watch and links to the official site.
 
 All three API routes are proxied server-side rather than called from the browser, which avoids CORS
 and lets the CDN absorb repeat traffic.
@@ -249,7 +281,11 @@ UI should be reconfirmed against an official source. That covers, in particular:
 
 - K-ETA and electronic arrival-card requirements for US passport holders
 - Octopus and EasyCard mobile-wallet provisioning for overseas devices
-- Substitute public holidays around Chuseok and Mid-Autumn Festival 2026
+- Substitute public holidays around Chuseok and Mid-Autumn Festival 2026, and the mainland's
+  National Day Golden Week make-up working days
+- Mainland China entry for US passport holders: visa versus 240-hour visa-free transit
+- Alipay and WeChat Pay foreign-card limits and fees, and Shenzhen Metro foreign-card acceptance
+- Hong Kong–Shenzhen checkpoint opening hours
 - Museum and palace closing days — these have changed repeatedly and differ between adjacent sites
 - Every named venue in the Climbing, Gaming, Golf, Stationery and Artisan tabs; businesses open,
   close and move, and this is the weakest data in the app. Those tabs lead with search terms and

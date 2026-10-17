@@ -2,7 +2,7 @@
   "name": "asia-trip-tools",
   "version": "1.0.0",
   "private": true,
-  "description": "Trip companion for Taipei, Hong Kong and Seoul: currency, weather, September climate and on-the-ground logistics.",
+  "description": "Trip companion for Taipei, Hong Kong, Shenzhen and Seoul: currency, weather, September climate and on-the-ground logistics.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

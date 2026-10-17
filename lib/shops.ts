@@ -256,6 +256,70 @@ export const STATIONERY: ShopScene[] = [
     ],
     searchTerm: "stationery shop · 文具 · on Google Maps",
   },
+  {
+    city: "shenzhen",
+    rating: "Limited",
+    summary:
+      "A young city with no traditional stationery quarter. What it does have is enormous state bookstores with whole stationery floors, independent design and print shops in converted factory districts, and Chinese pen brands at prices that make experimenting cheap.",
+    signature:
+      "Chinese fountain pens and inks. Brands such as Jinhao, Hongdian, Wingsung and Kaco sell pens that write well for the price of a coffee, and the better models are a genuine bargain rather than a novelty.",
+    district: [
+      {
+        name: "Shenzhen Book City, Futian",
+        why:
+          "The Central Book City next to the Civic Center is one of the largest bookstores in China, with floors of stationery, art supplies and calligraphy materials alongside the books.",
+      },
+      {
+        name: "OCT Loft, Nanshan",
+        why: "A converted factory district of design studios, galleries, independent bookshops and print shops. The most browsable afternoon in this category.",
+      },
+      {
+        name: "Huaqiangbei, Futian",
+        why: "Not stationery as such, but the place for desk gadgets, label printers, e-ink notepads and pen-sized electronics at component prices.",
+      },
+    ],
+    shops: [
+      {
+        name: "Shenzhen Book City (Central)",
+        local: "深圳书城中心城",
+        area: "Futian, next to the Civic Center",
+        what: "A bookstore the length of a city block, with stationery, art supplies, pens and brush-and-ink sets on dedicated floors.",
+        price: "Budget",
+        confidence: "verify",
+      },
+      {
+        name: "Old Heaven Books",
+        local: "旧天堂书店",
+        area: "OCT Loft, Nanshan",
+        what: "An independent bookshop and record store with a small, well-chosen selection of notebooks, prints and local design goods.",
+        price: "Mid",
+        confidence: "verify",
+      },
+      {
+        name: "OCT Loft design shops",
+        local: "华侨城创意文化园",
+        area: "Nanshan, near Qiaocheng East station",
+        what: "Rotating independent studios selling risograph prints, notebooks, stamps and letterpress cards. Shop by walking the lanes rather than by name.",
+        price: "Mid",
+        confidence: "verify",
+      },
+      {
+        name: "M&G Chenguang stores",
+        local: "晨光文具",
+        area: "Malls citywide",
+        what: "China's mass-market stationery chain. Cheap gel pens, refills and notebooks; the place to stock up on basics.",
+        price: "Budget",
+        confidence: "verify",
+      },
+    ],
+    buying: [
+      "Chinese fountain pens are the standout buy. A good one costs less than a replacement nib at home, so buy two and see which you like.",
+      "Book City and the chains take Alipay and WeChat Pay; independents in OCT Loft occasionally take only those.",
+      "Paper is cheap but heavier than it looks in volume. Notebooks are the efficient buy; reams are not.",
+      "If stationery is a priority on this trip, Shenzhen is a supplement, not a destination — Seoul and Taipei are stronger.",
+    ],
+    searchTerm: "文具 (stationery) · 钢笔 (fountain pen) · on Amap or Dianping",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -505,6 +569,82 @@ export const ARTISAN: ShopScene[] = [
       "Hand-carved mahjong sets are heavy and expensive. If you want one, decide before you go rather than on the day.",
     ],
     searchTerm: "handicraft · 手工藝 · workshop · on Google Maps",
+  },
+  {
+    city: "shenzhen",
+    rating: "Strong",
+    summary:
+      "Shenzhen's craft story is less about tradition than about scale and reinvention: the world's best-known painting village, factory districts turned into design quarters, and Hakka villages on the city's edge where older crafts survive.",
+    signature:
+      "Dafen Oil Painting Village. Thousands of working painters in a few blocks, producing a large share of the world's hand-painted reproductions. Watch them work, then commission a copy or a portrait from a photo, rolled in a tube for the flight home.",
+    district: [
+      {
+        name: "Dafen, Longgang",
+        why: "The painting village: galleries, open studios, frame makers and art-supply shops packed into a few streets. Metro Line 3 to Dafen station.",
+      },
+      {
+        name: "OCT Loft, Nanshan",
+        why: "Design studios, ceramics, leather and print workshops in former factory buildings, with galleries alongside.",
+      },
+      {
+        name: "Nantou Ancient Town, Nanshan",
+        why: "A walled old town, restored with small craft and design shops, cafés and exhibitions inside the original street grid.",
+      },
+      {
+        name: "Gankeng Hakka Town, Longgang",
+        why: "A restored Hakka village known for its woven bamboo-and-cloth liangmao hats and other Hakka handicrafts. Touristy, but the crafts are real.",
+      },
+    ],
+    shops: [
+      {
+        name: "Dafen Oil Painting Village",
+        local: "大芬油画村",
+        area: "Longgang, Metro Line 3 Dafen",
+        what:
+          "Open studios where you can watch painters work and commission a piece. A reproduction of a well-known painting or a portrait from a photo takes a few days.",
+        price: "Budget",
+        confidence: "verify",
+      },
+      {
+        name: "OCT Loft studios",
+        local: "华侨城创意文化园",
+        area: "Nanshan",
+        what: "Independent ceramics, leather and print studios. Several run short workshops you can book on Dianping.",
+        price: "Mid",
+        confidence: "verify",
+      },
+      {
+        name: "Nantou Ancient Town",
+        local: "南头古城",
+        area: "Nanshan, near Zhongshan Park",
+        what: "Small craft and design shops inside a restored walled town that predates Shenzhen by about 1,700 years.",
+        price: "Mid",
+        confidence: "verify",
+      },
+      {
+        name: "Gankeng Hakka Town",
+        local: "甘坑客家小镇",
+        area: "Longgang",
+        what: "Hakka liangmao hat makers and other traditional crafts in a restored village setting. Go on a weekday to avoid the crowds.",
+        price: "Budget",
+        confidence: "verify",
+      },
+      {
+        name: "Guanlan Printmaking Village",
+        local: "观澜版画村",
+        area: "Longhua",
+        what: "An old Hakka village turned into a printmaking base, with working studios and exhibitions. Quieter than Dafen and worth a half day if prints interest you.",
+        price: "Mid",
+        confidence: "verify",
+      },
+    ],
+    buying: [
+      "At Dafen, agree the size, price and deadline before paying a deposit, and ask to see work in progress. Two to five days is typical for a commissioned copy.",
+      "Canvases travel rolled in a tube; ask the studio to roll it with the paint facing out and leave a day for it to dry before rolling.",
+      "Bargain at Dafen and in the Hakka towns; prices in OCT Loft studios are generally fixed.",
+      "Alipay and WeChat Pay are expected even at small studios. Cash works but change can be a problem.",
+    ],
+    searchTerm: "手工艺 (handicraft) · 工作室 (studio) · 油画 (oil painting) · on Dianping",
   },
 ];
 

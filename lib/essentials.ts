@@ -9,8 +9,21 @@ export interface Fact {
   confidence?: Confidence;
 }
 
+/** One cell of the at-a-glance comparison: a coloured verdict plus the detail. */
+export interface QuickAnswer {
+  tone: "good" | "warn" | "bad";
+  verdict: string;
+  detail: string;
+}
+
 export interface EssentialsProfile {
   city: CityId;
+  /** The at-a-glance row: do I tip, which transit card, and does a US phone or card work at the gate. */
+  quick: {
+    tip: QuickAnswer;
+    card: { lead: string; detail: string };
+    tap: QuickAnswer;
+  };
   /** The one-line answer to "do I tip?" */
   tipVerdict: string;
   tipping: Fact[];
@@ -26,6 +39,16 @@ export interface EssentialsProfile {
 export const ESSENTIALS: EssentialsProfile[] = [
   {
     city: "taipei",
+    quick: {
+      tip: { tone: "good", verdict: "No", detail: "10% service charge is added at sit-down restaurants; nothing beyond it." },
+      card: { lead: "Yes — EasyCard.", detail: "NT$100 card fee, sold at every MRT station and 7-Eleven." },
+      tap: {
+        tone: "bad",
+        verdict: "Not reliably.",
+        detail:
+          "EasyCard's phone wallet is effectively Taiwan-device only, and contactless bank cards are not universally accepted at MRT gates. Buy the plastic card.",
+      },
+    },
     tipVerdict: "No. Tipping is not practiced and is occasionally refused.",
     tipping: [
       {
@@ -186,6 +209,15 @@ export const ESSENTIALS: EssentialsProfile[] = [
   },
   {
     city: "hongkong",
+    quick: {
+      tip: { tone: "warn", verdict: "Barely", detail: "10% service charge is standard; leaving the coin change is normal." },
+      card: { lead: "Recommended — Octopus.", detail: "Needed for ferries, minibuses, markets and small shops." },
+      tap: {
+        tone: "good",
+        verdict: "On the MTR, yes.",
+        detail: "The MTR accepts contactless Visa, Mastercard, Amex and UnionPay at the gates. Octopus still wins outside the subway.",
+      },
+    },
     tipVerdict: "Barely. A 10% service charge is already on the bill; small change on top is the norm.",
     tipping: [
       {
@@ -300,7 +332,7 @@ export const ESSENTIALS: EssentialsProfile[] = [
         label: "VPN",
         value: "Not required",
         detail:
-          "Hong Kong's internet remains open and Google, Meta and Western services work normally — unlike the mainland. Bring a VPN only if you plan a Shenzhen day trip.",
+          "Hong Kong's internet remains open and Google, Meta and Western services work normally — unlike the mainland. For Shenzhen, a Hong Kong travel eSIM or home-carrier roaming routes around the mainland firewall without a VPN.",
       },
     ],
     etiquette: [
@@ -344,7 +376,192 @@ export const ESSENTIALS: EssentialsProfile[] = [
     ],
   },
   {
+    city: "shenzhen",
+    quick: {
+      tip: { tone: "good", verdict: "No", detail: "Not practiced. Tea and tableware fees on the bill are standard charges, not tips." },
+      card: { lead: "No — use Alipay.", detail: "The Alipay metro ride code replaces a card; Shenzhen Tong is an optional backup." },
+      tap: {
+        tone: "warn",
+        verdict: "The phone yes, the card mostly not.",
+        detail:
+          "Alipay or WeChat Pay linked to your US card works almost everywhere. A US card on its own works at metro gates and big hotels, and little else.",
+      },
+    },
+    tipVerdict: "No. Tipping is not practiced; tea and tableware fees on the bill are not tips.",
+    tipping: [
+      {
+        label: "Restaurants",
+        value: "Nothing",
+        detail:
+          "No tip is expected. Small charges for sealed tableware or tea are standard fees. Some hotel and high-end restaurants add a printed 10% service charge.",
+      },
+      {
+        label: "Taxis and DiDi",
+        value: "Nothing",
+        detail: "Paid in-app or by QR code to the exact fare. Drivers do not expect rounding up.",
+      },
+      {
+        label: "Hotels",
+        value: "Not expected",
+        detail: "International hotels will accept a tip for a porter but nobody waits for one.",
+      },
+      {
+        label: "Massage and spas",
+        value: "Not expected",
+        detail:
+          "No tip, but expect an upsell to a longer session (加钟). A clear 不用 (bú yòng, 'no need') ends it.",
+      },
+    ],
+    transit: [
+      {
+        label: "Metro",
+        value: "Excellent, ¥2-14 a ride",
+        detail:
+          "A large, modern network with bilingual signs and announcements, and bags go through an X-ray belt at every station entrance. Line 1 is the east-west spine from Luohu to Shekou and the airport side.",
+      },
+      {
+        label: "How to pay at the gate",
+        value: "Alipay ride code, or a foreign card",
+        detail:
+          "The Shenzhen Metro QR ride code inside Alipay works with an account linked to a foreign card. Shenzhen has also enabled contactless Visa and Mastercard at gates. Single-journey tokens from station machines are the fallback.",
+        confidence: "verify",
+      },
+      {
+        label: "Shenzhen Tong card",
+        value: "Optional",
+        detail:
+          "A stored-value card sold at stations and convenience stores, covering metro, buses and some ferries. Unnecessary if your phone payment works, but useful as a backup that does not depend on a battery.",
+        confidence: "verify",
+      },
+      {
+        label: "Crossing from Hong Kong",
+        value: "MTR to the border, or high-speed rail",
+        detail:
+          "Take the East Rail line to Lo Wu (for Luohu) or Lok Ma Chau (for Futian checkpoint), walk through both immigration halls, and the Shenzhen Metro is on the other side. High-speed rail from West Kowloon to Futian takes 15-20 minutes, with both immigrations done at West Kowloon.",
+      },
+      {
+        label: "Checkpoint hours",
+        value: "Lo Wu closes at midnight",
+        detail:
+          "Lo Wu runs roughly 06:30-24:00 and Lok Ma Chau Spur Line (Futian) roughly 06:30-22:30. Only a few road crossings run overnight. Missing the last crossing means a hotel night on the wrong side.",
+        confidence: "verify",
+      },
+      {
+        label: "Ride-hailing",
+        value: "DiDi — easier than a street taxi",
+        detail:
+          "DiDi has an English interface and accepts foreign cards, or runs as a mini-program inside Alipay. Drivers rarely speak English, but the destination is already set, which avoids the address problem entirely. Taxis are almost all electric BYDs.",
+      },
+    ],
+    payments: [
+      {
+        label: "Cash importance",
+        value: "Very low",
+        detail:
+          "Shenzhen is close to cashless. Cash is legal tender and must be accepted, but small vendors may have no change. Keep ¥300-500 as a backup, not as your plan.",
+      },
+      {
+        label: "Alipay and WeChat Pay",
+        value: "Essential — set up before you go",
+        detail:
+          "Both accept foreign Visa and Mastercard cards and verify your identity with a passport scan. Small payments are fee-free; larger transactions may carry a fee of a few percent. Make one test payment before crossing the border.",
+        confidence: "verify",
+      },
+      {
+        label: "Credit cards",
+        value: "Hotels and large malls only",
+        detail: "International hotels, department stores and some chains accept foreign cards. Most restaurants and shops do not have a terminal for them.",
+      },
+      {
+        label: "ATMs",
+        value: "Bank of China, ICBC and other major banks",
+        detail: "Bank ATMs take foreign cards; convenience-store ATMs often do not. Withdraw a modest backup sum.",
+      },
+      {
+        label: "Sales tax",
+        value: "Included — 13% VAT",
+        detail: "Prices on the tag include VAT. Qualifying purchases can be partly refunded on departure; see the Sizing tab.",
+      },
+    ],
+    connectivity: [
+      {
+        label: "The Great Firewall",
+        value: "Google, WhatsApp, Instagram are blocked",
+        detail:
+          "Google search, Gmail, Maps, YouTube, WhatsApp, Instagram, Facebook and many news sites do not load on a mainland connection. Hotel and café Wi-Fi is filtered the same way.",
+      },
+      {
+        label: "Roaming or eSIM",
+        value: "Use a foreign or Hong Kong eSIM",
+        detail:
+          "Roaming data and most Hong Kong-issued travel eSIMs route traffic outside the mainland, so blocked services work normally. A mainland SIM is filtered and requires real-name registration.",
+        confidence: "verify",
+      },
+      {
+        label: "Google Fi",
+        value: "Works, routed abroad",
+        detail: "Fi data roams in mainland China and is routed outside it, so Google services work. Confirm your plan tier includes international data.",
+        confidence: "verify",
+      },
+      {
+        label: "Maps",
+        value: "Amap or Apple Maps",
+        detail:
+          "Google Maps is blocked and its map tiles are offset from GPS in China. Amap (高德地图) has an English interface and live transit; Apple Maps uses Chinese map data inside China and works well.",
+      },
+      {
+        label: "Public Wi-Fi",
+        value: "Needs a Chinese phone number",
+        detail: "Most public hotspots verify by SMS to a mainland number. Plan on mobile data.",
+      },
+    ],
+    etiquette: [
+      "Every metro station has a security check. Put bags on the X-ray belt without being asked.",
+      "Queues are mostly orderly in Shenzhen, but hold your place at metro doors and elevators.",
+      "Hot or warm water is served by default. Ask for ice explicitly.",
+      "Indoor smoking and vaping are banned in Shenzhen and the ban is enforced, including in restaurants and bars.",
+      "Do not photograph border checkpoints, police or military sites. It is prohibited and staff will make you delete it.",
+      "Round-table, family-style dining is normal. Do not stick chopsticks upright in rice.",
+    ],
+    airport: [
+      {
+        label: "SZX → Futian",
+        value: "Metro Line 11, ~35 min, ~¥7",
+        detail: "Line 11 is the airport express line, with a premium carriage at double fare. Change at Futian or Gangxia North for the CBD.",
+        confidence: "verify",
+      },
+      {
+        label: "Taxi or DiDi",
+        value: "¥100-150 to Futian, 35-60 min",
+        detail: "Use the official taxi rank or book DiDi from the arrivals pick-up point. Ignore anyone offering a ride in the hall.",
+      },
+      {
+        label: "Fly into Hong Kong instead?",
+        value: "Often the better long-haul gateway",
+        detail: "HKG has more long-haul flights. From there, cross-boundary coaches go straight to Shenzhen, or ride the Airport Express and high-speed rail via West Kowloon.",
+      },
+    ],
+    gotchas: [
+      "Arriving without Alipay or WeChat Pay set up is the most expensive mistake you can make here. A metro ride, a coffee and a taxi all become difficult.",
+      "US passport holders cannot use the 5-day Shenzhen-only port visa. Visa-free transit needs an onward journey to a third country or region — Hong Kong to Shenzhen and back to Hong Kong does not count. Confirm your entry basis before you travel.",
+      "Download offline translation, maps and anything else from Google before you cross. Once on a mainland connection without roaming, Google is gone.",
+      "Border crossings queue for an hour or more at peak times: northbound on Saturday mornings and southbound on Sunday evenings, when Hong Kong residents travel for the weekend.",
+      "National Day Golden Week (1-7 October) overwhelms every attraction, train and border crossing. Avoid it if your dates are flexible.",
+      "At Huaqiangbei, refurbished goods sold as new and outright fakes are common. Test everything and compare a few stalls before paying.",
+    ],
+  },
+  {
     city: "seoul",
+    quick: {
+      tip: { tone: "good", verdict: "Never", detail: "Tipping is not a custom and staff may return the money to you." },
+      card: { lead: "Yes — T-money.", detail: "About ₩2,500-4,000 at any convenience store, topped up with cash." },
+      tap: {
+        tone: "bad",
+        verdict: "No.",
+        detail:
+          "Seoul subway gates do not take foreign contactless cards, and T-money cannot be provisioned to an overseas phone. The strictest city in this app.",
+      },
+    },
     tipVerdict: "No. Actively not a custom — tips are sometimes returned to you.",
     tipping: [
       {

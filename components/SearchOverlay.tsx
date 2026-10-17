@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { search, type SearchHit } from "@/lib/searchIndex";
 import { CITIES, type CityId } from "@/lib/cities";
+import { useCity } from "./CityProvider";
 
 /** Wraps each case-insensitive match of `q` in <mark> without using innerHTML. */
 function highlight(text: string, q: string) {
@@ -42,7 +43,9 @@ export default function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const hits = useMemo(() => search(q), [q]);
+  const { enabledCities } = useCity();
+  const allowed = useMemo(() => new Set(enabledCities.map((c) => c.id)), [enabledCities]);
+  const hits = useMemo(() => search(q, 40, allowed), [q, allowed]);
 
   useEffect(() => setCursor(0), [q]);
 

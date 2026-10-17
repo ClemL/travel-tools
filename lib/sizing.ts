@@ -43,24 +43,26 @@ export interface ClothingRow {
   korea: string;
   /** Taiwan and Hong Kong mostly use letter sizes, sometimes with EU/UK numbers. */
   taiwanHk: string;
+  /** Mainland labels use the GB height/chest code, e.g. 175/96A, alongside letter sizes. */
+  china: string;
   chestCm?: string;
 }
 
 export const MENS_TOPS: ClothingRow[] = [
-  { us: "XS", korea: "85 / 90", taiwanHk: "XS", chestCm: "86-89 cm" },
-  { us: "S", korea: "95", taiwanHk: "S", chestCm: "90-94 cm" },
-  { us: "M", korea: "100", taiwanHk: "M", chestCm: "95-99 cm" },
-  { us: "L", korea: "105", taiwanHk: "L", chestCm: "100-104 cm" },
-  { us: "XL", korea: "110", taiwanHk: "XL", chestCm: "105-109 cm" },
-  { us: "XXL", korea: "115", taiwanHk: "XXL (rare)", chestCm: "110-114 cm" },
+  { us: "XS", korea: "85 / 90", taiwanHk: "XS", china: "M · 170/88A", chestCm: "86-89 cm" },
+  { us: "S", korea: "95", taiwanHk: "S", china: "L · 175/92A", chestCm: "90-94 cm" },
+  { us: "M", korea: "100", taiwanHk: "M", china: "XL · 180/96A", chestCm: "95-99 cm" },
+  { us: "L", korea: "105", taiwanHk: "L", china: "XXL · 185/100A", chestCm: "100-104 cm" },
+  { us: "XL", korea: "110", taiwanHk: "XL", china: "XXXL · 190/104A", chestCm: "105-109 cm" },
+  { us: "XXL", korea: "115", taiwanHk: "XXL (rare)", china: "4XL · 195/108A (rare)", chestCm: "110-114 cm" },
 ];
 
 export const WOMENS_TOPS: ClothingRow[] = [
-  { us: "US 0-2 / XS", korea: "44 (or 85)", taiwanHk: "XS" },
-  { us: "US 4 / S", korea: "55 (or 90)", taiwanHk: "S" },
-  { us: "US 6-8 / M", korea: "66 (or 95)", taiwanHk: "M" },
-  { us: "US 10 / L", korea: "77 (or 100)", taiwanHk: "L" },
-  { us: "US 12+ / XL", korea: "88 (or 105)", taiwanHk: "XL (limited)" },
+  { us: "US 0-2 / XS", korea: "44 (or 85)", taiwanHk: "XS", china: "S · 155/80A" },
+  { us: "US 4 / S", korea: "55 (or 90)", taiwanHk: "S", china: "M · 160/84A" },
+  { us: "US 6-8 / M", korea: "66 (or 95)", taiwanHk: "M", china: "L · 165/88A" },
+  { us: "US 10 / L", korea: "77 (or 100)", taiwanHk: "L", china: "XL · 170/92A" },
+  { us: "US 12+ / XL", korea: "88 (or 105)", taiwanHk: "XL (limited)", china: "XXL · 175/96A (limited)" },
 ];
 
 export interface SizingNote {
@@ -87,6 +89,12 @@ export const SIZING_NOTES: SizingNote[] = [
     body:
       "Above roughly US men's 11 (290 mm) or US women's 10, shoe availability drops sharply outside international chains. The same applies to clothing above XL. If you need those sizes, shop at Uniqlo, Nike, Adidas or department store international floors rather than local boutiques.",
     severity: "warn",
+  },
+  {
+    title: "Mainland labels give height and chest in cm",
+    body:
+      "Chinese clothing carries a code like 175/96A — your height in cm, then chest (tops) or waist (trousers) in cm, then a body-shape letter where A is average. It is the most reliable number on the label, because mainland letter sizes run one to two sizes smaller than US. Shoes are sold in EU-style numbers (42码) or millimetres.",
+    severity: "info",
   },
   {
     title: "Korean 'free size' means one size",
@@ -139,6 +147,17 @@ export const TAX_REFUNDS: TaxRefund[] = [
     where: "Nowhere — there is no refund process",
     catch:
       "This is exactly why Hong Kong is a shopping destination for electronics, cosmetics and watches. Compare prices against home before assuming a bargain, though — duty-free is not automatically cheap.",
+  },
+  {
+    city: "shenzhen",
+    vatRate: "13% (about 11% refunded)",
+    threshold: "¥200 in one day at one participating store",
+    mechanism:
+      "Shop at a store showing the departure tax refund sign, show your passport, and get a refund application form with the VAT invoice. Claim at the refund counter when you leave mainland China within 90 days. Some stores in Shenzhen refund at the till ('buy and refund immediately'), secured against your card.",
+    where: "Shenzhen Bao'an Airport and designated departure ports, or at the till in pilot stores",
+    catch:
+      "Only participating stores qualify — most malls have a few, most shops have none. An agency fee comes off the refund, and cash refunds are capped, with the balance paid to a bank card. Check that the port you leave from offers refunds before you count on it.",
+    confidence: "verify",
   },
   {
     city: "seoul",
@@ -196,6 +215,33 @@ export const SHOPPING: ShoppingSpot[] = [
     what: "Markets",
     where: "Temple Street, Ladies' Market, Apliu Street",
     note: "Bargaining is expected — open at roughly half the asking price. Quality is variable; treat it as entertainment.",
+  },
+  {
+    city: "shenzhen",
+    what: "Electronics, components and gadgets",
+    where: "Huaqiangbei (华强北), Futian",
+    note:
+      "The largest electronics market in the world: blocks of multi-storey malls selling components, phone accessories, cables, drones and gadgets nobody outside China has seen yet. Bargain, test everything, and assume nothing carries an international warranty.",
+  },
+  {
+    city: "shenzhen",
+    what: "DJI drones and cameras",
+    where: "DJI flagship stores, Futian and Nanshan",
+    note:
+      "DJI is headquartered in Shenzhen and its flagship stores carry the full range. Check the price against home and confirm the region and warranty before buying.",
+  },
+  {
+    city: "shenzhen",
+    what: "Tailoring and fabric",
+    where: "Luohu Commercial City (罗湖商业城), Dongmen fabric market",
+    note:
+      "Directly above the Lo Wu border crossing: floors of tailors, fabric, knock-offs and massage. Made-to-measure shirts and suits for a fraction of Hong Kong's price, with a one- or two-day turnaround. Bargain hard and inspect the stitching.",
+  },
+  {
+    city: "shenzhen",
+    what: "Hand-painted art",
+    where: "Dafen Oil Painting Village (大芬油画村), Longgang",
+    note: "Thousands of working painters. Commission a copy or a portrait from a photo, rolled in a tube for the flight home. See the Artisan tab.",
   },
   {
     city: "seoul",

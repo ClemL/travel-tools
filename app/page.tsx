@@ -6,7 +6,8 @@ import PrintCard from "@/components/PrintCard";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { OfflineBadge } from "@/components/OfflineProvider";
 import { CityPicker, useCity } from "@/components/CityProvider";
-import { CITIES, type CityId } from "@/lib/cities";
+import SettingsMenu from "@/components/SettingsMenu";
+import { isCityId, type CityId } from "@/lib/cities";
 
 /**
  * Tab components are code-split so the first load only pays for the active tab.
@@ -130,9 +131,6 @@ const ALL_TABS: Tab[] = GROUPS.flatMap((g) => g.tabs);
 function isTabId(value: string): value is TabId {
   return ALL_TABS.some((t) => t.id === value);
 }
-function isCityId(value: string): value is CityId {
-  return CITIES.some((c) => c.id === value);
-}
 
 /** Hash format: `#tab`, or `#tab/city` for a city-scoped tab. */
 function parseHash(hash: string): { tab: TabId | null; city: CityId | null } {
@@ -147,7 +145,7 @@ export default function Page() {
   const [tab, setTab] = useState<TabId>("currency");
   const [searchOpen, setSearchOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
-  const { city, setCity } = useCity();
+  const { city, setCity, enabledCities } = useCity();
   const active = ALL_TABS.find((t) => t.id === tab)!;
 
   const writeHash = useCallback((id: TabId, cityId: CityId) => {
@@ -260,7 +258,7 @@ export default function Page() {
         <header className="masthead">
           <div className="masthead-title">
             <h1>Asia Trip Tools</h1>
-            <p>Taipei · Hong Kong · Seoul — September 2026</p>
+            <p>{enabledCities.map((c) => c.name).join(" · ")}</p>
             <OfflineBadge />
           </div>
           <div className="masthead-right">
@@ -273,6 +271,7 @@ export default function Page() {
               <button className="btn" onClick={() => window.print()} title="Print a pocket card for the selected city">
                 <span aria-hidden="true">🖨️</span> Card
               </button>
+              <SettingsMenu />
             </div>
           </div>
         </header>
@@ -298,6 +297,7 @@ export default function Page() {
             <button className="btn btn-icon" onClick={() => setSearchOpen(true)} aria-label="Search all content">
               🔍
             </button>
+            <SettingsMenu variant="icon" />
           </div>
         </div>
 
@@ -363,8 +363,8 @@ export default function Page() {
           <p>
             Rates from open.er-api.com with failover to the currency-api mirrors. Weather and air quality
             from Open-Meteo. Live warnings from Hong Kong Observatory open data. Climate normals from the
-            Central Weather Administration (Taiwan), the Hong Kong Observatory, and the Korea
-            Meteorological Administration.
+            Central Weather Administration (Taiwan), the Hong Kong Observatory, the Shenzhen
+            Meteorological Bureau, and the Korea Meteorological Administration.
           </p>
           <p>
             Reference content was compiled, not verified against official sources. The{" "}

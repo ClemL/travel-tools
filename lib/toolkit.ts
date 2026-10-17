@@ -27,6 +27,14 @@ export const POWER: PowerInfo[] = [
     note: "Large British-style 3-pin sockets. Almost every modern charger is 100-240 V, so you need a plug adapter, not a voltage converter. Hotels often stock adapters at the front desk.",
   },
   {
+    city: "shenzhen",
+    voltage: "220 V",
+    frequency: "50 Hz",
+    plugs: "Type A / C / I",
+    adapterNeeded: false,
+    note: "Most wall panels pair a two-pin socket that takes US flat-pin plugs with an angled three-pin (Type I) socket. A US two-pin charger fits without an adapter; a three-prong grounded US plug does not. The voltage is double the US — check the charger says 100-240 V.",
+  },
+  {
     city: "seoul",
     voltage: "220 V",
     frequency: "60 Hz",
@@ -65,6 +73,17 @@ export const ENTRY: EntryInfo[] = [
     passportRule: "Passport valid at least one month beyond your intended departure date.",
     officialUrl: "https://www.immd.gov.hk/eng/services/visas/visit-transit.html",
     officialLabel: "HK Immigration Department",
+  },
+  {
+    city: "shenzhen",
+    visa: "Visa required, unless your routing qualifies for 240-hour visa-free transit",
+    stay: "Up to 240 hours on visa-free transit; otherwise the terms of your visa",
+    arrivalCard:
+      "Arrival card at the checkpoint, with an online pre-filing option. For visa-free transit, use the dedicated counter and show the onward ticket.",
+    passportRule:
+      "Visa-free transit needs a confirmed onward ticket to a third country or region — Hong Kong and Macau count — within 240 hours. Arriving from Hong Kong and returning to Hong Kong does not qualify. US citizens cannot use the 5-day Shenzhen-only port visa.",
+    officialUrl: "https://en.nia.gov.cn/",
+    officialLabel: "China National Immigration Administration",
   },
   {
     city: "seoul",
@@ -108,6 +127,17 @@ export const EMERGENCY: EmergencyInfo[] = [
     extra: "112 also connects to emergency services from a mobile. Public hospital A&E charges non-residents a substantial flat fee.",
   },
   {
+    city: "shenzhen",
+    police: "110",
+    medical: "120 (ambulance; fire is 119)",
+    touristHotline: "12345",
+    touristHotlineNote:
+      "Shenzhen's city government service line; ask for foreign-language service (外语服务). 12301 is the national tourism complaints line.",
+    usMission: "US Consulate General Guangzhou, Zhujiang New Town — the nearest US mission; there is none in Shenzhen",
+    extra:
+      "Police, ambulance and fire are three different numbers. The University of Hong Kong–Shenzhen Hospital in Futian runs on Hong Kong practice and has English-speaking international services.",
+  },
+  {
     city: "seoul",
     police: "112",
     medical: "119 (fire and ambulance)",
@@ -127,7 +157,7 @@ export interface AppInfo {
 }
 
 export const APPS: AppInfo[] = [
-  { city: "all", name: "Google Translate (offline packs)", purpose: "Download Chinese and Korean packs before you fly.", priority: "essential" },
+  { city: "all", name: "Google Translate (offline packs)", purpose: "Download Chinese and Korean packs before you fly — Google is blocked in mainland China, so do it before you cross.", priority: "essential" },
   { city: "all", name: "Airalo / Ubigi", purpose: "eSIM data if you would rather not queue at an airport SIM counter.", priority: "useful" },
   { city: "all", name: "XE or your bank's app", purpose: "Sanity-check exchange rates before accepting a dynamic-currency-conversion prompt.", priority: "useful" },
   { city: "taipei", name: "Taipei Metro / Go! Taipei Metro", purpose: "Official MRT routing, fares and exits.", priority: "useful" },
@@ -138,6 +168,11 @@ export const APPS: AppInfo[] = [
   { city: "hongkong", name: "MyObservatory", purpose: "Typhoon signals and rainstorm warnings the moment they are hoisted. Non-negotiable in September.", priority: "essential" },
   { city: "hongkong", name: "OpenRice", purpose: "The local restaurant authority. Google reviews are far less reliable here.", priority: "essential" },
   { city: "hongkong", name: "Citymapper", purpose: "Best multi-modal routing in Hong Kong, including trams, ferries and minibuses.", priority: "useful" },
+  { city: "shenzhen", name: "Alipay", purpose: "Payments, the metro ride code, DiDi and a built-in translator in one app. Link a foreign card and verify your passport before you fly.", priority: "essential" },
+  { city: "shenzhen", name: "WeChat", purpose: "Messaging plus WeChat Pay. Many restaurants' scan-to-order menus run inside it.", priority: "essential" },
+  { city: "shenzhen", name: "Amap (高德地图)", purpose: "Accurate maps and live transit with an English interface. Google Maps is blocked and offset; Apple Maps is the alternative.", priority: "essential" },
+  { city: "shenzhen", name: "DiDi", purpose: "Ride-hailing in English with a foreign card. Also available as a mini-program inside Alipay.", priority: "useful" },
+  { city: "shenzhen", name: "Trip.com", purpose: "Books high-speed rail with a passport and a foreign card, in English.", priority: "useful" },
   { city: "seoul", name: "Naver Map or KakaoMap", purpose: "Mandatory. Google Maps cannot give walking or driving directions in Korea.", priority: "essential" },
   { city: "seoul", name: "Papago", purpose: "Naver's translator — materially better than Google for Korean, with camera menu translation.", priority: "essential" },
   { city: "seoul", name: "Kakao T", purpose: "Taxi hailing. Works with a foreign card and an English interface.", priority: "essential" },
@@ -188,6 +223,16 @@ export const HOLIDAYS: Holiday[] = [
     confidence: "verify",
   },
   {
+    date: "2026-09-25 → 09-27",
+    weekday: "Friday-Sunday",
+    name: "Mid-Autumn Festival (中秋节)",
+    where: "Mainland China",
+    cities: ["shenzhen"],
+    impact:
+      "Three-day public holiday. Restaurants fill with family dinners, and Shenzhen Bay Park and the waterfronts are packed on the festival night. Northbound border traffic from Hong Kong spikes.",
+    confidence: "verify",
+  },
+  {
     date: "2026-09-28",
     weekday: "Monday",
     name: "Teachers' Day / Confucius' Birthday",
@@ -205,6 +250,16 @@ export const HOLIDAYS: Holiday[] = [
     cities: ["hongkong"],
     impact: "Public holiday with a fireworks display over Victoria Harbour. Hotels and cross-border travel get expensive.",
     confidence: "stable",
+  },
+  {
+    date: "2026-10-01 → 10-07",
+    weekday: "Thursday-Wednesday",
+    name: "National Day Golden Week (国庆节)",
+    where: "Mainland China, spilling into Hong Kong",
+    cities: ["shenzhen", "hongkong"],
+    impact:
+      "The largest domestic travel week of the year. Trains and flights sell out, attractions hit capacity limits, hotel prices spike, and the Shenzhen–Hong Kong crossings carry record traffic in both directions. Adjacent weekend days are usually made into working days. Avoid it if you can.",
+    confidence: "verify",
   },
   {
     date: "2026-10-03",
@@ -239,6 +294,8 @@ export interface PackItem {
   item: string;
   why: string;
   category: "Weather" | "Power & tech" | "Documents" | "Health" | "Comfort";
+  /** Only relevant when one of these destinations is on; omitted means everywhere. */
+  cities?: CityId[];
 }
 
 export const PACKING: PackItem[] = [
@@ -246,11 +303,12 @@ export const PACKING: PackItem[] = [
   { item: "Two pairs of shoes", why: "One pair will be soaked. Rotation is the only way to avoid walking in wet shoes for a week.", category: "Weather" },
   { item: "Light long-sleeve layer", why: "Indoor air conditioning in Hong Kong is punishing, and late-September Seoul evenings drop to 57 °F (14 °C).", category: "Weather" },
   { item: "Moisture-wicking shirts", why: "Cotton does not dry in subtropical humidity. Synthetics or linen only.", category: "Weather" },
-  { item: "Universal plug adapter", why: "Three cities, two socket standards: Type G in Hong Kong, Type C/F in Seoul, US Type A/B in Taipei.", category: "Power & tech" },
-  { item: "Power bank (in carry-on)", why: "Heavy map, translation and payment app use drains a phone by mid-afternoon. Lithium batteries are cabin-only.", category: "Power & tech" },
+  { item: "Universal plug adapter", why: "The sockets differ by destination: Type G in Hong Kong, Type C/F in Seoul, US Type A/B in Taipei, and Type A/I in mainland China.", category: "Power & tech" },
+  { item: "Power bank (in carry-on)", why: "Heavy map, translation and payment app use drains a phone by mid-afternoon. Lithium batteries are cabin-only, and mainland China only allows power banks with a CCC safety mark on domestic flights.", category: "Power & tech" },
   { item: "Offline maps and translation packs", why: "Download before you fly — especially Naver Map for Korea, where Google Maps cannot navigate.", category: "Power & tech" },
-  { item: "Passport + digital and paper copies", why: "Required for tax-refund claims and hotel check-in in all three places.", category: "Documents" },
-  { item: "Travel insurance with weather-disruption cover", why: "September typhoons cancel flights in bulk out of both Taipei and Hong Kong.", category: "Documents" },
+  { item: "Passport + digital and paper copies", why: "Required for tax-refund claims and hotel check-in everywhere on this trip, and for every metro security check and train ticket in mainland China.", category: "Documents" },
+  { item: "Alipay or WeChat Pay, set up and tested", why: "Mainland China runs on QR payments. Link a foreign card, verify your passport and make one small test payment before you cross.", category: "Documents", cities: ["shenzhen"] },
+  { item: "Travel insurance with weather-disruption cover", why: "September typhoons cancel flights in bulk out of Taipei, Hong Kong and Shenzhen.", category: "Documents" },
   { item: "Two payment cards on different networks", why: "Korean terminals occasionally reject a given foreign card; a Visa and a Mastercard from different banks is the cheap hedge.", category: "Documents" },
   { item: "Electrolyte tablets", why: "Sweat loss walking Taipei or Hong Kong in September is substantial.", category: "Health" },
   { item: "High-SPF sunscreen", why: "UV index regularly hits 8-11. Local formulations are excellent if you would rather buy on arrival.", category: "Health" },
@@ -269,21 +327,21 @@ export interface SafetyNote {
 export const SAFETY: SafetyNote[] = [
   {
     title: "Typhoon protocol",
-    cities: ["taipei", "hongkong"],
+    cities: ["taipei", "hongkong", "shenzhen"],
     body:
-      "Hong Kong hoists numbered signals: T1 (standby), T3 (strong wind), T8 (gale — city shuts down), T9 and T10 (hurricane force). Taiwan issues sea and then land warnings; a land warning generally means a government-declared day off. In both places, follow the official app, expect flight cancellations 12-24 hours ahead of landfall, and do not plan to move cities on a warning day.",
+      "Hong Kong hoists numbered signals: T1 (standby), T3 (strong wind), T8 (gale — city shuts down), T9 and T10 (hurricane force). Taiwan issues sea and then land warnings; a land warning generally means a government-declared day off. Shenzhen uses colour-coded warnings from white to red and orders a city-wide stop at the top levels. Everywhere, follow the official app, expect flight cancellations 12-24 hours ahead of landfall, and do not plan to move cities on a warning day.",
   },
   {
     title: "Tap water",
     cities: "all",
     body:
-      "Seoul's Arisu tap water is treated to a high standard and safe, though most locals still drink filtered or bottled. Hong Kong tap water meets WHO standards at the mains, but older building plumbing means many residents boil it. Taipei's tap water is treated but conventionally boiled or filtered before drinking. Practical rule: drink the filtered water dispensers that are everywhere in hotels, convenience stores and metro stations.",
+      "Seoul's Arisu tap water is treated to a high standard and safe, though most locals still drink filtered or bottled. Hong Kong tap water meets WHO standards at the mains, but older building plumbing means many residents boil it. Taipei's tap water is treated but conventionally boiled or filtered before drinking. In mainland China nobody drinks tap water unboiled; hotels supply kettles and bottled water. Practical rule: drink the filtered water dispensers that are everywhere in hotels, convenience stores and metro stations.",
   },
   {
     title: "Personal safety",
     cities: "all",
     body:
-      "All three cities are among the safest large cities in the world, with very low violent crime and normal late-night solo walking. The realistic risks are heat exhaustion, traffic (scooters in Taipei ignore crosswalk conventions), and typhoon-related disruption — not crime.",
+      "All of these cities are among the safest large cities in the world, with very low violent crime and normal late-night solo walking. The realistic risks are heat exhaustion, traffic (scooters in Taipei ignore crosswalk conventions), and typhoon-related disruption — not crime.",
   },
   {
     title: "Health and pharmacies",
@@ -295,13 +353,19 @@ export const SAFETY: SafetyNote[] = [
     title: "Scams and pricing",
     cities: "all",
     body:
-      "Rare in all three. The realistic ones: dynamic currency conversion at card terminals (always choose to be charged in the local currency), tailor and gemstone touts in Tsim Sha Tsui, and 'juicy bar' bill scams in Seoul's Itaewon and Hongdae nightlife areas.",
+      "Rare everywhere on this list. The realistic ones: dynamic currency conversion at card terminals (always choose to be charged in the local currency), tailor and gemstone touts in Tsim Sha Tsui, refurbished-as-new electronics at Huaqiangbei, touts at Luohu Commercial City, and 'juicy bar' bill scams in Seoul's Itaewon and Hongdae nightlife areas.",
   },
   {
-    title: "Connecting the three cities",
+    title: "Connecting the cities",
     cities: "all",
     body:
-      "Taipei-Hong Kong is roughly 1h50m and one of the busiest air corridors in the world; Taipei-Seoul about 2h30m; Hong Kong-Seoul about 3h30m. China Airlines, EVA, Cathay Pacific, Korean Air and Asiana all serve these routes multiple times daily, so rebooking after weather disruption is usually possible within hours.",
+      "Taipei-Hong Kong is roughly 1h50m and one of the busiest air corridors in the world; Taipei-Seoul about 2h30m; Hong Kong-Seoul about 3h30m. Hong Kong-Shenzhen is not a flight at all: 15-20 minutes by high-speed rail from West Kowloon, or the MTR to the Lo Wu border. China Airlines, EVA, Cathay Pacific, Korean Air and Asiana serve the air routes multiple times daily, so rebooking after weather disruption is usually possible within hours.",
+  },
+  {
+    title: "Your phone is your wallet",
+    cities: ["shenzhen"],
+    body:
+      "In Shenzhen a phone carries payment, maps, translation and transit at once, so losing it or running the battery flat is the realistic emergency. Carry a power bank, keep a foreign card and a few hundred yuan in a separate pocket, and write your hotel address in characters on paper.",
   },
 ];
 
@@ -316,7 +380,7 @@ export interface JetLagStep {
 }
 
 /**
- * Boston to Taipei and Hong Kong is a 12-hour shift; to Seoul it is 13. Twelve
+ * Boston to Taipei, Hong Kong and Shenzhen is a 12-hour shift; to Seoul it is 13. Twelve
  * hours is the theoretical maximum circadian disruption — there is no worse
  * case, and the direction your body drifts becomes ambiguous, which is why the
  * advice below is about forcing a direction rather than just enduring it.
@@ -362,7 +426,7 @@ export const JETLAG: JetLagStep[] = [
   },
   {
     when: "Between cities",
-    action: "Taipei and Hong Kong share a time zone; Seoul is one hour ahead.",
+    action: "Taipei, Hong Kong and Shenzhen share a time zone; Seoul is one hour ahead.",
     why: "The inter-city legs cost you almost nothing. All the adjustment is the transpacific hop at each end.",
   },
 ];
@@ -381,7 +445,7 @@ export const LOGISTICS: LogisticsNote[] = [
   {
     title: "Coin lockers at stations",
     body:
-      "All three cities have lockers at major stations, sized small to large, paid by transit card or coins. Useful on a checkout day when your flight is at night — drop the bags and get a final day of sightseeing rather than dragging a suitcase around.",
+      "Most of these cities have lockers at major stations, sized small to large, paid by transit card, QR code or coins. Useful on a checkout day when your flight is at night — drop the bags and get a final day of sightseeing rather than dragging a suitcase around.",
     city: "all",
   },
   {
@@ -405,32 +469,38 @@ export const LOGISTICS: LogisticsNote[] = [
   {
     title: "Public toilets",
     body:
-      "Metro stations in all three cities have clean public toilets, as do department stores and convenience stores in Taiwan and Korea. Carry tissues: some Taiwanese and Korean facilities do not supply paper, and many older Taiwanese buildings ask you to bin paper rather than flush it.",
+      "Metro stations have clean public toilets everywhere on this list, as do department stores and convenience stores in Taiwan and Korea. Carry tissues: some Taiwanese, Korean and mainland facilities do not supply paper, many older Taiwanese buildings ask you to bin paper rather than flush it, and squat toilets are still common in mainland public restrooms.",
     city: "all",
   },
   {
     title: "Rubbish bins",
     body:
-      "Taipei has almost no public bins by design — the city runs on scheduled collection and you are expected to carry your rubbish to a convenience store or your hotel. Seoul is similar. Hong Kong has bins everywhere.",
+      "Taipei has almost no public bins by design — the city runs on scheduled collection and you are expected to carry your rubbish to a convenience store or your hotel. Seoul is similar. Hong Kong and Shenzhen have bins everywhere, Shenzhen's sorted by type.",
     city: "all",
   },
   {
     title: "Drinking in public",
     body:
-      "Legal and normal in Taiwan and Korea — a convenience-store beer in a Han River park is a national pastime. Hong Kong is more restrictive in practice. Nowhere here treats it the way Massachusetts does.",
+      "Legal and normal in Taiwan, Korea and mainland China — a convenience-store beer in a Han River park is a national pastime. Hong Kong is more restrictive in practice. Nowhere here treats it the way Massachusetts does.",
     city: "all",
   },
   {
     title: "Smoking rules",
     body:
-      "All three ban indoor smoking. Taiwan and Korea enforce street smoking zones with real fines, and vaping is fully illegal in Taiwan and Hong Kong — do not bring a vape into Taiwan at all.",
+      "Every destination here bans indoor smoking. Taiwan, Korea and Shenzhen enforce smoking zones with real fines, Shenzhen's ban covers vaping indoors too, and vaping is fully illegal in Taiwan and Hong Kong — do not bring a vape into Taiwan at all.",
     city: "all",
   },
   {
     title: "Convenience stores as infrastructure",
     body:
-      "In Taiwan and Korea, 7-Eleven, FamilyMart, CU and GS25 handle ATM withdrawals, bill payment, parcel pickup, transit card top-ups, hot food, seating and printing. Treat them as a utility rather than a shop.",
+      "In Taiwan, Korea and Shenzhen, 7-Eleven, FamilyMart, CU, GS25 and Shenzhen's own Meiyijia handle ATM withdrawals, bill payment, parcel pickup, transit card top-ups, hot food, seating and printing. Treat them as a utility rather than a shop.",
     city: "all",
+  },
+  {
+    title: "Border crossings with luggage",
+    body:
+      "Crossing between Hong Kong and Shenzhen on foot means two immigration halls, escalators and long corridors. With a large suitcase, take the high-speed rail from West Kowloon to Futian or a cross-boundary coach that carries bags in the hold, rather than the MTR to Lo Wu.",
+    city: "shenzhen",
   },
   {
     title: "Tap-water refills",

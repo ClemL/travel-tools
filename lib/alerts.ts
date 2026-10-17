@@ -63,7 +63,7 @@ export interface SignalStep {
   yourMove: string;
 }
 
-/** The Hong Kong ladder, which is the most consequential of the three systems. */
+/** The Hong Kong ladder, which is the most consequential of these systems. */
 export const HK_LADDER: SignalStep[] = [
   {
     code: "T1",
@@ -130,6 +130,18 @@ export const TYPHOON_BASICS: TyphoonBasics[] = [
     liveData: "key-required",
   },
   {
+    city: "shenzhen",
+    system: "Colour-coded typhoon warnings (white, blue, yellow, orange, red) plus a separate rainstorm scale",
+    authority: "Shenzhen Meteorological Bureau",
+    authorityUrl: "https://weather.sz.gov.cn/",
+    app: "Shenzhen Weather (深圳天气) app or its WeChat account",
+    howItWorks:
+      "Shenzhen issues its own city-level warnings, separate from the Hong Kong Observatory's numbered signals — and the two often differ for the same storm, so check both if you are crossing the border. A white warning means a cyclone may affect the city within 48 hours; blue, yellow, orange and red escalate from there. At the higher levels the city government orders a stop to work, school and business.",
+    whatShutsDown:
+      "Under a red typhoon warning, and often orange: offices, schools, shops, parks, beaches and outdoor attractions. Cross-boundary coaches and ferries stop, high-speed rail can suspend, and land checkpoints may close. The metro usually keeps running underground sections.",
+    liveData: "link-only",
+  },
+  {
     city: "seoul",
     system: "Typhoon and heavy rain advisories and warnings",
     authority: "Korea Meteorological Administration",
@@ -148,7 +160,7 @@ export const CONTINGENCY = [
     title: "Before you go",
     points: [
       "Buy travel insurance that explicitly covers weather disruption, not just medical. Read whether it covers 'known events' — once a storm is named, cover often stops.",
-      "Book the three legs on refundable fares or within one alliance, so a cancellation can be rebooked rather than rebought.",
+      "Book the inter-city legs on refundable fares or within one alliance, so a cancellation can be rebooked rather than rebought.",
       "Leave at least one slack day before your transpacific flight home.",
     ],
   },
@@ -171,7 +183,7 @@ export const CONTINGENCY = [
   {
     title: "After it passes",
     points: [
-      "Transport resumes in stages — MTR and MRT first, ferries and cable cars last, sometimes a full day later.",
+      "Transport resumes in stages — metro first, ferries, cross-border coaches and cable cars last, sometimes a full day later.",
       "Hiking trails stay closed for days after heavy rain because of landslide risk.",
       "Expect a surge of rebooked passengers; airport queues are the worst of the trip.",
     ],
