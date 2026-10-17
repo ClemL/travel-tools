@@ -19,6 +19,7 @@ type Direction = "localToUsd" | "usdToLocal";
 const LADDERS: Record<string, number[]> = {
   TWD: [50, 100, 200, 500, 1000, 2000],
   HKD: [20, 50, 100, 200, 500, 1000],
+  CNY: [1, 5, 10, 20, 50, 100],
   KRW: [1000, 5000, 10000, 30000, 50000, 100000],
 };
 
@@ -26,6 +27,7 @@ const LADDERS: Record<string, number[]> = {
 const RULES: Record<string, (rate: number) => string> = {
   TWD: (r) => `Divide by ${Math.round(r)}. NT$300 ≈ ${usd(300 / r)}.`,
   HKD: (r) => `Divide by ${r.toFixed(1)}. HK$100 ≈ ${usd(100 / r)}.`,
+  CNY: (r) => `Divide by ${r.toFixed(1)}. ¥100 ≈ ${usd(100 / r)}. Banknotes stop at ¥100, so most larger prices are paid by phone.`,
   KRW: (r) => `Drop three zeros, then divide by ${(r / 1000).toFixed(1)}. ₩10,000 ≈ ${usd(10000 / r)}.`,
 };
 
@@ -34,6 +36,8 @@ const CASH_NOTES: Record<string, string> = {
     "Withdraw at 7-Eleven or FamilyMart ATMs — open 24/7 and reliable with foreign cards. Night markets and small restaurants are cash-only, so keep NT$2,000-3,000 on you.",
   HKD:
     "ATMs are everywhere and painless. You need less cash here than in Taipei because Octopus covers small purchases, but keep HK$500 for minibuses, ferries and markets.",
+  CNY:
+    "You will barely touch cash: Alipay or WeChat Pay linked to your card covers almost everything. Withdraw ¥300-500 at a Bank of China or ICBC ATM as a backup — merchants must accept cash, but small vendors may have no change.",
   KRW:
     "Use ATMs marked 'Global' — many domestic machines reject foreign cards, and some shut overnight. Korea is card-friendly enough that ₩50,000-100,000 covers a week of market stalls.",
 };

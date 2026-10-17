@@ -100,6 +100,42 @@ export const CLIMATE: ClimateProfile[] = [
     sourceUrl: "https://www.hko.gov.hk/en/cis/climahk.htm",
   },
   {
+    city: "shenzhen",
+    headline: "Hong Kong's weather across the river, with more ground to cover and less shelter from it.",
+    meanHighC: 31.7,
+    meanLowC: 25.5,
+    meanC: 28.1,
+    rainfallMm: 265,
+    rainDays: 14,
+    humidityPct: 76,
+    sunshineHours: 180,
+    seaTempC: 29,
+    daylight: "~12h20m, sunrise ≈ 06:10, sunset ≈ 18:30 (mid-month)",
+    typhoonRisk: "High",
+    typhoonNote:
+      "Shenzhen shares Hong Kong's exposure to storms tracking across the South China Sea. It issues its own colour-coded typhoon warnings — white, blue, yellow, orange, red — and under the higher levels the city orders work, school and business to stop. Typhoon Mangkhut in 2018 and Saola in 2023 both closed the city. Border crossings, ferries and cross-boundary coaches suspend during a storm, which can strand you on the wrong side.",
+    earlyVsLate:
+      "Like Hong Kong: early September is indistinguishable from August, and the first dry northerly surges can arrive in the last week of the month and lower the humidity.",
+    feelsLike:
+      "The same 31 °C and high humidity as Hong Kong, but the city is spread out and car-scale, with far fewer covered walkways. Distances between sights are long; the metro and the malls are your air conditioning.",
+    wear: [
+      "Lightweight, casual clothing — the tech-office city dresses down, and shorts are normal almost everywhere",
+      "Comfortable, breathable shoes; the malls and metro interchanges are enormous",
+    ],
+    pack: [
+      "Compact umbrella, used as a sunshade as much as for rain",
+      "A large power bank — your phone is your wallet, map and translator here, and a dead battery strands you",
+      "A light layer for the metro and malls, which are kept very cold",
+    ],
+    watchOut: [
+      "Rainstorm warnings (yellow, orange, red) are separate from typhoon warnings and can close roads and parks on their own",
+      "Shenzhen's warnings and the Hong Kong Observatory's signals can differ for the same storm — if you are crossing the border, check both",
+      "National Day Golden Week starts on 1 October; if a storm hits just before it, the backlog of rebooked travellers compounds the crowds",
+    ],
+    source: "Shenzhen Meteorological Bureau / China Meteorological Administration, 1991-2020 normals",
+    sourceUrl: "https://weather.sz.gov.cn/",
+  },
+  {
     city: "seoul",
     headline: "The turn of the season. Summer exits, and the best weather of the Korean year begins.",
     meanHighC: 26.4,

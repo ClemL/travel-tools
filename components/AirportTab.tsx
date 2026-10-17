@@ -204,7 +204,7 @@ export default function AirportTab() {
           <h3>Take a taxi when</h3>
           <ul className="bullets">
             <li>There are three or more of you; per head it closes most of the gap.</li>
-            <li>You land after the last train, which is before midnight in all three cities.</li>
+            <li>You land after the last train, which is before midnight in every city here.</li>
             <li>You have more luggage than hands, or your hotel is far from a station.</li>
           </ul>
         </article>

@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
+import { CITIES } from "@/lib/cities";
 
 export const revalidate = 1800; // 30 minutes
 
-const WANTED = ["TWD", "HKD", "KRW"] as const;
+// Every destination's currency, whether or not it is switched on — the
+// selection lives in the browser, and one cached response serves them all.
+const WANTED = [...new Set(CITIES.map((c) => c.currency))];
 
 interface RatesPayload {
   base: "USD";
@@ -39,7 +42,7 @@ function pick(rates: Record<string, unknown>): Record<string, number> {
   return out;
 }
 
-/** Primary: open.er-api.com — no key, covers TWD/HKD/KRW. */
+/** Primary: open.er-api.com — no key, covers every currency in CITIES. */
 async function fromErApi(): Promise<RatesPayload> {
   const data = await getJson("https://open.er-api.com/v6/latest/USD");
   const rates = pick(data?.rates ?? {});

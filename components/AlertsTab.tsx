@@ -56,13 +56,13 @@ export default function AlertsTab() {
     <section>
       <p className="lede">
         Live warning status where an official keyless feed exists, plus a derived wind and rain watch for
-        all three cities. September is the peak of the western Pacific typhoon season, and this is the tab
-        to check every morning of the trip.
+        every destination. September is the peak of the western Pacific typhoon season, and this is the
+        tab to check every morning of the trip.
       </p>
 
       <div className="callout callout-warn">
         <strong>This is a convenience view, not an authority</strong>
-        Only the Hong Kong Observatory row below is a real warning feed. The watch levels are derived from
+        Only the Hong Kong Observatory status is a real warning feed. The watch levels are derived from
         forecast model output and are deliberately set well below official warning thresholds — they tell
         you something may be coming, not that anything has been declared. Before you change plans, open
         the official source linked for each city.
@@ -145,8 +145,8 @@ export default function AlertsTab() {
 
                   {entry?.officialNote === "link-only" && (
                     <p className="fact-detail" style={{ marginTop: 0 }}>
-                      KMA does not publish a keyless English warning feed. Use the derived watch below and
-                      the official site.
+                      The {basics.authority} does not publish a keyless English warning feed this app can
+                      read. Use the derived watch below and the official site.
                     </p>
                   )}
 
@@ -239,7 +239,7 @@ export default function AlertsTab() {
         <>
       <h2 className="section-title">The Hong Kong signal ladder</h2>
       <p className="muted" style={{ marginTop: -4 }}>
-        The most consequential of the three systems, because the signals are legally binding on employers
+        The most consequential of these systems, because the signals are legally binding on employers
         and transport operators. Know what each one means before you need to.
       </p>
       <div className="table-wrap">

@@ -2,8 +2,14 @@
 
 import { useCity } from "./CityProvider";
 import { CITIES, cityById } from "@/lib/cities";
-import { ESSENTIALS, essentialsFor, type Fact } from "@/lib/essentials";
+import { ESSENTIALS, essentialsFor, type Fact, type QuickAnswer } from "@/lib/essentials";
 import { DismissBar, Dismissible, DismissibleItem } from "./Dismissible";
+
+const TONE_PILL: Record<QuickAnswer["tone"], string> = {
+  good: "pill-good",
+  warn: "pill-warn",
+  bad: "pill-bad",
+};
 
 function FactList({ facts }: { facts: Fact[] }) {
   return (
@@ -23,7 +29,7 @@ function FactList({ facts }: { facts: Fact[] }) {
 }
 
 export default function EssentialsTab() {
-  const { city } = useCity();
+  const { city, ordered } = useCity();
   const e = essentialsFor(city);
   const c = cityById(city);
 
@@ -31,8 +37,8 @@ export default function EssentialsTab() {
     <section>
       <p className="lede">
         The practical rules: whether to tip, how to pay for transit, and whether your phone and cards are
-        enough. The answers differ meaningfully across the three cities, which is the main way visitors
-        get caught out.
+        enough. The answers differ meaningfully from city to city, which is the main way visitors get
+        caught out.
       </p>
 
       <h2 className="section-title">The two questions, answered</h2>
@@ -47,58 +53,27 @@ export default function EssentialsTab() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <strong>🇹🇼 Taipei</strong>
-              </td>
-              <td>
-                <span className="pill pill-good">No</span> 10% service charge is added at sit-down
-                restaurants; nothing beyond it.
-              </td>
-              <td>
-                <strong>Yes — EasyCard.</strong> NT$100 card fee, sold at every MRT station and 7-Eleven.
-              </td>
-              <td>
-                <span className="pill pill-bad">Not reliably.</span> EasyCard&apos;s phone wallet is
-                effectively Taiwan-device only, and contactless bank cards are not universally accepted
-                at MRT gates. Buy the plastic card.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>🇭🇰 Hong Kong</strong>
-              </td>
-              <td>
-                <span className="pill pill-warn">Barely</span> 10% service charge is standard; leaving
-                the coin change is normal.
-              </td>
-              <td>
-                <strong>Recommended — Octopus.</strong> Needed for ferries, minibuses, markets and small
-                shops.
-              </td>
-              <td>
-                <span className="pill pill-good">On the MTR, yes.</span> The MTR accepts contactless
-                Visa, Mastercard, Amex and UnionPay at the gates. Octopus still wins outside the subway.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>🇰🇷 Seoul</strong>
-              </td>
-              <td>
-                <span className="pill pill-good">Never</span> Tipping is not a custom and staff may
-                return the money to you.
-              </td>
-              <td>
-                <strong>Yes — T-money.</strong> About ₩2,500-4,000 at any convenience store, topped up
-                with cash.
-              </td>
-              <td>
-                <span className="pill pill-bad">No.</span> Seoul subway gates do not take foreign
-                contactless cards, and T-money cannot be provisioned to an overseas phone. This is the
-                strictest of the three.
-              </td>
-            </tr>
+            {ordered.map((oc) => {
+              const q = essentialsFor(oc.id).quick;
+              return (
+                <tr key={oc.id}>
+                  <td>
+                    <strong>
+                      {oc.flag} {oc.name}
+                    </strong>
+                  </td>
+                  <td>
+                    <span className={`pill ${TONE_PILL[q.tip.tone]}`}>{q.tip.verdict}</span> {q.tip.detail}
+                  </td>
+                  <td>
+                    <strong>{q.card.lead}</strong> {q.card.detail}
+                  </td>
+                  <td>
+                    <span className={`pill ${TONE_PILL[q.tap.tone]}`}>{q.tap.verdict}</span> {q.tap.detail}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

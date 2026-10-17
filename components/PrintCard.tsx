@@ -40,9 +40,9 @@ export default function PrintCard() {
         <section className="pc-block pc-urgent">
           <h2>Emergency</h2>
           <p className="pc-big">
-            {/* The source string carries a parenthetical that the label already says. */}
+            {/* Most source strings carry a parenthetical the label already says; Shenzhen's does not. */}
             Police <strong>{em.police}</strong> · Fire/ambulance{" "}
-            <strong>{em.medical.split(" (")[0]}</strong>
+            <strong>{em.medical.replace(" (fire and ambulance)", "")}</strong>
           </p>
           <p>
             Tourist hotline <strong>{em.touristHotline}</strong> — {em.touristHotlineNote}
@@ -84,7 +84,11 @@ export default function PrintCard() {
           </p>
           <p>
             <strong>Power:</strong> {pw.voltage}, {pw.plugs}
-            {pw.adapterNeeded ? " — adapter needed" : " — no adapter needed (same as US)"}
+            {pw.adapterNeeded
+              ? " — adapter needed"
+              : pw.voltage.startsWith("110")
+                ? " — no adapter needed (same as US)"
+                : " — US two-pin plugs fit; check the charger is 100-240 V"}
           </p>
           <p>
             <strong>{air.code} → {air.reference}:</strong> {airportPick.mode},{" "}

@@ -456,7 +456,7 @@ export const PLANNER: CityPlanner[] = [
         duration: "Full day",
         what: "Mainland China's tech capital — electronics markets at Huaqiangbei, huge malls, and a completely different urban register.",
         worthIt:
-          "Only if you specifically want the electronics markets or to set foot in the mainland. Requires a Chinese visa or a port visa, and a VPN for Western services.",
+          "Better as its own stop than a day trip — see the Shenzhen destination. US passport holders cannot use the 5-day Shenzhen port visa, and a Hong Kong → Shenzhen → Hong Kong round trip does not qualify for visa-free transit, so a day trip needs a full Chinese visa.",
         septemberNote: "Visa rules for US passport holders change; confirm well in advance rather than at the border.",
       },
     ],
@@ -499,6 +499,222 @@ export const PLANNER: CityPlanner[] = [
     ],
     rainPlan:
       "Hong Kong is the best-equipped of the three for rain — you can cross much of Central, Admiralty and TST through connected footbridges, malls and MTR passages without going outside. Fallbacks: the museum cluster in TST, Tai Kwun, K11 Musea, the IFC and Pacific Place malls, and a long dim sum lunch. Under a Black rainstorm warning, stay indoors entirely.",
+  },
+  {
+    city: "shenzhen",
+    geography:
+      "A linear city stretched about 80 km along the Hong Kong border. The core runs west to east: Shekou and Nanshan (waterfront, tech campuses, expat neighbourhoods), Futian (civic centre, CBD, Huaqiangbei), and Luohu (the original downtown, at the Lo Wu crossing). Bao'an, Longhua and Longgang to the north are huge but mostly residential and industrial; Dapeng in the far east is coastline and beaches.",
+    planningRule:
+      "Distances are the constraint, not cost. Shekou to Luohu is about 30 km and an hour on the metro, so plan each day along one stretch of a metro line — Line 1 is the east-west spine — and do not zig-zag. DiDi is cheap enough to fill the gaps. Most sights open late (10:00) and the city comes alive after dark.",
+    neighborhoods: [
+      {
+        name: "Futian CBD & Civic Center",
+        local: "福田中心区",
+        character:
+          "The planned heart of the city: the Civic Center with its giant wing roof, Lianhuashan Park with the skyline view, the library and concert hall, and the Ping An Finance Centre's observation deck above it all.",
+        bestFor: ["Skyline", "Lianhuashan Park", "Ping An observation deck", "Book City"],
+        timeNeeded: "Half day",
+        station: "Metro Civic Center / Shopping Park",
+      },
+      {
+        name: "Huaqiangbei",
+        local: "华强北",
+        character:
+          "The electronics market district: a pedestrian street lined with multi-storey malls of components, gadgets, phones and drones. Chaotic, fascinating, and the reason many visitors come to Shenzhen at all.",
+        bestFor: ["Electronics", "Gadgets", "Components", "People-watching"],
+        timeNeeded: "Half day",
+        station: "Metro Huaqiang Road / Huaqiangbei",
+      },
+      {
+        name: "Luohu & Dongmen",
+        local: "罗湖 / 东门",
+        character:
+          "The original downtown, right at the Lo Wu border crossing. Dongmen is a busy pedestrian shopping district on the site of the old market town; Luohu Commercial City above the border is tailors, fabric and massage.",
+        bestFor: ["Street shopping", "Tailoring", "Cheap eats", "Foot massage"],
+        timeNeeded: "Half day",
+        station: "Metro Laojie / Luohu",
+      },
+      {
+        name: "OCT & OCT Loft",
+        local: "华侨城",
+        character:
+          "A leafy district of theme parks and museums, with OCT Loft — a converted factory complex of galleries, design studios, cafés and bookshops — as the reason to come.",
+        bestFor: ["Galleries", "Design shops", "Cafés", "Architecture"],
+        timeNeeded: "Half day",
+        station: "Metro Qiaocheng East / OCT",
+      },
+      {
+        name: "Nantou Ancient Town",
+        local: "南头古城",
+        character:
+          "A walled town far older than Shenzhen itself, restored into lanes of small shops, cafés and exhibitions while people still live in it.",
+        bestFor: ["Old town lanes", "Design shops", "Cafés", "Photography"],
+        timeNeeded: "2-3 hours",
+        station: "Metro Zhongshan Park",
+      },
+      {
+        name: "Nanshan & Shenzhen Bay Park",
+        local: "南山 / 深圳湾公园",
+        character:
+          "The tech district — Tencent's headquarters and the high-tech park — plus a long waterfront park looking across the bay to Hong Kong. Shenzhen's best sunset walk or bike ride.",
+        bestFor: ["Sunset", "Waterfront cycling", "Tech campuses", "Malls"],
+        timeNeeded: "Half day, ending at sunset",
+        station: "Metro Houhai / Shenzhen Bay Park",
+      },
+      {
+        name: "Shekou & Sea World",
+        local: "蛇口 / 海上世界",
+        character:
+          "Where Shenzhen's opening-up began, now an expat-friendly waterfront of restaurants, bars and the Design Society cultural centre, with ferries to Hong Kong and Macau.",
+        bestFor: ["Dinner", "Craft beer", "Design Society", "Ferries"],
+        timeNeeded: "Evening",
+        station: "Metro Sea World",
+      },
+      {
+        name: "Dafen Oil Painting Village",
+        local: "大芬油画村",
+        character:
+          "A few blocks of open studios where thousands of painters produce reproductions and originals. Fun to wander and the place to commission a painting.",
+        bestFor: ["Art", "Commissions", "Studios"],
+        timeNeeded: "2-3 hours",
+        station: "Metro Dafen (Line 3)",
+      },
+      {
+        name: "Dapeng Peninsula",
+        local: "大鹏半岛",
+        character:
+          "The far east of the city: a Ming-dynasty fortress town, fishing villages, seafood streets and Shenzhen's best beaches at Xichong. Feels nothing like the city.",
+        bestFor: ["Beaches", "Seafood", "Dapeng Fortress", "Coastal hiking"],
+        timeNeeded: "Full day",
+        station: "1.5-2 hours by bus or DiDi from Futian",
+      },
+    ],
+    days: [
+      {
+        title: "Gadgets and skyline",
+        areas: ["Huaqiangbei", "Futian CBD & Civic Center"],
+        shape:
+          "Huaqiangbei malls from late morning → lunch nearby → Lianhuashan Park for the skyline view → Civic Center → Ping An Finance Centre deck at sunset → Chaoshan beef hot pot for dinner.",
+        timing: "Start around 10:30 when the malls are fully open. Many stalls wind down from 18:00.",
+        note: "Almost entirely on Lines 1, 2 and 3, and largely indoors — a good hot-day plan.",
+      },
+      {
+        title: "West side waterfront",
+        areas: ["Nantou Ancient Town", "Nanshan & Shenzhen Bay Park", "Shekou & Sea World"],
+        shape:
+          "Nantou Ancient Town late morning → lunch → Shenzhen Bay Park in the late afternoon, on foot or a shared bike → sunset over the bay → dinner and drinks at Shekou.",
+        timing: "Time the park for the last two hours of daylight; midday is exposed and very hot.",
+      },
+      {
+        title: "Design and art",
+        areas: ["OCT & OCT Loft", "Dafen Oil Painting Village"],
+        shape: "OCT Loft galleries and studios in the morning → lunch in OCT → Metro to Dafen for the afternoon → commission a painting to collect later.",
+        timing: "Avoid Mondays, when many galleries close.",
+        note: "If you commission at Dafen, do it early in your stay so the paint has time to dry.",
+      },
+      {
+        title: "Border-side Luohu",
+        areas: ["Luohu & Dongmen"],
+        shape: "Arrive via Lo Wu → tailor fitting at Luohu Commercial City → Dongmen pedestrian streets → foot massage → back across the border.",
+        timing: "Avoid Saturday mornings northbound and Sunday evenings southbound, when border queues peak.",
+        note: "A natural arrival or departure day if you are coming from or going to Hong Kong by MTR.",
+      },
+    ],
+    dayTrips: [
+      {
+        name: "Hong Kong",
+        local: "香港",
+        travel: "High-speed rail Futian → West Kowloon, 15-20 min; or Metro to the Lo Wu border",
+        duration: "Full day",
+        what: "A different jurisdiction a quarter of an hour away by train. See the Hong Kong destination.",
+        worthIt:
+          "Easy — but leaving the mainland ends a visa-free transit stay, and coming back needs a new entry basis. Plan the order of the two cities around your entry rules.",
+        septemberNote: "Typhoon warnings can suspend cross-border services and strand you on one side.",
+      },
+      {
+        name: "Guangzhou",
+        local: "广州",
+        travel: "High-speed rail from Futian or Shenzhen North, 30-45 min",
+        duration: "Full day",
+        what:
+          "The historic capital of Cantonese culture and food: the Chen Clan Ancestral Hall, colonial Shamian Island, the Canton Tower and dim sum at its source.",
+        worthIt: "The best day trip from Shenzhen for food and history. Book trains on Trip.com with your passport.",
+      },
+      {
+        name: "Chaozhou",
+        local: "潮州",
+        travel: "High-speed rail from Shenzhen North, about 1h40m-2h",
+        duration: "Full day, or overnight",
+        what:
+          "A beautifully preserved old city — Guangji Bridge, the Paifang Street arches, traditional houses — and the source of the beef hot pot, braised goose and gongfu tea you eat in Shenzhen.",
+        worthIt: "A long day but a memorable one, especially if Chaoshan food is the highlight of your Shenzhen eating.",
+      },
+      {
+        name: "Dapeng Fortress & Xichong",
+        local: "大鹏所城 / 西涌",
+        travel: "Bus or DiDi from Futian, 1.5-2 hours",
+        duration: "Full day",
+        what: "A 600-year-old walled fortress town, then the cleanest beach in Shenzhen and a seafood dinner by the water.",
+        worthIt: "The antidote to the city. Go on a weekday; weekend traffic to the peninsula is heavy.",
+        septemberNote: "Beaches close under typhoon and rainstorm warnings, and the sea can stay rough for days afterwards.",
+      },
+      {
+        name: "Macau",
+        local: "澳门",
+        travel: "Ferry from Shekou, about 1 hour",
+        duration: "Full day, or overnight",
+        what: "Portuguese colonial old town and casino strip, with a direct ferry from Shekou.",
+        worthIt:
+          "Easy to reach, but Macau is outside the mainland: going there ends a visa-free transit stay unless it is your onward destination.",
+      },
+      {
+        name: "Guanlan Printmaking Village",
+        local: "观澜版画村",
+        travel: "Metro and taxi, about 1 hour from Futian",
+        duration: "Half day",
+        what: "An old Hakka village of watchtowers and courtyard houses, turned into a printmaking base with studios and exhibitions.",
+        worthIt: "A quiet, pretty half day that few visitors find. Combine with Mission Hills if you are playing golf.",
+      },
+    ],
+    closures: [
+      {
+        place: "Museums and many galleries",
+        closed: "Mondays",
+        severity: "trap",
+        detail: "The Shenzhen Museum and many OCT galleries close on Mondays. Check each one, as a few use a different day.",
+        confidence: "verify",
+      },
+      {
+        place: "Huaqiangbei malls",
+        closed: "Evenings, and for weeks around Chinese New Year",
+        severity: "note",
+        detail: "Open daily, but stalls start closing from about 18:00. Go in the late morning or early afternoon.",
+        confidence: "verify",
+      },
+      {
+        place: "Everything, under a red typhoon or rainstorm warning",
+        closed: "City-wide stop order",
+        severity: "trap",
+        detail:
+          "Shenzhen orders work, school and business to stop at the highest warning levels. Cross-border coaches, ferries and some checkpoints suspend too.",
+      },
+      {
+        place: "Border checkpoints",
+        closed: "Lo Wu at midnight; Lok Ma Chau Spur Line earlier",
+        severity: "trap",
+        detail: "Each crossing has its own hours. Missing the last crossing means a night on the wrong side of the border.",
+        confidence: "verify",
+      },
+      {
+        place: "Every attraction, during Golden Week",
+        closed: "Open but overwhelmed, 1-7 October 2026",
+        severity: "trap",
+        detail: "Popular sights set visitor caps and sell out; trains, hotels and the border crossings are at their busiest of the year.",
+        confidence: "verify",
+      },
+    ],
+    rainPlan:
+      "Shenzhen's malls are enormous and connected to the metro — MixC, Coco Park, the Shenzhen Bay malls — and Huaqiangbei is largely indoors. Good rainy-day fallbacks: Shenzhen Book City, the Shenzhen Museum, Design Society in Shekou, and an afternoon at a bathhouse-spa, which is the classic local answer to bad weather. Skip the observation deck when the cloud is low.",
   },
   {
     city: "seoul",

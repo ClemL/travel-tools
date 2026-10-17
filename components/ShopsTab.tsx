@@ -89,7 +89,7 @@ export default function ShopsTab({
             </div>
             <h3 style={{ marginTop: 4, marginBottom: 2 }}>{shop.name}</h3>
             {shop.local && (
-              <div className="roman-line" lang={city === "seoul" ? "ko" : "zh-Hant"}>
+              <div className="roman-line" lang={c.lang}>
                 {shop.local}
               </div>
             )}

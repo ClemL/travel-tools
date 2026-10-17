@@ -13,7 +13,7 @@
  *   static      -> stale-while-revalidate
  */
 
-const VERSION = "v9";
+const VERSION = "v10";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 const STATIC_CACHE = `static-${VERSION}`;

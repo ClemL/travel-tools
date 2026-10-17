@@ -8,7 +8,7 @@ export default function StationeryTab() {
     <ShopsTab
       scenes={STATIONERY}
       districtHeading="Where to browse"
-      lede="Stationery is a serious retail category across all three cities and one of the most travel-efficient things to buy — paper weighs nothing and survives a suitcase. The quality and the character differ sharply by city."
+      lede="Stationery is a serious retail category across the region and one of the most travel-efficient things to buy — paper weighs nothing and survives a suitcase. The quality and the character differ sharply by city."
     />
   );
 }

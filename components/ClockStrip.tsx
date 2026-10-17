@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CITIES, HOME } from "@/lib/cities";
+import { HOME } from "@/lib/cities";
 import { timeIn, dayIn, offsetHours } from "@/lib/format";
 import { useCity } from "./CityProvider";
 
@@ -9,12 +9,13 @@ import { useCity } from "./CityProvider";
  * Live local clocks. Rendered only after mount so the server-rendered markup
  * cannot disagree with the client's clock.
  *
- * All four render at every width; on a phone, CSS collapses this to just home
- * plus the selected city, which is why each clock carries a marker class.
+ * Home plus every enabled destination render at every width; on a phone, CSS
+ * collapses this to just home plus the selected city, which is why each clock
+ * carries a marker class.
  */
 export default function ClockStrip() {
   const [now, setNow] = useState<Date | null>(null);
-  const { city } = useCity();
+  const { city, enabledCities } = useCity();
 
   useEffect(() => {
     setNow(new Date());
@@ -44,7 +45,7 @@ export default function ClockStrip() {
           <span className="day">{dayIn(HOME.timezone, now)}</span>
         </div>
       </div>
-      {CITIES.map((c) => (
+      {enabledCities.map((c) => (
         <div className={`clock${c.id === city ? " clock-selected" : ""}`} key={c.id}>
           <div className="place">{c.name}</div>
           <div className="time">{timeIn(c.timezone, now)}</div>

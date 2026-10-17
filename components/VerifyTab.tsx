@@ -19,7 +19,8 @@ const PRIORITY_PILL: Record<Priority, string> = {
 };
 
 export default function VerifyTab() {
-  const { city } = useCity();
+  const { city, enabledCities } = useCity();
+  const among = useMemo(() => enabledCities.map((c) => c.id), [enabledCities]);
   const [store, setStore] = useState<Store>({});
   const [showAll, setShowAll] = useState(false);
   const [hideDone, setHideDone] = useState(false);
@@ -52,11 +53,11 @@ export default function VerifyTab() {
   };
 
   const visible = useMemo(() => {
-    const list = checksForCity(city, showAll);
+    const list = checksForCity(city, showAll, among);
     return hideDone ? list.filter((c) => !store[c.id]) : list;
-  }, [city, showAll, hideDone, store]);
+  }, [city, showAll, hideDone, store, among]);
 
-  const scoped = checksForCity(city, showAll);
+  const scoped = checksForCity(city, showAll, among);
   const doneCount = scoped.filter((c) => store[c.id]).length;
   const criticalOpen = scoped.filter((c) => c.priority === "critical" && !store[c.id]).length;
 
@@ -109,7 +110,7 @@ export default function VerifyTab() {
 
       <div className="converter">
         <button className="btn" onClick={() => setShowAll(!showAll)}>
-          {showAll ? `Show ${cityLabel(city)} only` : "Show all cities"}
+          {showAll ? `Show ${cityLabel(city)} only` : "Show all your destinations"}
         </button>
         <button className="btn" onClick={() => setHideDone(!hideDone)}>
           {hideDone ? "Show confirmed" : "Hide confirmed"}

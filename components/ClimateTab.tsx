@@ -20,12 +20,21 @@ export default function ClimateTab() {
   // Only the climate profiles for the cities currently in view.
   const shown = CLIMATE.filter((c) => visible.some((v) => v.id === c.city));
   const t = (c: number) => (unit === "F" ? `${Math.round(cToF(c))}°F` : `${c.toFixed(1)}°C`);
+  // Sequencing advice only applies when the comparison mixes shutdown-risk cities with safer ones.
+  const names = (list: typeof shown) => {
+    const n = list.map((c) => cityById(c.city).name);
+    return n.length < 3 ? n.join(" and ") : `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}`;
+  };
+  const risky = shown.filter((c) => c.typhoonRisk === "High");
+  const safer = shown.filter((c) => c.typhoonRisk !== "High");
 
   return (
     <section>
       <p className="lede">
         {compareAll
-          ? "What September actually looks like in each city, based on 1991-2020 climatological normals from the national meteorological agencies. The short version: Taipei and Hong Kong are still in full summer and peak typhoon season, while Seoul is in the middle of the sharpest seasonal transition of its year."
+          ? `What September actually looks like in each city, based on 1991-2020 climatological normals from the national meteorological agencies. The short version: ${shown
+              .map((c) => `${cityById(c.city).name}: ${c.headline}`)
+              .join(" ")}`
           : `What September actually looks like in ${shown[0]?.headline ? cityById(shown[0].city).name : "this city"}, based on 1991-2020 climatological normals from the national meteorological agency.`}
       </p>
 
@@ -196,18 +205,19 @@ export default function ClimateTab() {
         })}
       </div>
 
-      {compareAll && (
+      {compareAll && risky.length > 0 && safer.length > 0 && (
         <>
       <h2 className="section-title">The one decision September forces</h2>
       <DismissBar scope="clim-tips" noun="tips" />
       <Dismissible scope="clim-tips" itemKey="Sequence the trip so weather risk falls early, not late">
       <div className="callout callout-warn">
         <strong>Sequence the trip so weather risk falls early, not late</strong>
-        Taipei and Hong Kong carry real shutdown risk in September; Seoul does not. If your itinerary is
-        flexible, put Taipei and Hong Kong at the front and Seoul at the end. A typhoon day lost in week
-        one costs you a day of sightseeing. The same day lost on the way home costs you a missed
-        transpacific flight, a rebooking fee, and a night in an airport hotel. Verify that all three
-        legs are on refundable or same-alliance tickets before you lock the routing.
+        {names(risky)} {risky.length === 1 ? "carries" : "carry"} real shutdown risk in September;{" "}
+        {names(safer)} {safer.length === 1 ? "does" : "do"} not. If your itinerary is flexible, put{" "}
+        {names(risky)} at the front and {names(safer)} at the end. A typhoon day lost in week one costs
+        you a day of sightseeing. The same day lost on the way home costs you a missed transpacific
+        flight, a rebooking fee, and a night in an airport hotel. Verify that every leg is on a
+        refundable or same-alliance ticket before you lock the routing.
       </div>
       </Dismissible>
       <p className="muted small">

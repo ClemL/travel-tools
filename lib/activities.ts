@@ -216,6 +216,64 @@ export const CLIMBING: ActivityProfile[] = [
       "Gyms are in industrial buildings in Kowloon East and Sham Shui Po. The entrances are unmarked freight lobbies; follow the address, not the storefront.",
     ],
   },
+  {
+    city: "shenzhen",
+    sceneRating: "Strong",
+    summary:
+      "Bouldering has boomed in mainland cities since the early 2020s, and Shenzhen — young, affluent and fitness-minded — has a dense spread of modern gyms, many inside malls and office complexes in Nanshan and Futian. Outdoor climbing nearby is minimal; Hong Kong's crags are the closest serious rock.",
+    howToFind: {
+      app: "Dianping (大众点评) or Amap",
+      searchTerm: "攀岩 (climbing) · 抱石 (bouldering) · 攀岩馆 (climbing gym)",
+      note:
+        "Dianping lists gyms with photos, prices and recent reviews, and day passes are often cheaper when bought in-app. English search returns little; use the Chinese terms.",
+    },
+    practical: [
+      {
+        label: "Day pass",
+        value: "¥80-150",
+        detail: "Shoe rental ¥10-30. First-visit discounts on Dianping are common.",
+      },
+      {
+        label: "Grading",
+        value: "V-scale, sometimes colour circuits",
+        detail: "Most commercial gyms use V grades or colour-coded circuits. Rope walls use French or YDS grades.",
+      },
+      {
+        label: "Format",
+        value: "Mostly bouldering",
+        detail: "Mall and office-tower gyms are bouldering-focused. A few larger venues and sports centres have rope walls.",
+      },
+      {
+        label: "Outdoor",
+        value: "Minimal",
+        detail:
+          "Shenzhen's hills (Wutong Mountain, Maluan Mountain) are for hiking, not climbing. For real rock, cross to Hong Kong — and not in September.",
+      },
+    ],
+    venues: [
+      {
+        name: "Bouldering gyms in Nanshan",
+        local: "南山 抱石馆",
+        area: "Nanshan tech district, Shekou",
+        what: "The densest cluster, near the tech campuses and the expat neighbourhoods of Shekou. Easy to combine with Shenzhen Bay Park.",
+        price: "~¥100-150",
+        confidence: "verify",
+      },
+      {
+        name: "Bouldering gyms in Futian malls",
+        local: "福田 抱石馆",
+        area: "Futian CBD",
+        what: "Mall-based gyms near the Civic Center and Shopping Park stations — convenient on a Huaqiangbei day.",
+        price: "~¥80-130",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Expect a short safety briefing and a waiver, usually in Chinese. Staff will walk you through it; translation apps cover the rest.",
+      "Many gyms take only Alipay or WeChat Pay at the desk.",
+      "Shoes off before the mats, as in the rest of East Asia.",
+    ],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -398,6 +456,65 @@ export const GAMING: ActivityProfile[] = [
       },
     ],
   },
+  {
+    city: "shenzhen",
+    sceneRating: "Strong",
+    summary:
+      "Home of Tencent, the world's largest games company, and of the hardware supply chain behind half the consoles and controllers on earth. The street-level scene is mall arcades, board game cafés, elaborate escape rooms and jubensha — murder-mystery role-play, a huge mainland trend that is mostly Mandarin-only.",
+    howToFind: {
+      app: "Dianping (大众点评)",
+      searchTerm: "电玩城 (arcade) · 桌游 (board games) · 密室逃脱 (escape room) · 剧本杀 (jubensha)",
+      note: "Every category is on Dianping with prices and photos. Book escape rooms and jubensha in advance; arcades and board game cafés are walk-in.",
+    },
+    practical: [
+      {
+        label: "Mall arcades",
+        value: "¥50-100 for a token bundle",
+        detail:
+          "Large, bright arcades (电玩城) in most malls: rhythm games, racing cabinets, claw machines and ticket games. Tokens are bought with Alipay at a machine.",
+      },
+      {
+        label: "Board game cafés",
+        value: "¥30-60 per person",
+        detail: "Priced by time or per session. Libraries are mostly Chinese editions, but plenty of games are language-independent.",
+      },
+      {
+        label: "Escape rooms",
+        value: "¥150-300 per person",
+        detail:
+          "Mainland escape rooms are theatrical, with live actors and horror themes. The puzzles often depend on reading Chinese — ask whether a room works for non-readers.",
+      },
+      {
+        label: "Jubensha (剧本杀)",
+        value: "¥100-250 per person, 4-6 hours",
+        detail:
+          "Scripted murder-mystery role-play with costumes and a game master — the defining Chinese tabletop trend of the last decade. Almost entirely in Mandarin, so only realistic with Chinese-speaking friends.",
+      },
+      {
+        label: "Internet cafés",
+        value: "Hard for foreigners",
+        detail:
+          "Internet cafés (网吧 / 网咖) must register customers by ID. Many cannot process a foreign passport and will turn you away.",
+      },
+    ],
+    venues: [
+      {
+        name: "Huaqiangbei electronics markets",
+        local: "华强北",
+        area: "Futian",
+        what: "Consoles, controllers, handheld emulators, keyboards and every accessory imaginable. Check the region and the warranty on anything substantial.",
+        confidence: "verify",
+      },
+      {
+        name: "Mall arcades",
+        local: "电玩城",
+        area: "Coco Park, MixC and other large malls",
+        what: "The easiest walk-in gaming in the city. Busy after school and on weekends.",
+        price: "¥50-100",
+        confidence: "verify",
+      },
+    ],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -567,6 +684,68 @@ export const GOLF: ActivityProfile[] = [
       },
     ],
   },
+  {
+    city: "shenzhen",
+    sceneRating: "Strong",
+    summary:
+      "Shenzhen is home to Mission Hills, the largest golf facility in the world by number of courses, plus several well-kept clubs inside the city. A real round is genuinely bookable here — the obstacles are cost, mandatory caddies and September heat, not access.",
+    howToFind: {
+      app: "Hotel concierge or Trip.com",
+      searchTerm: "高尔夫球场 (golf course) · 高尔夫练习场 (driving range) · 观澜湖 (Mission Hills)",
+      note: "Mission Hills sells visitor tee times directly and through hotels. Booking through a concierge avoids Chinese-only booking forms.",
+    },
+    practical: [
+      {
+        label: "Mission Hills",
+        value: "A dozen courses, visitor access",
+        detail:
+          "Spread across the Shenzhen–Dongguan border at Guanlan, with courses designed by famous players. The resort includes hotels and a spa, so it can be a whole day.",
+      },
+      {
+        label: "Green fees",
+        value: "Roughly ¥1,000-2,500",
+        detail: "Weekdays are much cheaper than weekends. A caddie is mandatory and charged separately; cart fees may be extra.",
+      },
+      {
+        label: "In-city clubs",
+        value: "Shenzhen Golf Club, Futian",
+        detail: "The city's oldest club, opened in 1985 and surrounded by the CBD. Visitor access is more limited than at Mission Hills.",
+      },
+      {
+        label: "Driving ranges",
+        value: "¥100-200 per bucket",
+        detail: "Netted ranges are common and are the easy option on a short visit.",
+      },
+      {
+        label: "September caveat",
+        value: "First tee time of the day",
+        detail: "Afternoon rounds at 31 °C and high humidity are punishing, and thunderstorms close courses. Book the earliest slot.",
+      },
+    ],
+    venues: [
+      {
+        name: "Mission Hills Shenzhen",
+        local: "观澜湖高尔夫球会",
+        area: "Guanlan, Longhua district",
+        what: "The flagship of the world's largest golf complex. Visitor tee times, rental clubs and caddies on site.",
+        confidence: "verify",
+      },
+      {
+        name: "Shenzhen Golf Club",
+        local: "深圳高尔夫俱乐部",
+        area: "Futian",
+        what: "A mature city-centre course with skyline views. Check visitor policy before going.",
+        confidence: "verify",
+      },
+      {
+        name: "Driving ranges",
+        local: "高尔夫练习场",
+        area: "Nanshan, Futian, Bao'an",
+        what: "Walk-in netted ranges, open into the evening when the heat drops.",
+        confidence: "verify",
+      },
+    ],
+  },
 ];
 
 export function profileFor(set: ActivityProfile[], city: CityId): ActivityProfile {
@@ -575,10 +754,16 @@ export function profileFor(set: ActivityProfile[], city: CityId): ActivityProfil
   return found;
 }
 
-/** Cities ordered by how good the scene is, so the strongest option leads. */
-export function rankedCities(set: ActivityProfile[]): CityId[] {
+/**
+ * Cities ordered by how good the scene is, so the strongest option leads.
+ * `among` limits the ranking to the destinations switched on in Settings.
+ */
+export function rankedCities(set: ActivityProfile[], among?: CityId[]): CityId[] {
   const order = { "World-class": 0, Strong: 1, Limited: 2 } as const;
-  return [...set].sort((a, b) => order[a.sceneRating] - order[b.sceneRating]).map((p) => p.city);
+  return set
+    .filter((p) => !among || among.includes(p.city))
+    .sort((a, b) => order[a.sceneRating] - order[b.sceneRating])
+    .map((p) => p.city);
 }
 
 /* ------------------------------------------------------------------ */
@@ -764,6 +949,54 @@ export const SPECTATOR: ActivityProfile[] = [
       "Betting is in cash at windows; minimum stakes are small and nobody minds if you have no idea what you are doing.",
     ],
   },
+  {
+    city: "shenzhen",
+    sceneRating: "Limited",
+    summary:
+      "No baseball and no legal horse racing on the mainland. The live option in September is Chinese Super League football — Shenzhen Peng City are the top-flight side — with basketball's CBA season starting in October. For a great night of sport, Happy Valley is an hour away across the border.",
+    howToFind: {
+      app: "Damai (大麦) or the club's WeChat account",
+      searchTerm: "深圳新鹏城 (Shenzhen Peng City) · 中超 (Chinese Super League) · 门票 (tickets)",
+      note: "Ticketing is real-name. Damai accepts passports for some events but not all; a Chinese-speaking friend or hotel concierge makes it much easier.",
+    },
+    practical: [
+      {
+        label: "Football (CSL)",
+        value: "Season March–November",
+        detail:
+          "September is the business end of the season. Crowds are loud and organised, and tickets are cheap by European standards.",
+      },
+      {
+        label: "Tickets",
+        value: "Roughly ¥80-300",
+        detail: "Real-name tickets tied to an ID. Bring the passport you booked with to the gate.",
+      },
+      {
+        label: "Basketball (CBA)",
+        value: "Starts in October",
+        detail: "The Shenzhen Leopards play in the CBA. If your trip runs into October, check the opening fixtures.",
+      },
+      {
+        label: "Horse racing",
+        value: "Across the border",
+        detail: "Gambling is illegal on the mainland. Happy Valley's Wednesday night racing in Hong Kong is the nearest — see Hong Kong.",
+      },
+    ],
+    venues: [
+      {
+        name: "Shenzhen Peng City home matches",
+        local: "深圳新鹏城",
+        area: "Check the fixture for the current home stadium",
+        what: "Chinese Super League football. Clubs have moved grounds in recent seasons, so confirm the venue on the ticket.",
+        price: "¥80-300",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Security checks at the gate are thorough; bottles, lighters and power banks may be confiscated.",
+      "Home ultras run organised chants all match. Sitting in a neutral section is perfectly normal.",
+    ],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -946,6 +1179,59 @@ export const WELLNESS: ActivityProfile[] = [
         price: "HK$200-400",
         confidence: "verify",
       },
+    ],
+  },
+  {
+    city: "shenzhen",
+    sceneRating: "Strong",
+    summary:
+      "Shenzhen's version of the jjimjilbang is the 24-hour bathhouse-spa complex (洗浴中心): pools, saunas, steam rooms, a buffet, sleeping halls and massage, all for one entry fee. Add foot massage (沐足) on every block at a fraction of Hong Kong prices, and it is no surprise Hong Kong residents cross the border at weekends specifically for this.",
+    howToFind: {
+      app: "Dianping (大众点评)",
+      searchTerm: "洗浴中心 (bathhouse) · 沐足 / 足浴 (foot massage) · 汗蒸 (sweat room)",
+      note: "Pick places with many recent reviews and clear package prices. Dianping deals are often cheaper than the walk-in price.",
+    },
+    practical: [
+      {
+        label: "Bathhouse-spa entry",
+        value: "¥120-300",
+        detail:
+          "Usually includes pools and saunas, a buffet, issued clothing for the mixed lounge areas and access for 12 hours or more. Massage is extra.",
+      },
+      {
+        label: "Foot massage",
+        value: "¥100-200 for 60-90 min",
+        detail: "The standard end to a long day, with tea and fruit included. Walk in, or book a package on Dianping.",
+      },
+      {
+        label: "Hours",
+        value: "Often 24 hours",
+        detail: "Overnight stays in the sleeping halls are allowed and cheap — not a bad fallback if you miss the last border crossing.",
+      },
+    ],
+    venues: [
+      {
+        name: "Bathhouse-spa complexes",
+        local: "洗浴中心",
+        area: "Futian, Luohu, Nanshan",
+        what: "Large multi-floor complexes with pools, saunas, buffet, lounges and massage. Compare a few on Dianping before choosing.",
+        price: "¥120-300",
+        confidence: "verify",
+      },
+      {
+        name: "Foot massage shops",
+        local: "沐足",
+        area: "Citywide; dense around Luohu and the Lo Wu border",
+        what: "Dozens within walking distance in any commercial district. Prices are posted by package and duration.",
+        price: "¥100-200",
+        confidence: "verify",
+      },
+    ],
+    etiquette: [
+      "Gender-separated pools and saunas are nude; issued shorts and a t-shirt are worn in the mixed lounges, buffet and sleeping halls.",
+      "Shower thoroughly before entering any pool.",
+      "Upselling to a longer session (加钟) or extra treatments is routine. A clear 不用 (bú yòng) is enough.",
+      "Stick to well-reviewed places on Dianping and agree the package price before you start.",
     ],
   },
 ];
